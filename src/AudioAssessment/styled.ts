@@ -17,8 +17,8 @@ export const SSlider = styled.div`
   .audio-btn {
     min-width: 80px;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    //border: 1px solid #ccc;
+    //border-radius: 10px;
 
     &-previous {
     }
