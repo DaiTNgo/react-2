@@ -1,9 +1,10 @@
-import React, {useRef, useState} from 'react';
-import { SSlider} from '../styled';
+import React, {useState} from 'react';
+import {SSlider} from '../styled';
 // import {Carousel, SSlider} from '../styled';
 // import {CarouselRef} from 'antd/lib/carousel';
 
 interface Props {
+    title: string;
     data: any[];
 }
 
@@ -17,9 +18,11 @@ function Slider(props: Props) {
 
     const handlePrevious = () => {
         // refCarousel.current?.prev();
+        setCurrentSlide(currentSlide - 1);
     };
 
     const handleNext = () => {
+        setCurrentSlide(currentSlide + 1);
         // refCarousel.current?.next();
     };
 
@@ -28,10 +31,28 @@ function Slider(props: Props) {
 
     return (
         <SSlider className="">
-            <h4 className="text-center slider-title">title</h4>
+            <h4 className="text-center slider-title py-4">{props.title}</h4>
             <div className="slider-wrapper flex items-center justify-center">
+                <button onClick={handlePrevious}
+                        className={`${
+                            showArrowPrevious ? 'visible' : 'invisible'
+                        }
+                        mx-4
+                      audio-btn
+                        `}
+                >Previous
+                </button>
                 {props.data && props.data.length > 0 && (
-                    <>
+                    <div
+                        className={'word-assessment'}
+                    >
+                        {
+                            props.data.find((item, index) => {
+                                return (index === currentSlide)
+                            })
+                        }
+
+
                         {/*<button*/}
                         {/*    onClick={handlePrevious}*/}
                         {/*    className="audio-btn audio-btn-previous"*/}
@@ -67,8 +88,18 @@ function Slider(props: Props) {
                         {/*>*/}
                         {/*    <ArrowRightIcon height={30} />*/}
                         {/*</button>*/}
-                    </>
+                    </div>
                 )}
+                <button onClick={handleNext}
+                        className={`${
+                            showArrowNext ? 'visible' : 'invisible'
+
+                        }
+                            audio-btn
+                        mx-4`}
+
+                >Next
+                </button>
             </div>
         </SSlider>
     );
