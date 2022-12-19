@@ -1,10 +1,13 @@
 import React from 'react';
-import { IPassageDate } from '..';
+import {IPassageDate} from '..';
 import * as S from '../styled';
+
 interface Props {
     content: IPassageDate;
 }
-function Header({ content }: Props) {
+
+function Header({content}: Props) {
+    console.log({tocBackgroundImage: content.tocBackgroundImage})
     return (
         <S.Header className="flex">
             <div
@@ -13,7 +16,7 @@ function Header({ content }: Props) {
                     position: 'relative',
                 }}
             >
-                <img alt="background header view resource" src={content.tocBackgroundImage} />
+                <img alt="background header view resource" src={content.tocBackgroundImage}/>
                 <div
                     style={{
                         top: '0',
