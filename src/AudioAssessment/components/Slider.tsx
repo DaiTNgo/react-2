@@ -8,7 +8,7 @@ interface Props {
 }
 
 function Slider(props: Props) {
-    const refCarousel = useRef<CarouselRef>(null);
+    // const refCarousel = useRef<CarouselRef>(null);
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const onChange = (currentSlide: number) => {
@@ -16,11 +16,11 @@ function Slider(props: Props) {
     };
 
     const handlePrevious = () => {
-        refCarousel.current?.prev();
+        // refCarousel.current?.prev();
     };
 
     const handleNext = () => {
-        refCarousel.current?.next();
+        // refCarousel.current?.next();
     };
 
     const showArrowPrevious = currentSlide !== 0;
@@ -32,41 +32,41 @@ function Slider(props: Props) {
             <div className="slider-wrapper flex items-center justify-center">
                 {props.data && props.data.length > 0 && (
                     <>
-                        <button
-                            onClick={handlePrevious}
-                            className="audio-btn audio-btn-previous"
-                            style={{
-                                visibility: showArrowPrevious ? 'visible' : 'hidden',
-                            }}
-                        >
-                            <ArrowLeftIcon widths={40} height={30} />
-                        </button>
-                        <Carousel afterChange={onChange} ref={refCarousel}>
-                            {props.data.map((item: any, index: number) => {
-                                return (
-                                    <div
-                                        key={index}
-                                        className="flex items-center justify-center inline-block text-center word-assessment"
-                                        style={{
-                                            width: 100,
-                                            height: 100,
-                                        }}
-                                    >
-                                        {item}
-                                    </div>
-                                );
-                            })}
-                        </Carousel>
+                        {/*<button*/}
+                        {/*    onClick={handlePrevious}*/}
+                        {/*    className="audio-btn audio-btn-previous"*/}
+                        {/*    style={{*/}
+                        {/*        visibility: showArrowPrevious ? 'visible' : 'hidden',*/}
+                        {/*    }}*/}
+                        {/*>*/}
+                        {/*    <ArrowLeftIcon widths={40} height={30} />*/}
+                        {/*</button>*/}
+                        {/*<Carousel afterChange={onChange} ref={refCarousel}>*/}
+                        {/*    {props.data.map((item: any, index: number) => {*/}
+                        {/*        return (*/}
+                        {/*            <div*/}
+                        {/*                key={index}*/}
+                        {/*                className="flex items-center justify-center inline-block text-center word-assessment"*/}
+                        {/*                style={{*/}
+                        {/*                    width: 100,*/}
+                        {/*                    height: 100,*/}
+                        {/*                }}*/}
+                        {/*            >*/}
+                        {/*                {item}*/}
+                        {/*            </div>*/}
+                        {/*        );*/}
+                        {/*    })}*/}
+                        {/*</Carousel>*/}
 
-                        <button
-                            onClick={handleNext}
-                            className="audio-btn audio-btn-next"
-                            style={{
-                                visibility: showArrowNext ? 'visible' : 'hidden',
-                            }}
-                        >
-                            <ArrowRightIcon height={30} />
-                        </button>
+                        {/*<button*/}
+                        {/*    onClick={handleNext}*/}
+                        {/*    className="audio-btn audio-btn-next"*/}
+                        {/*    style={{*/}
+                        {/*        visibility: showArrowNext ? 'visible' : 'hidden',*/}
+                        {/*    }}*/}
+                        {/*>*/}
+                        {/*    <ArrowRightIcon height={30} />*/}
+                        {/*</button>*/}
                     </>
                 )}
             </div>

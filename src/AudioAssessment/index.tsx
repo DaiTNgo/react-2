@@ -2,9 +2,9 @@ import Slider from './components/Slider';
 import React from 'react';
 import Layout from './components/Layout';
 import { SIndex } from './styled';
-import { AudioFilled, SoundFilled } from '@ant-design/icons';
-import { useGetAssessmentAudioQuery } from 'src/services/AssessmentsAPI';
-import { AssessmentAnnotationWorkspace } from 'src/modules/product/components/resource-iframe/AssessmentViewer';
+// import { AudioFilled, SoundFilled } from '@ant-design/icons';
+// import { useGetAssessmentAudioQuery } from 'src/services/AssessmentsAPI';
+// import { AssessmentAnnotationWorkspace } from 'src/modules/product/components/resource-iframe/AssessmentViewer';
 import Header from './components/Header';
 import Footer from './components/Footer';
 interface Props {
@@ -183,29 +183,29 @@ const getContentHeaderFooter = (data: Response): IPassageDate => {
     };
 };
 function AudioAssessment(props: Props) {
-    const { data: response } = useGetAssessmentAudioQuery({
-        resourceId: props.resourceId,
-    });
+    // const { data: response } = useGetAssessmentAudioQuery({
+    //     resourceId: props.resourceId,
+    // });
     // const listWord = ['hihi', 'haha', 'hehe', 'hoho', 'keke', 'kaka'];
-    const listWord = getListWord(response);
-    const componentDirection = getDirections(response);
-    const contentHeaderFooter = getContentHeaderFooter(response);
+    // const listWord = getListWord(response);
+    // const componentDirection = getDirections(response);
+    // const contentHeaderFooter = getContentHeaderFooter(response);
 
     return (
         <SIndex>
             <Layout
-                footer={<Footer content={contentHeaderFooter} />}
-                header={<Header content={contentHeaderFooter} />}
+                // footer={<Footer content={contentHeaderFooter} />}
+                // header={<Header content={contentHeaderFooter} />}
             >
                 <div className="flex items-start gap-1 wrapper">
                     <div>
-                        <SoundFilled
-                            style={{
-                                marginTop: 5,
-                            }}
-                        />
+                        {/*<SoundFilled*/}
+                        {/*    style={{*/}
+                        {/*        marginTop: 5,*/}
+                        {/*    }}*/}
+                        {/*/>*/}
                     </div>
-                    <div dangerouslySetInnerHTML={{ __html: componentDirection }} />
+                    {/*<div dangerouslySetInnerHTML={{ __html: componentDirection }} />*/}
                 </div>
                 {/* <div className="">
                     <div className="flex items-center gap-1">
@@ -225,9 +225,9 @@ function AudioAssessment(props: Props) {
                         </div>
                     </div>
                 </div> */}
-                <Slider data={listWord} />
+                {/*<Slider data={listWord} />*/}
             </Layout>
-            <AssessmentAnnotationWorkspace />
+            {/*<AssessmentAnnotationWorkspace />*/}
         </SIndex>
     );
 }
