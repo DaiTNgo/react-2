@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import Layout from './components/Layout';
-import {SIndex} from './styled';
+import React, { useEffect, useState } from "react";
+import Layout from "./components/Layout";
+import { SIndex } from "./styled";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Slider from "./components/Slider";
@@ -8,10 +8,7 @@ import Slider from "./components/Slider";
 // import { useGetAssessmentAudioQuery } from 'src/services/AssessmentsAPI';
 // import { AssessmentAnnotationWorkspace } from 'src/modules/product/components/resource-iframe/AssessmentViewer';
 
-interface Props {
-
-}
-
+interface Props {}
 
 interface Response {
     currentQuestion: null;
@@ -25,7 +22,7 @@ interface Response {
     showConnotation: boolean;
     showSelfCheckButtons: boolean;
     applicationSettingMap: {
-        enable_create_assignment: 'Enable';
+        enable_create_assignment: "Enable";
     };
     questionBean: {
         maxSize: 4;
@@ -47,37 +44,37 @@ interface Response {
                 answerCount: -1;
                 correctAnswerNumber: -1;
                 correctAnswer: '{"comps":[{"id":"FPR_g1_cps_as1_q1_ans01","value":"","type":"Audio_Record"}]}';
-                correctAnswerHTML: 'Answer will vary.';
+                correctAnswerHTML: "Answer will vary.";
                 questionPoolId: -1;
                 maxScore: 1;
                 questionSetPassageId: 532425;
                 questionSetPassageXML: '<div class="direction-wrapper">\n<div class="direction-title">\n<div class="flash-card-audio">\n<audio src="/content/audios/DL_Survey.mp3"></audio>\n</div>\n<b>Directions:</b></div>\n\n<p class="direction-content">Select Record to begin.<br />\nRead the word aloud.<br />\nSelect the arrow to read the next word.<br />\nSelect Stop Recording when you finish the assessment. Then, select Submit to submit your recording to your teacher.</p>\n</div>';
-                questionType: 'TE';
-                gridableType: '';
+                questionType: "TE";
+                gridableType: "";
                 assessmentId: null;
                 responseScore: null;
                 originalScore: null;
                 lastModifiedScore: null;
-                rubric: '';
-                problemSolution: '';
-                rubricRules: '';
-                scoringFormula: '';
-                toolset: '';
-                webDOK: '';
+                rubric: "";
+                problemSolution: "";
+                rubricRules: "";
+                scoringFormula: "";
+                toolset: "";
+                webDOK: "";
                 correctAsIs: boolean;
-                questionUid: '5e0103cb-cf68-4eb1-a615-ce2e527fc611';
-                questionNumCssClass: '';
-                questionNumCssStyle: '';
+                questionUid: "5e0103cb-cf68-4eb1-a615-ce2e527fc611";
+                questionNumCssClass: "";
+                questionNumCssStyle: "";
                 toolsetList: [];
-                renderRule: '';
-                words: '';
-                connotation: '';
-                reportingRule: '';
+                renderRule: "";
+                words: "";
+                connotation: "";
+                reportingRule: "";
                 hideLabelRule: boolean;
-                printPregeneratedHtmlContent: '';
-                wordMeaning: '';
-                labelSchema: '';
-                labelSchemaCustom: '';
+                printPregeneratedHtmlContent: "";
+                wordMeaning: "";
+                labelSchema: "";
+                labelSchemaCustom: "";
                 hasAlgorithm: boolean;
                 hasMoved: boolean;
                 scoreList: null;
@@ -85,47 +82,47 @@ interface Response {
                 responseId: null;
                 isSkippedAnswer: boolean;
                 isMaster: null;
-                hint1: '';
-                hint2: '';
-                hint3: '';
-                hint4: '';
+                hint1: "";
+                hint2: "";
+                hint3: "";
+                hint4: "";
                 screenId: 0;
                 screenElementId: 0;
-                feedback: '';
-                originalFeedback: '';
-                componentGradingRules: '';
+                feedback: "";
+                originalFeedback: "";
+                componentGradingRules: "";
                 autoScoreTE: boolean;
-                answerQuestionPid: '';
+                answerQuestionPid: "";
                 baseQuestionId: -1;
                 isLastQuestionSetInList: null;
                 needConvertToIse: null;
                 label: null;
                 isSkiped: boolean;
-                smp: '';
+                smp: "";
                 questionIdsGroup: [];
                 multipartQuestions: [];
                 studentQuestionNumber: 0;
                 standards: [];
                 parentLink: -1;
-                collaboration: '';
-                wordMapContent: '';
-                wordMapUri: '';
+                collaboration: "";
+                wordMapContent: "";
+                wordMapUri: "";
                 resourceTitle: null;
                 programTocName: null;
                 programTocId: null;
                 questionJson: '{"contents":["lat","ped","sib","mog","vun","fim","hep","yot","rud","cag"]}';
                 questionJsonObject: {
                     contents: [
-                        'lat',
-                        'ped',
-                        'sib',
-                        'mog',
-                        'vun',
-                        'fim',
-                        'hep',
-                        'yot',
-                        'rud',
-                        'cag'
+                        "lat",
+                        "ped",
+                        "sib",
+                        "mog",
+                        "vun",
+                        "fim",
+                        "hep",
+                        "yot",
+                        "rud",
+                        "cag"
                     ];
                 };
                 questionSetPassageXml: '<div class="direction-wrapper">\n<div class="direction-title">\n<div class="flash-card-audio">\n<audio src="/content/audios/DL_Survey.mp3"></audio>\n</div>\n<b>Directions:</b></div>\n\n<p class="direction-content">Select Record to begin.<br />\nRead the word aloud.<br />\nSelect the arrow to read the next word.<br />\nSelect Stop Recording when you finish the assessment. Then, select Submit to submit your recording to your teacher.</p>\n</div>';
@@ -145,46 +142,50 @@ interface Response {
     assessmentView: boolean;
     ciuresource: boolean;
     passageData: IPassageDate;
-    "resource": {
-        "resourceId": 348881,
-        "title": "Part A: Short Vowels"
-    }
+    resource: {
+        resourceId: 348881;
+        title: "Part A: Short Vowels";
+    };
 }
 
 class ResponseDefault extends Response {
     resource = {
-        "resourceId": 348881,
-        "title": "Part A: Short Vowels"
-    }
+        resourceId: 348881,
+        title: "Part A: Short Vowels",
+    };
 
     questionBean = {
-        listQuestion: [{
-            questionSetPassageXML: '<div class="direction-wrapper">\n<div class="direction-title">\n<div class="flash-card-audio">\n<audio src="/content/audios/DL_Survey.mp3"></audio>\n</div>\n<b>Directions:</b></div>\n\n<p class="direction-content">Select Record to begin.<br />\nRead the word aloud.<br />\nSelect the arrow to read the next word.<br />\nSelect Stop Recording when you finish the assessment. Then, select Submit to submit your recording to your teacher.</p>\n</div>',
-            questionJsonObject: {
-                contents: [
-                    'lat',
-                    'ped',
-                    'sib',
-                    'mog',
-                    'vun',
-                    'fim',
-                    'hep',
-                    'yot',
-                    'rud',
-                    'cag'
-                ]
-            }
-        }]
-    }
+        listQuestion: [
+            {
+                questionSetPassageXML:
+                    '<div class="direction-wrapper">\n<div class="direction-title">\n<div class="flash-card-audio">\n<audio src="/content/audios/DL_Survey.mp3"></audio>\n</div>\n<b>Directions:</b></div>\n\n<p class="direction-content">Select Record to begin.<br />\nRead the word aloud.<br />\nSelect the arrow to read the next word.<br />\nSelect Stop Recording when you finish the assessment. Then, select Submit to submit your recording to your teacher.</p>\n</div>',
+                questionJsonObject: {
+                    contents: [
+                        "lat",
+                        "ped",
+                        "sib",
+                        "mog",
+                        "vun",
+                        "fim",
+                        "hep",
+                        "yot",
+                        "rud",
+                        "cag",
+                    ],
+                },
+            },
+        ],
+    };
 
     passageData = {
-        programTocName: '',
-        resourceTitle: '',
-        productLevel: '',
-        programFooterImage: '',
-        tocBackgroundImage: '',
-        copyright: 'Copyright &copy; 2021 William H. Sadlier, Inc. All rights reserved.',
-    }
+        programTocName: "",
+        resourceTitle: "",
+        productLevel: "",
+        programFooterImage: "",
+        tocBackgroundImage: "",
+        copyright:
+            "Copyright &copy; 2021 William H. Sadlier, Inc. All rights reserved.",
+    };
 }
 
 export interface IPassageDate {
@@ -202,42 +203,38 @@ const getListWord = (data: ResponseDefault) => {
     } catch (_: any) {
         return [];
     }
-
 };
 
 const getDirections = (data: ResponseDefault) => {
     try {
         return data.questionBean.listQuestion[0].questionSetPassageXML;
     } catch (_: any) {
-        return '';
+        return "";
     }
-
-
 };
 const getContentHeaderFooter = (data: ResponseDefault): IPassageDate => {
     try {
         return data.passageData;
     } catch (_: any) {
         return {
-            programTocName: '',
-            resourceTitle: '',
-            productLevel: '',
-            programFooterImage: '',
-            tocBackgroundImage: '',
-            copyright: 'Copyright &copy; 2021 William H. Sadlier, Inc. All rights reserved.',
+            programTocName: "",
+            resourceTitle: "",
+            productLevel: "",
+            programFooterImage: "",
+            tocBackgroundImage: "",
+            copyright:
+                "Copyright &copy; 2021 William H. Sadlier, Inc. All rights reserved.",
         };
     }
 };
 const ACTION_POST_MESSAGE = {
-    LIST_WORD: 'LIST_WORD',
+    LIST_WORD: "LIST_WORD",
 } as const;
-
 
 function AudioAssessment(props: Props) {
     const [data, setData] = useState<ResponseDefault>(new ResponseDefault());
 
-    const [isShow, setIsShow] = useState<boolean>(false)
-
+    const [isShow, setIsShow] = useState<boolean>(false);
 
     // const sendToParent = () => {
     //     window.parent.postMessage(
@@ -255,23 +252,23 @@ function AudioAssessment(props: Props) {
 
     useEffect(() => {
         const fn = (event: any) => {
-            console.log(event.data.response);
+            // console.log(event.data.response);
+            console.log("FPR:::Send message from parent", event.data.response);
             if (!event.data.response) return;
 
             setData(event.data.response);
-        }
-        window.addEventListener('message', fn)
+        };
+        window.addEventListener("message", fn);
         return () => {
-            window.removeEventListener('message', fn)
-        }
-    }, [])
+            window.removeEventListener("message", fn);
+        };
+    }, []);
 
     return (
         <SIndex>
             <Layout
-                footer={<Footer content={contentHeaderFooter}/>}
-                header={<Header content={contentHeaderFooter}/>}
-            >
+                footer={<Footer content={contentHeaderFooter} />}
+                header={<Header content={contentHeaderFooter} />}>
                 <div className="flex items-start gap-1 wrapper">
                     <div>
                         {/*<SoundFilled*/}
@@ -280,7 +277,9 @@ function AudioAssessment(props: Props) {
                         {/*    }}*/}
                         {/*/>*/}
                     </div>
-                    <div dangerouslySetInnerHTML={{__html: componentDirection}}/>
+                    <div
+                        dangerouslySetInnerHTML={{ __html: componentDirection }}
+                    />
                 </div>
 
                 {/* <div className="">
@@ -301,7 +300,7 @@ function AudioAssessment(props: Props) {
                         </div>
                     </div>
                 </div> */}
-                <Slider title={data.resource.title} data={listWord}/>
+                <Slider title={data.resource.title} data={listWord} />
             </Layout>
             {/*<AssessmentAnnotationWorkspace />*/}
         </SIndex>
