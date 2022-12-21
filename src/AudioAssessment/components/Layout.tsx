@@ -1,5 +1,5 @@
-import React from 'react';
-import { SLayout } from '../styled';
+import React from "react";
+import { SLayout } from "../styled";
 
 interface Props {
     children?: React.ReactNode;
@@ -9,10 +9,10 @@ interface Props {
 function Layout({ children, footer, header }: Props) {
     return (
         <SLayout>
-            {header&&header}
-            <div className="layout-container">
-                <div>{children&&children}</div>
-                {footer&&footer}
+            {header && header}
+            <div className="layout-container flex flex-col justify-between">
+                <div style={{}}>{children && children}</div>
+                {footer && footer}
             </div>
         </SLayout>
     );

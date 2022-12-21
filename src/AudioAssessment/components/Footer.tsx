@@ -1,22 +1,24 @@
-import React from 'react';
-import {IPassageDate} from '..';
-import * as S from '../styled';
+import React from "react";
+import { IPassageDate } from "..";
+import * as S from "../styled";
 
 interface Props {
     content: IPassageDate;
 }
 
-function Footer({content}: Props) {
+function Footer({ content }: Props) {
     return (
-        <S.Footer className="flex items-center justify-between">
+        <S.Footer className="flex items-center justify-between mt-auto">
             <div className="footer-left flex items-center justify-center">
-                <img src={content.programFooterImage} alt="footer resource"/>
-                <span/>
+                <img src={content.programFooterImage} alt="footer resource" />
+                <span />
                 <p className="program-footer-name">{content.productLevel}</p>
             </div>
 
             <div className="footer-right">
-                <p className="footer-copyright">{content.copyright.replace('&copy;', '©')}</p>
+                <p className="footer-copyright">
+                    {content.copyright.replace("&copy;", "©")}
+                </p>
             </div>
         </S.Footer>
     );

@@ -76,7 +76,6 @@ export const SSlider = styled.div`
   }
 
   .btn-audio {
-
   }
 `;
 
@@ -95,7 +94,7 @@ export const SIndex = styled.div`
 
     b {
       font-family: 'HelveticaNeue-Bold', Helvetica, arial, sans-serif;
-      font-weight: 500;
+      font-weight: 600;
     }
 
     p {
