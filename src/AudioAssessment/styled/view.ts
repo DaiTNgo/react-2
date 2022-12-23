@@ -1,10 +1,8 @@
-import styled from 'styled-components';
-// import { Carousel as AntCarousel } from 'antd';
+import styled from "styled-components";
 
 export const SLayout = styled.div`
   background-color: #fff;
   border-radius: 8px;
-  /* padding: 40px 60px; */
 
   .layout-container {
     padding: 0 60px 20px;
@@ -93,13 +91,13 @@ export const SIndex = styled.div`
     font-size: 18px;
 
     b {
-      font-family: 'HelveticaNeue-Bold', Helvetica, arial, sans-serif;
+      font-family: "HelveticaNeue-Bold", Helvetica, arial, sans-serif;
       font-weight: 600;
     }
 
     p {
       font-size: 18px;
-      font-family: 'HelveticaNeue-Light', Helvetica, arial, sans-serif;
+      font-family: "HelveticaNeue-Light", Helvetica, arial, sans-serif;
     }
   }
 
@@ -113,14 +111,14 @@ export const Header = styled.div`
   .header-title {
     font-size: 20px;
     padding-top: 15px;
-    font-family: 'HelveticaNeue-Bold';
+    font-family: "HelveticaNeue-Bold";
     font-weight: normal;
     color: #fff;
   }
 
   .header-subtitle {
     color: #a7d6f8;
-    font-family: 'HelveticaNeue';
+    font-family: "HelveticaNeue";
     font-size: 16px;
   }
 `;

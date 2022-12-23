@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { IPassageDate } from '..';
-import * as S from '../styled';
+import { useState } from "react";
+import { IPassageDate } from "..";
+import * as S from "../styled/view";
 
 interface Props {
   content: IPassageDate;
@@ -9,11 +9,11 @@ interface Props {
 function Header({ content }: Props) {
   const [loadImg, setLoadImg] = useState(true);
   return (
-    <S.Header className='flex'>
+    <S.Header className="flex">
       <div
         style={{
-          marginLeft: 'auto',
-          position: 'relative',
+          marginLeft: "auto",
+          position: "relative",
           minWidth: 1,
         }}
       >
@@ -22,13 +22,13 @@ function Header({ content }: Props) {
             style={{
               width: 350,
               height: 80,
-              backgroundColor: 'green',
+              backgroundColor: "green",
               borderBottomLeftRadius: 30,
             }}
           />
         )}
         <img
-          alt='background header'
+          alt="background header"
           src={content.tocBackgroundImage}
           onLoad={() => {
             setLoadImg(false);
@@ -36,19 +36,19 @@ function Header({ content }: Props) {
         />
         <div
           style={{
-            top: '0',
+            top: "0",
             // right: '50%',
-            position: 'absolute',
+            position: "absolute",
             // transform: 'translateX(50%)',
-            color: 'white',
-            textAlign: 'center',
-            width: '100%',
+            color: "white",
+            textAlign: "center",
+            width: "100%",
             // position: 'relative',
             zIndex: 10,
           }}
         >
-          <p className='header-title'>{content.programTocName}</p>
-          <p className='header-subtitle'>{content.resourceTitle}</p>
+          <p className="header-title">{content.programTocName}</p>
+          {/* <p className="header-subtitle">{content.resourceTitle}</p> */}
         </div>
       </div>
     </S.Header>
