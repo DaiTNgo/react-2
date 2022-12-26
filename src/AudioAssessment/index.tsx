@@ -7,9 +7,7 @@ import ViewResource from "./view";
 import { useObserverHeight } from "./hooks/useObserverHeight";
 
 function AudioAssessment() {
-  const [data, setData] = useState<ResponseDefault | null>(
-    new ResponseDefault()
-  );
+  const [data, setData] = useState<ResponseDefault | null>(null);
 
   const [layout, setLayout] = useState<ResourceLayoutEnum>(
     ResourceLayoutEnum.VIEW_RESOURCE
