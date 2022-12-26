@@ -129,13 +129,7 @@ function Slider({ isStarting, stopped, ...props }: Props) {
         </button>
         {isStarting && currentSlide === props.data.length - 1 && (
           <button
-            style={{
-              backgroundColor: "black",
-              color: "white",
-              padding: "4px 14px",
-              cursor: " pointer",
-              borderRadius: "4px",
-            }}
+              className="stop-recording-button"
             onClick={handleSubmit}
           >
             Stop Recording

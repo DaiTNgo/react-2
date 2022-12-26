@@ -11,6 +11,7 @@ import { useCallback, useRef, useState } from "react";
 import Recording from "./components/Recording";
 import Record from "./components/Record";
 import { useStoreSlider } from "../store/slider";
+import styled from "styled-components";
 
 function DoAssessment() {
   const { data } = useAudioAssessmentContext();
@@ -66,13 +67,8 @@ function DoAssessment() {
             }}
           />
         </div>
-        <div
-          style={{
-            display: "grid",
-            placeContent: "center",
-            textAlign: "center",
-          }}
-        >
+        <Wrapper>
+          {/*<Recording />*/}
           {isStarting ? (
             <Recording
               onSubmitAssignment={handleSubmitAssignment}
@@ -82,7 +78,7 @@ function DoAssessment() {
           ) : (
             <Record startRecording={startRecording} />
           )}
-        </div>
+        </Wrapper>
         <Slider
           title={data.resource.title}
           data={listWord}
@@ -96,3 +92,9 @@ function DoAssessment() {
 }
 
 export default DoAssessment;
+
+const Wrapper = styled.div`
+  display: grid;
+  place-content: center;
+  text-align: center;
+`;

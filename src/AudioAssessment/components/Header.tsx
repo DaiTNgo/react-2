@@ -10,23 +10,8 @@ function Header({ content }: Props) {
   const [loadImg, setLoadImg] = useState(true);
   return (
     <S.Header className="flex">
-      <div
-        style={{
-          marginLeft: "auto",
-          position: "relative",
-          minWidth: 1,
-        }}
-      >
-        {loadImg && (
-          <div
-            style={{
-              width: 350,
-              height: 80,
-              backgroundColor: "green",
-              borderBottomLeftRadius: 30,
-            }}
-          />
-        )}
+      <div className="header-container">
+        {loadImg && <div className="header-img" />}
         <img
           alt="background header"
           src={content.tocBackgroundImage}
@@ -34,19 +19,7 @@ function Header({ content }: Props) {
             setLoadImg(false);
           }}
         />
-        <div
-          style={{
-            top: "0",
-            // right: '50%',
-            position: "absolute",
-            // transform: 'translateX(50%)',
-            color: "white",
-            textAlign: "center",
-            width: "100%",
-            // position: 'relative',
-            zIndex: 10,
-          }}
-        >
+        <div className="header-title-container">
           <p className="header-title">{content.programTocName}</p>
           {/* <p className="header-subtitle">{content.resourceTitle}</p> */}
         </div>
