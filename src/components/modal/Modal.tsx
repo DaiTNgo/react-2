@@ -1,6 +1,5 @@
-import React, { Children } from "react";
+import styled from "styled-components";
 import { useModalContext } from "../../context/ModalContext";
-import Layout from "./Layout";
 
 interface Props {
   isVisible: boolean;
@@ -11,19 +10,18 @@ function Modal() {
 
   if (!isVisibleModal) return <></>;
   return (
-    <Layout>
-      <div
-        className="absolute inset-0 z-10 h-screen bg-gray-300"
-        style={{
-          backgroundColor: "rgba(255,255,255,0.8)",
-        }}
-      >
+    <Wrapper>
+      <div className="absolute inset-0 z-10 h-screen bg-gray-300">
         <div className="relative z-20 grid place-content-center h-screen">
           {children}
         </div>
       </div>
-    </Layout>
+    </Wrapper>
   );
 }
 
 export default Modal;
+
+const Wrapper = styled.div`
+  background-color: rgba(255, 255, 255, 0.8);
+`;

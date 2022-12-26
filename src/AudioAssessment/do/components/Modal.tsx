@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useModalContext } from "../../../context/ModalContext";
-
+import { ModalContainer } from "./styled";
 function Modal({ startRecording }: { startRecording: any }) {
   const { destroyModal } = useModalContext();
 
@@ -21,41 +21,10 @@ function Modal({ startRecording }: { startRecording: any }) {
   }
 
   return (
-    <div
-      style={{
-        width: 500,
-        height: 200,
-        backgroundColor: "#fff",
-        border: "1px solid #ccc",
-        borderTop: "8px solid #3579c1",
-        display: "grid",
-        placeContent: "center",
-        placeItems: "center",
-      }}
-    >
-      <p
-        style={{
-          fontSize: 36,
-          color: "#4b4848",
-        }}
-      >
-        Recording will begin in...
-      </p>
-      <p
-        className="count-down"
-        style={{
-          width: 50,
-          height: 50,
-          backgroundColor: "#ccc",
-          borderRadius: "50%",
-          display: "grid",
-          placeContent: "center",
-          fontSize: 20,
-        }}
-      >
-        {count}
-      </p>
-    </div>
+    <ModalContainer>
+      <p className="modal-title">Recording will begin in...</p>
+      <p className="count-down">{count}</p>
+    </ModalContainer>
   );
 }
 

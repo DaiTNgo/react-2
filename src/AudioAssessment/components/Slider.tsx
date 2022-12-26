@@ -11,9 +11,7 @@ interface Props {
 function ArrowRight() {
   return (
     <svg
-      style={{
-        width: 40,
-      }}
+      className="w-10"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 320 512"
     >
@@ -61,12 +59,7 @@ function Slider({ isStarting, ...props }: Props) {
   return (
     <SSlider className="">
       <h4 className="text-center slider-title py-4">{props.title}</h4>
-      <div
-        className="slider-wrapper flex items-center justify-center"
-        style={{
-          gap: 40,
-        }}
-      >
+      <div className="slider-wrapper flex items-center justify-center">
         <button
           onClick={handlePrevious}
           className={`${showArrowPrevious ? "visible" : "invisible"}
@@ -98,17 +91,7 @@ function Slider({ isStarting, ...props }: Props) {
           <ArrowRight />
         </button>
         {isStarting && currentSlide === props.data.length - 1 && (
-          <button
-            style={{
-              backgroundColor: "black",
-              color: "white",
-              padding: "4px 14px",
-              cursor: " pointer",
-              borderRadius: "4px",
-            }}
-          >
-            Stop Recording
-          </button>
+          <button className="stop-recording-button">Stop Recording</button>
         )}
       </div>
       <div className="flex justify-center gap-2 mt-4">
@@ -117,10 +100,9 @@ function Slider({ isStarting, ...props }: Props) {
           props.data.map((_, i) => {
             return (
               <div
-                className="w-3 h-3 rounded-full border border-gray-400 cursor-pointer"
-                style={{
-                  backgroundColor: i === currentSlide ? "gray" : "inherit",
-                }}
+                className={`w-3 h-3 rounded-full border border-gray-400 cursor-pointer ${
+                  currentSlide === i ? "dot-active" : "dot-inactive"
+                }`}
                 onClick={() => {
                   onChange(i);
                 }}

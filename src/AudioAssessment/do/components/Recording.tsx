@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Micro from "../../../Icons/Micro";
+import { RecordingContainer } from "./styled";
 
 const TIME_RECORD_STANDARD = 120;
 
@@ -120,57 +121,24 @@ function Recording({ setCurrentSlide, numOfWord }: any) {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "inline-block",
-      }}
-    >
+    <RecordingContainer>
       <div className={"flex items-center gap-2 relative"}>
-        <div
-          style={{
-            top: 45,
-            left: -60,
-          }}
-          className={"absolute"}
-        >
+        <div className="micro-container">
           <Micro width={50} height={50} />
         </div>
         <div className={"flex flex-col items-center gap-2"}>
-          <div
-            style={{
-              display: "grid",
-              placeContent: "center",
-              fontWeight: 700,
-            }}
-          >
-            Recording...
-          </div>
-          <div
-            style={{
-              padding: "10px 20px",
-              backgroundColor: "#c7c7c7",
-              borderRadius: 10,
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                gap: 10,
-              }}
-            >
+          <div className="loading-recording">Recording...</div>
+          <div className="recording-container">
+            <div className="recording-item-wrapper">
               {Array(12)
                 .fill(0)
                 .map((_, index) => {
                   return (
                     <div
                       key={index}
-                      style={{
-                        width: 10,
-                        height: 40,
-                        borderRadius: 999999,
-                        backgroundColor: level > index ? "gray" : "white",
-                        border: "1px solid black",
-                      }}
+                      className={`recording-item ${
+                        level > index ? `active` : ``
+                      }`}
                     ></div>
                   );
                 })}
@@ -198,27 +166,19 @@ function Recording({ setCurrentSlide, numOfWord }: any) {
         <button
           onClick={() => (shouldStop.current = true)}
           type="button"
-          className="btn btn-danger"
-          style={{
-            border: "1px solid",
-            padding: 4,
-          }}
+          className="btn btn-danger action-button"
         >
           Stop
         </button>
         <button
           type="button"
           onClick={recordAudio}
-          className="btn btn-info"
-          style={{
-            border: "1px solid",
-            padding: 4,
-          }}
+          className="btn btn-info action-button"
         >
           Record Audio
         </button>
       </div>
-    </div>
+    </RecordingContainer>
   );
 }
 const convertValueToTime = (value: number) => {

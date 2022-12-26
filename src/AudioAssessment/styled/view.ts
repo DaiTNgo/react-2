@@ -25,6 +25,25 @@ export const SSlider = styled.div`
     }
   }
 
+  .stop-recording-button {
+    background-color: black;
+    color: white;
+    padding: 4px 14px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .dot-active {
+    background-color: gray;
+  }
+  .dot-inactive {
+    background-color: inherit;
+  }
+
+  .slider-wrapper {
+    gap: 40px;
+  }
+
   .slick-slider {
     display: flex;
     align-items: center;
@@ -108,18 +127,39 @@ export const SIndex = styled.div`
 `;
 
 export const Header = styled.div`
-  .header-title {
-    font-size: 20px;
-    padding-top: 15px;
-    font-family: "HelveticaNeue-Bold";
-    font-weight: normal;
-    color: #fff;
-  }
+  .header-container {
+    margin-left: auto;
+    position: relative;
+    min-width: 1px;
+    .header-img {
+      width: 350px;
+      height: 80px;
+      background-color: green;
+      border-bottom-left-radius: 30px;
+    }
 
-  .header-subtitle {
-    color: #a7d6f8;
-    font-family: "HelveticaNeue";
-    font-size: 16px;
+    .header-title-container {
+      top: 0;
+      position: absolute;
+      color: white;
+      text-align: center;
+      width: 100%;
+      z-index: 10;
+    }
+
+    .header-title {
+      font-size: 20px;
+      padding-top: 15px;
+      font-family: "HelveticaNeue-Bold";
+      font-weight: normal;
+      color: #fff;
+    }
+
+    .header-subtitle {
+      color: #a7d6f8;
+      font-family: "HelveticaNeue";
+      font-size: 16px;
+    }
   }
 `;
 
