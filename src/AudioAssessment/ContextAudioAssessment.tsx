@@ -1,6 +1,11 @@
 import { createContext, useContext } from "react";
 
-export const AudioAssessmentContext = createContext<any>(null);
+type AudioAssessmentContextType = {
+  data: any;
+};
+
+export const AudioAssessmentContext =
+  createContext<AudioAssessmentContextType | null>(null);
 
 export const useAudioAssessmentContext = () => {
   const context = useContext(AudioAssessmentContext);

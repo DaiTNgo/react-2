@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import Micro from "../../../Icons/Micro";
 
-const TIME_RECORD_STANDARD = 120;
+export const TIME_RECORD_STANDARD = 20;
 
 function rootMeanSquaredSignal(data: any) {
   let rms = 0;
@@ -11,27 +11,33 @@ function rootMeanSquaredSignal(data: any) {
   return Math.sqrt(rms / data.length);
 }
 
-function Recording({ setCurrentSlide, numOfWord }: any) {
-  const stopped = useRef(false);
-  const shouldStop = useRef(false);
+interface Props {
+  numOfWord: number;
+  onSubmitAssignment: (file: any) => void;
+  stopped: MutableRefObject<boolean>;
+}
+
+function Recording({ numOfWord, onSubmitAssignment, stopped }: Props) {
+  // const stopped = useRef(false);
+  // const shouldStop = useRef(false);
 
   const downloadLink = useRef(null); // document.getElementById('download');
   const [level, setLevel] = useState(0);
-  const startRecord = () => {
-    stopped.current = false;
-  };
+  // const startRecord = () => {
+  //   stopped.current = false;
+  // };
 
-  const stopRecord = () => {
-    stopped.current = true;
-    shouldStop.current = false;
-  };
+  // const stopRecord = () => {
+  //   stopped.current = true;
+  //   // shouldStop.current = false;
+  // };
 
   const audioRecordConstraints = {
     echoCancellation: true,
   };
 
   const handleRecord = ({ stream, mimeType }: any) => {
-    startRecord();
+    // startRecord();
 
     let recordedChunks: any = [];
 
@@ -42,34 +48,18 @@ function Recording({ setCurrentSlide, numOfWord }: any) {
     analyser.fftSize = 2048;
     analyser.smoothingTimeConstant = 1;
 
-    // analyser.fftSize = 2048 * 2;
-    // const bufferLength = analyser.frequencyBinCount;
-    // const dataArray = new Uint8Array(bufferLength);
-    // analyser.getByteTimeDomainData(dataArray);
-
-    // console.log("FPR:::analyser", analyser);
-    //=================
-
-    // const signalData = new Float32Array(analyser.fftSize);
-
     const signalData = new Float32Array(analyser.fftSize);
 
     // mediaStreamSource.connect(audioContext.destination);
 
     mediaStreamSource.connect(analyser);
-    // mediaStreamSource.connect(analyser);
-    // Create a new volume meter and connect it.
-    // meter = createAudioMeter(audioContext);
-    // mediaStreamSource.connect(meter);
-    // console.log('volumn', meter.volume);
-    // kick off the visual updating
-    // drawLoop();
     //-------------------
     // mediaStreamSource.connect(audioContext);
 
     const mediaRecorder = new MediaRecorder(stream);
 
-    mediaRecorder.ondataavailable = function (e) {
+    const handleRecord = (e: BlobEvent) => {
+      // mediaRecorder.ondataavailable = (e) => {
       if (e.data.size > 0) {
         recordedChunks.push(e.data);
         analyser.getFloatTimeDomainData(signalData);
@@ -79,45 +69,55 @@ function Recording({ setCurrentSlide, numOfWord }: any) {
         setLevel(Math.floor(size / 2));
       }
 
-      if (shouldStop.current === true && stopped.current === false) {
+      if (stopped.current === true && mediaRecorder.state == "recording") {
+        console.log(mediaRecorder);
         mediaRecorder.stop();
-        stopped.current = true;
+        setLevel(0);
       }
+      // };
     };
 
-    mediaRecorder.onstop = () => {
+    mediaRecorder.addEventListener("dataavailable", handleRecord);
+    mediaRecorder.addEventListener("stop", () => {
+      // mediaRecorder.onstop = () => {
       const blob = new Blob(recordedChunks, {
         type: mimeType,
       });
       recordedChunks = [];
-      const filename = window.prompt("Enter file name");
-      // @ts-ignore
-      downloadLink.current.href = URL.createObjectURL(blob);
-      // @ts-ignore
-      downloadLink.current.download = `${filename || "recording"}.wav`;
-      stopRecord();
-    };
+      // const filename = window.prompt("Enter file name");
+      // // @ts-ignore
+      // downloadLink.current.href = URL.createObjectURL(blob);
+      // // @ts-ignore
+      // downloadLink.current.download = `${filename || "recording"}.wav`;
+      // stopRecord();
+      onSubmitAssignment(blob);
+      // };
+    });
 
     mediaRecorder.start(200);
   };
 
   const recordAudio = async () => {
-    const mimeType = "audio/wav";
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: audioRecordConstraints,
-    });
-    handleRecord({ stream, mimeType });
+    try {
+      const mimeType = "audio/wav";
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: audioRecordConstraints,
+      });
+      handleRecord({ stream, mimeType });
+    } catch (e: any) {
+      console.log(e.name);
+    }
   };
 
   useEffect(() => {
     recordAudio();
   }, []);
 
-  useEffect(() => {
-    setInterval(() => {
-      setCurrentSlide((c: number) => c + 1);
-    }, (TIME_RECORD_STANDARD / numOfWord) * 1000);
-  }, []);
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     // setCurrentSlide((c: number) => c + 1);
+  //   }, (TIME_RECORD_STANDARD / numOfWord) * 1000);
+  // }, []);
 
   return (
     <div
@@ -181,43 +181,43 @@ function Recording({ setCurrentSlide, numOfWord }: any) {
                 marginTop: 2,
               }}
             >
-              <Time />
+              <Time stopped={stopped} />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="container mt-3">
-        <span>
-          <a ref={downloadLink}>
-            <button type="button" className="btn btn-primary mb-4">
-              Download
-            </button>
-          </a>
-        </span>
-        <button
-          onClick={() => (shouldStop.current = true)}
-          type="button"
-          className="btn btn-danger"
-          style={{
-            border: "1px solid",
-            padding: 4,
-          }}
-        >
-          Stop
-        </button>
-        <button
-          type="button"
-          onClick={recordAudio}
-          className="btn btn-info"
-          style={{
-            border: "1px solid",
-            padding: 4,
-          }}
-        >
-          Record Audio
-        </button>
-      </div>
+      {/*<div className="container mt-3">*/}
+      {/*  <span>*/}
+      {/*    <a ref={downloadLink}>*/}
+      {/*      <button type="button" className="btn btn-primary mb-4">*/}
+      {/*        Download*/}
+      {/*      </button>*/}
+      {/*    </a>*/}
+      {/*  </span>*/}
+      {/*  <button*/}
+      {/*    onClick={() => (shouldStop.current = true)}*/}
+      {/*    type="button"*/}
+      {/*    className="btn btn-danger"*/}
+      {/*    style={{*/}
+      {/*      border: "1px solid",*/}
+      {/*      padding: 4,*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    Stop*/}
+      {/*  </button>*/}
+      {/*  <button*/}
+      {/*    type="button"*/}
+      {/*    onClick={recordAudio}*/}
+      {/*    className="btn btn-info"*/}
+      {/*    style={{*/}
+      {/*      border: "1px solid",*/}
+      {/*      padding: 4,*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    Record Audio*/}
+      {/*  </button>*/}
+      {/*</div>*/}
     </div>
   );
 }
@@ -228,9 +228,11 @@ const convertValueToTime = (value: number) => {
 
   return `0${minute}:${second}`;
 };
-function Time() {
+function Time({ stopped }: { stopped: MutableRefObject<boolean> }) {
   const [count, setCount] = useState(0);
   useEffect(() => {
+    if (stopped.current) return;
+
     const id = setInterval(() => {
       setCount((c) => c + 1);
     }, 1000);
@@ -238,7 +240,7 @@ function Time() {
     return () => {
       clearInterval(id);
     };
-  }, []);
+  }, [stopped.current]);
   return <>{convertValueToTime(count)}</>;
 }
 

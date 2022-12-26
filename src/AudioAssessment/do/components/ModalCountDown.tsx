@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useModalContext } from "../../../context/ModalContext";
 
-function Modal({ startRecording }: { startRecording: any }) {
+function ModalCountDown({ startRecording }: { startRecording: any }) {
   const { destroyModal } = useModalContext();
 
   const [count, setCount] = useState(3);
@@ -59,4 +59,4 @@ function Modal({ startRecording }: { startRecording: any }) {
   );
 }
 
-export default Modal;
+export default ModalCountDown;

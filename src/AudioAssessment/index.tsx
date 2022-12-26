@@ -24,6 +24,10 @@ function AudioAssessment() {
 
   useEffect(() => {
     const fn = (event: any) => {
+      console.log(
+        "FPR::accesstoken::",
+        window.parent.localStorage.getItem("accessToken")
+      );
       // console.log(event.data.response);
       console.log("FPR:::Send message from parent", event.data);
       if (!event.data.response) return;

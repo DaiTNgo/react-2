@@ -7,10 +7,15 @@ import {
 } from "react";
 
 interface IModal {
-  openModal: (modal: ReactNode) => void;
+  openModal: (modal: ReactNode, propsModal?: PropsModal) => void;
   destroyModal: () => void;
   isVisibleModal: boolean;
   children: ReactNode;
+  propsModal: PropsModal;
+}
+
+interface PropsModal {
+  closeMask: boolean;
 }
 
 export const ModalContext = createContext<IModal>(null as unknown as IModal);
@@ -27,12 +32,19 @@ export const useModalContext = () => {
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [propsModal, setPropsModal] = useState<PropsModal>({
+    closeMask: false,
+  });
 
   const [modal, setModal] = useState<ReactNode>(<></>);
 
-  const openModal = useCallback((modal: ReactNode) => {
+  const openModal = useCallback((modal: ReactNode, props?: PropsModal) => {
     setModal(modal);
     setIsVisible(true);
+
+    if (props) {
+      setPropsModal(props);
+    }
   }, []);
 
   const destroyModal = useCallback(() => {
@@ -46,6 +58,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         destroyModal,
         isVisibleModal: isVisible,
         children: modal,
+        propsModal,
       }}
     >
       {children}

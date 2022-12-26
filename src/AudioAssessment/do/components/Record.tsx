@@ -1,7 +1,7 @@
 import React from "react";
 import { useModalContext } from "../../../context/ModalContext";
 import Micro from "../../../Icons/Micro";
-import Modal from "./Modal";
+import ModalCountDown from "./ModalCountDown";
 
 function Record({ startRecording }: { startRecording: any }) {
   const { openModal } = useModalContext();
@@ -23,7 +23,7 @@ function Record({ startRecording }: { startRecording: any }) {
         }}
         className="do-assignment-record"
         onClick={() => {
-          openModal(<Modal startRecording={startRecording} />);
+          openModal(<ModalCountDown startRecording={startRecording} />);
         }}
       >
         <div

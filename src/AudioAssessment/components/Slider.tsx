@@ -1,11 +1,17 @@
-import { useState } from "react";
 import { SSlider } from "../styled/view";
 import { useStoreSlider } from "../store/slider";
+import { MutableRefObject, useEffect } from "react";
+import { TIME_RECORD_STANDARD } from "../do/components/Recording";
+import { data } from "autoprefixer";
+import { useModalContext } from "../../context/ModalContext";
+import ModalSubmit from "../do/components/ModalSubmit";
 
 interface Props {
   title: string;
   data: any[];
   isStarting: boolean;
+  // onSubmitAssignment: (file: any) => void;
+  stopped?: MutableRefObject<boolean>;
 }
 
 function ArrowRight() {
@@ -36,27 +42,51 @@ function ArrowLeft() {
   );
 }
 
-function Slider({ isStarting, ...props }: Props) {
-  // const refCarousel = useRef<CarouselRef>(null);
-  // const [currentSlide, setCurrentSlide] = useState(0);
-  const { currentSlide, changeSlide } = useStoreSlider();
+function Slider({ isStarting, stopped, ...props }: Props) {
+  const { currentSlide, changeSlide, increaseSlide, decreaseSlide } =
+    useStoreSlider();
 
-  const onChange = (currentSlide: number) => {
+  const { openModal } = useModalContext();
+
+  const onChange = (currentSlide: number) => () => {
     changeSlide(currentSlide);
   };
 
   const handlePrevious = () => {
-    // refCarousel.current?.prev();
-    onChange(currentSlide - 1);
+    decreaseSlide();
   };
 
   const handleNext = () => {
-    onChange(currentSlide + 1);
-    // refCarousel.current?.next();
+    increaseSlide();
   };
 
   const showArrowPrevious = currentSlide !== 0;
   const showArrowNext = currentSlide !== props.data.length - 1;
+
+  useEffect(() => {
+    if (!props?.data?.length) return;
+    if (!isStarting) return;
+
+    if (currentSlide === props.data.length - 1) return;
+    const id = setTimeout(() => {
+      increaseSlide();
+    }, (TIME_RECORD_STANDARD / props.data.length) * 1000);
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, [currentSlide, isStarting]);
+
+  const handleSubmit = () => {
+    if (stopped) stopped.current = true;
+    // openModal(
+    //   <ModalSubmit
+    //     onSubmit={() => {
+    //       console.log("submit");
+    //     }}
+    //   />
+    // );
+  };
 
   return (
     <SSlider className="">
@@ -106,12 +136,13 @@ function Slider({ isStarting, ...props }: Props) {
               cursor: " pointer",
               borderRadius: "4px",
             }}
+            onClick={handleSubmit}
           >
             Stop Recording
           </button>
         )}
       </div>
-      <div className="flex justify-center gap-2 mt-4">
+      <div className="dots flex justify-center gap-2 mt-4">
         {props.data &&
           props.data.length > 0 &&
           props.data.map((_, i) => {
@@ -121,9 +152,7 @@ function Slider({ isStarting, ...props }: Props) {
                 style={{
                   backgroundColor: i === currentSlide ? "gray" : "inherit",
                 }}
-                onClick={() => {
-                  onChange(i);
-                }}
+                onClick={onChange(i)}
               />
             );
           })}

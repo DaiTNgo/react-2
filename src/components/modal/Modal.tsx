@@ -7,7 +7,8 @@ interface Props {
 }
 
 function Modal() {
-  const { children, isVisibleModal } = useModalContext();
+  const { children, isVisibleModal, destroyModal, propsModal } =
+    useModalContext();
 
   if (!isVisibleModal) return <></>;
   return (
@@ -17,10 +18,18 @@ function Modal() {
         style={{
           backgroundColor: "rgba(255,255,255,0.8)",
         }}
+        onClick={(e: any) => {
+          // console.log({ e });
+          propsModal.closeMask && destroyModal();
+        }}
+      ></div>
+      <div
+        className="absolute top-1/2 left-1/2 z-20 grid place-content-center"
+        style={{
+          transform: "translate(-50%,-50%)",
+        }}
       >
-        <div className="relative z-20 grid place-content-center h-screen">
-          {children}
-        </div>
+        {children}
       </div>
     </Layout>
   );
