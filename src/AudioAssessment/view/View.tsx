@@ -31,7 +31,11 @@ function ViewResource() {
           />
         </div>
 
-        <Slider title={data.resource.title} data={listWord} />
+        <Slider
+          isStarting={false}
+          title={data.resource.title}
+          data={listWord}
+        />
       </Layout>
     </SIndex>
   );

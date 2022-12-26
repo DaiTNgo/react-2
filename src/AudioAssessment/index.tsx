@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { ResourceLayoutEnum } from '../enums/layout';
-import { AudioAssessmentContext } from './ContextAudioAssessment';
-import DoAssessment from './do';
-import { ResponseDefault } from './view/type';
-import ViewResource from './view';
-import { useObserverHeight } from './hooks/useObserverHeight';
+import { useEffect, useState } from "react";
+import { ResourceLayoutEnum } from "../enums/layout";
+import { AudioAssessmentContext } from "./ContextAudioAssessment";
+import DoAssessment from "./do";
+import { ResponseDefault } from "./view/type";
+import ViewResource from "./view";
+import { useObserverHeight } from "./hooks/useObserverHeight";
 
 function AudioAssessment() {
   const [data, setData] = useState<ResponseDefault | null>(
@@ -20,17 +20,17 @@ function AudioAssessment() {
       {
         child: data, //TODO:
       },
-      '*'
+      "*"
     );
   };
 
   useEffect(() => {
     const fn = (event: any) => {
       // console.log(event.data.response);
-      console.log('FPR:::Send message from parent', event.data);
+      console.log("FPR:::Send message from parent", event.data);
       if (!event.data.response) return;
 
-      console.log('FPR::: offsetHeight', document.documentElement.offsetHeight);
+      console.log("FPR::: offsetHeight", document.documentElement.offsetHeight);
 
       if (event.data.response) {
         setData(event.data.response);
@@ -40,9 +40,9 @@ function AudioAssessment() {
         setLayout(event.data.layout);
       }
     };
-    window.addEventListener('message', fn);
+    window.addEventListener("message", fn);
     return () => {
-      window.removeEventListener('message', fn);
+      window.removeEventListener("message", fn);
     };
   }, []);
 
@@ -52,9 +52,9 @@ function AudioAssessment() {
     return (
       <div
         style={{
-          width: '100%',
-          height: '500px',
-          backgroundColor: '#fff',
+          width: "100%",
+          height: "500px",
+          backgroundColor: "#fff",
         }}
       >
         Loading...

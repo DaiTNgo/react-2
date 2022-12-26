@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { IPassageDate } from "..";
 import * as S from "../styled/view";
+import { IPassageDate } from "../types";
 
 interface Props {
   content: IPassageDate;

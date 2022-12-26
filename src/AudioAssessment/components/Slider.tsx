@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { SSlider } from "../styled/view";
+import { useStoreSlider } from "../store/slider";
 
 interface Props {
   title: string;
   data: any[];
+  isStarting: boolean;
 }
 
 function ArrowRight() {
@@ -34,12 +36,13 @@ function ArrowLeft() {
   );
 }
 
-function Slider(props: Props) {
+function Slider({ isStarting, ...props }: Props) {
   // const refCarousel = useRef<CarouselRef>(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
+  // const [currentSlide, setCurrentSlide] = useState(0);
+  const { currentSlide, changeSlide } = useStoreSlider();
 
   const onChange = (currentSlide: number) => {
-    setCurrentSlide(currentSlide);
+    changeSlide(currentSlide);
   };
 
   const handlePrevious = () => {
@@ -58,11 +61,15 @@ function Slider(props: Props) {
   return (
     <SSlider className="">
       <h4 className="text-center slider-title py-4">{props.title}</h4>
-      <div className="slider-wrapper flex items-center justify-center">
+      <div
+        className="slider-wrapper flex items-center justify-center"
+        style={{
+          gap: 40,
+        }}
+      >
         <button
           onClick={handlePrevious}
           className={`${showArrowPrevious ? "visible" : "invisible"}
-                        mx-4
                       audio-btn
                         `}
         >
@@ -80,10 +87,29 @@ function Slider(props: Props) {
           onClick={handleNext}
           className={`${showArrowNext ? "visible" : "invisible"}
                     audio-btn
-                    mx-4`}
+                    ${
+                      currentSlide === props.data.length - 1 && isStarting
+                        ? "hidden"
+                        : ""
+                    }
+                    `}
         >
+          {/*mx-4*/}
           <ArrowRight />
         </button>
+        {isStarting && currentSlide === props.data.length - 1 && (
+          <button
+            style={{
+              backgroundColor: "black",
+              color: "white",
+              padding: "4px 14px",
+              cursor: " pointer",
+              borderRadius: "4px",
+            }}
+          >
+            Stop Recording
+          </button>
+        )}
       </div>
       <div className="flex justify-center gap-2 mt-4">
         {props.data &&

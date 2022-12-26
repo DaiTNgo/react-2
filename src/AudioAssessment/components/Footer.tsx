@@ -1,4 +1,4 @@
-import { IPassageDate } from "..";
+import { IPassageDate } from "../types";
 import * as S from "../styled/view";
 interface Props {
   content: IPassageDate;

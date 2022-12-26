@@ -1,65 +1,19 @@
-import React, {useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Micro from "../../../Icons/Micro";
 
-//@ts-ignore
-function createAudioMeter(audioContext, clipLevel, averaging, clipLag) {
-  const processor = audioContext.createScriptProcessor(512);
-  processor.onaudioprocess = volumeAudioProcess;
-  processor.clipping = false;
-  processor.lastClip = 0;
-  processor.volume = 0;
-  processor.clipLevel = clipLevel || 0.98;
-  processor.averaging = averaging || 0.95;
-  processor.clipLag = clipLag || 750;
+const TIME_RECORD_STANDARD = 120;
 
-  // this will have no effect, since we don't copy the input to the output,
-  // but works around a current Chrome bug.
-  processor.connect(audioContext.destination);
-
-  processor.checkClipping = function () {
-    if (!this.clipping) return false;
-    if (this.lastClip + this.clipLag < window.performance.now())
-      this.clipping = false;
-    return this.clipping;
-  };
-
-  processor.shutdown = function () {
-    this.disconnect();
-    this.onaudioprocess = null;
-  };
-
-  return processor;
+function rootMeanSquaredSignal(data: any) {
+  let rms = 0;
+  for (let i = 0; i < data.length; i++) {
+    rms += data[i] * data[i];
+  }
+  return Math.sqrt(rms / data.length);
 }
 
-function volumeAudioProcess(event: any) {
-  var buf = event.inputBuffer.getChannelData(0);
-  var bufLength = buf.length;
-  var sum = 0;
-  var x;
-
-  // Do a root-mean-square on the samples: sum up the squares...
-  // for (var i = 0; i < bufLength; i++) {
-  //   x = buf[i];
-  //   if (Math.abs(x) >= this.clipLevel) {
-  //     this.clipping = true;
-  //     this.lastClip = window.performance.now();
-  //   }
-  //   sum += x * x;
-  // }
-  //
-  // // ... then take the square root of the sum.
-  // var rms = Math.sqrt(sum / bufLength);
-  //
-  // // Now smooth this out with the averaging factor applied
-  // // to the previous sample - take the max here because we
-  // // want "fast attack, slow release."
-  // this.volume = Math.max(rms, this.volume * this.averaging);
-}
-
-function Recording() {
+function Recording({ setCurrentSlide, numOfWord }: any) {
   const stopped = useRef(false);
   const shouldStop = useRef(false);
-  const canvasContext = useRef(null);
 
   const downloadLink = useRef(null); // document.getElementById('download');
   const [level, setLevel] = useState(0);
@@ -84,22 +38,23 @@ function Recording() {
     const audioContext = new AudioContext();
     const mediaStreamSource = audioContext.createMediaStreamSource(stream);
 
-    //-------------------
     const analyser = audioContext.createAnalyser();
+    analyser.fftSize = 2048;
+    analyser.smoothingTimeConstant = 1;
 
     // analyser.fftSize = 2048 * 2;
-    analyser.fftSize = 2048;
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-    analyser.getByteTimeDomainData(dataArray);
+    // const bufferLength = analyser.frequencyBinCount;
+    // const dataArray = new Uint8Array(bufferLength);
+    // analyser.getByteTimeDomainData(dataArray);
 
-    console.log("FPR:::analyser", analyser);
+    // console.log("FPR:::analyser", analyser);
     //=================
-    analyser.smoothingTimeConstant = 1;
+
+    // const signalData = new Float32Array(analyser.fftSize);
 
     const signalData = new Float32Array(analyser.fftSize);
 
-    mediaStreamSource.connect(audioContext.destination);
+    // mediaStreamSource.connect(audioContext.destination);
 
     mediaStreamSource.connect(analyser);
     // mediaStreamSource.connect(analyser);
@@ -115,16 +70,13 @@ function Recording() {
     const mediaRecorder = new MediaRecorder(stream);
 
     mediaRecorder.ondataavailable = function (e) {
-      // console.log('-------');
-      // console.log(e);
-      // console.log('-------');
       if (e.data.size > 0) {
         recordedChunks.push(e.data);
-        // const level = meter.volume * 10 * 2;
-        // @ts-ignore
-        console.log(mediaStreamSource.context.outputLatency);
-        // console.log('volumn', meter.volume * 10 * 2);
-        // setLevel(level);
+        analyser.getFloatTimeDomainData(signalData);
+        const meter = rootMeanSquaredSignal(signalData);
+        const dim = 100;
+        const size = dim * meter; // max:24 => / 2 => 12;
+        setLevel(Math.floor(size / 2));
       }
 
       if (shouldStop.current === true && stopped.current === false) {
@@ -157,17 +109,16 @@ function Recording() {
     handleRecord({ stream, mimeType });
   };
 
-  const drawLoop = (time: any) => {
-    // clear the background
-    // canvasContext.current.clearRect(0, 0, WIDTH, HEIGHT);
-    // check if we're currently clipping
-    // if (meter.checkClipping()) canvasContext.current.fillStyle = 'red';
-    // else canvasContext.fillStyle = 'green';
-    // draw a bar based on the current volume
-    // canvasContext.current.fillRect(0, 0, meter.volume * WIDTH * 1.4, HEIGHT);
-    // set up the next visual callback
-    // rafID = window.requestAnimationFrame(drawLoop);
-  };
+  useEffect(() => {
+    recordAudio();
+  }, []);
+
+  useEffect(() => {
+    setInterval(() => {
+      setCurrentSlide((c: number) => c + 1);
+    }, (TIME_RECORD_STANDARD / numOfWord) * 1000);
+  }, []);
+
   return (
     <div
       style={{
@@ -230,20 +181,20 @@ function Recording() {
                 marginTop: 2,
               }}
             >
-              00:07
+              <Time />
             </div>
           </div>
         </div>
       </div>
 
       <div className="container mt-3">
-        {/*<span>*/}
-        {/*  <a ref={downloadLink}>*/}
-        {/*    <button type="button" className="btn btn-primary mb-4">*/}
-        {/*      Download*/}
-        {/*    </button>*/}
-        {/*  </a>*/}
-        {/*</span>*/}
+        <span>
+          <a ref={downloadLink}>
+            <button type="button" className="btn btn-primary mb-4">
+              Download
+            </button>
+          </a>
+        </span>
         <button
           onClick={() => (shouldStop.current = true)}
           type="button"
@@ -269,6 +220,26 @@ function Recording() {
       </div>
     </div>
   );
+}
+const convertValueToTime = (value: number) => {
+  const minute = Math.floor(value / 60);
+  let second: number | string = value % 60;
+  second = second < 10 ? `0${second}` : second;
+
+  return `0${minute}:${second}`;
+};
+function Time() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCount((c) => c + 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(id);
+    };
+  }, []);
+  return <>{convertValueToTime(count)}</>;
 }
 
 export default Recording;

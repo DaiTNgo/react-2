@@ -39,7 +39,7 @@ function Modal({ startRecording }: { startRecording: any }) {
           color: "#4b4848",
         }}
       >
-        Reacording will begin in...
+        Recording will begin in...
       </p>
       <p
         className="count-down"

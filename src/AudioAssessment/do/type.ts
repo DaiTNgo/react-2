@@ -175,12 +175,3 @@ export class ResponseDefault extends Response {
       "Copyright &copy; 2021 William H. Sadlier, Inc. All rights reserved.",
   };
 }
-
-export interface IPassageDate {
-  programTocName: string;
-  resourceTitle: string;
-  productLevel: string;
-  programFooterImage: string;
-  tocBackgroundImage: string;
-  copyright: string;
-}

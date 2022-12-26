@@ -1,15 +1,15 @@
-import Volumn from '../../Icons/Volumn';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
-import Layout from '../components/Layout';
-import Slider from '../components/Slider';
-import { useAudioAssessmentContext } from '../ContextAudioAssessment';
-import { SIndex } from '../styled/view';
-import { ResponseDefault } from './type';
-import { getContentHeaderFooter, getDirections, getListWord } from './utils';
-import { useCallback, useState } from 'react';
-import Recording from './components/Recording';
-import Record from './components/Record';
+import Volumn from "../../Icons/Volumn";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import Layout from "../components/Layout";
+import Slider from "../components/Slider";
+import { useAudioAssessmentContext } from "../ContextAudioAssessment";
+import { SIndex } from "../styled/view";
+import { ResponseDefault } from "./type";
+import { getContentHeaderFooter, getDirections, getListWord } from "./utils";
+import { useCallback, useState } from "react";
+import Recording from "./components/Recording";
+import Record from "./components/Record";
 
 function DoAssessment() {
   const { data } = useAudioAssessmentContext();
@@ -31,8 +31,8 @@ function DoAssessment() {
         footer={<Footer content={contentHeaderFooter} />}
         header={<Header content={contentHeaderFooter} />}
       >
-        <div className='flex items-start gap-1 wrapper'>
-          <div className='cursor-pointer'>
+        <div className="flex items-start gap-1 wrapper">
+          <div className="cursor-pointer">
             <Volumn />
           </div>
           <div
@@ -43,19 +43,23 @@ function DoAssessment() {
         </div>
         <div
           style={{
-            display: 'grid',
-            placeContent: 'center',
-            textAlign: 'center',
+            display: "grid",
+            placeContent: "center",
+            textAlign: "center",
           }}
         >
-          {/* <Recording /> */}
+          {/*<Recording />*/}
           {isStarting ? (
-            <Recording />
+            <Recording numOfWord={listWord.length} />
           ) : (
             <Record startRecording={startRecording} />
           )}
         </div>
-        <Slider title={data.resource.title} data={listWord} />
+        <Slider
+          title={data.resource.title}
+          data={listWord}
+          isStarting={isStarting}
+        />
       </Layout>
     </SIndex>
   );
