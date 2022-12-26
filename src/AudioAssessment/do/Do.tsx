@@ -10,15 +10,18 @@ import { getContentHeaderFooter, getDirections, getListWord } from "./utils";
 import { useCallback, useState } from "react";
 import Recording from "./components/Recording";
 import Record from "./components/Record";
+import { useStoreSlider } from "../store/slider";
 
 function DoAssessment() {
   const { data } = useAudioAssessmentContext();
 
   //TODO:
   const [isStarting, setIsStarting] = useState(false);
+  const { changeSlide } = useStoreSlider();
 
   const startRecording = useCallback(() => {
     setIsStarting(true);
+    changeSlide(0);
   }, []);
 
   const listWord = getListWord(data as ResponseDefault);

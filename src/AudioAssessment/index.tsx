@@ -12,7 +12,7 @@ function AudioAssessment() {
   );
 
   const [layout, setLayout] = useState<ResourceLayoutEnum>(
-    ResourceLayoutEnum.VIEW_RESOURCE
+    ResourceLayoutEnum.DO_ASSIGNMENT
   );
 
   const sendToParent = () => {
