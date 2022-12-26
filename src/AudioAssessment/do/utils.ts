@@ -1,4 +1,5 @@
-import { IPassageDate, ResponseDefault } from "./type";
+import { ResponseDefault } from "./type";
+import { IPassageDate } from "../types";
 
 export const getListWord = (data: ResponseDefault) => {
   try {

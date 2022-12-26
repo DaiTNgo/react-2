@@ -1,3 +1,5 @@
+import { IPassageDate } from "../types";
+
 export interface Response {
   currentQuestion: null;
   currentIndex: number;
