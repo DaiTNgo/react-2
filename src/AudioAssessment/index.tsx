@@ -9,6 +9,10 @@ import { useObserverHeight } from "./hooks/useObserverHeight";
 function AudioAssessment() {
   const [data, setData] = useState<ResponseDefault | null>(null);
 
+  const [studentAssignmentId, setStudentAssignmentId] = useState<
+    number | undefined
+  >(undefined);
+
   const [layout, setLayout] = useState<ResourceLayoutEnum>(
     ResourceLayoutEnum.VIEW_RESOURCE
   );
@@ -24,11 +28,6 @@ function AudioAssessment() {
 
   useEffect(() => {
     const fn = (event: any) => {
-      console.log(
-        "FPR::accesstoken::",
-        window.parent.localStorage.getItem("accessToken")
-      );
-      // console.log(event.data.response);
       console.log("FPR:::Send message from parent", event.data);
       if (!event.data.response) return;
 
@@ -40,6 +39,14 @@ function AudioAssessment() {
 
       if (event.data.layout) {
         setLayout(event.data.layout);
+      }
+
+      if (event.data.accessToken) {
+        localStorage.setItem("accessToken", event.data.accessToken);
+      }
+
+      if (event.data.studentAssignmentId) {
+        setStudentAssignmentId(event.data.studentAssignmentId);
       }
     };
     window.addEventListener("message", fn);
@@ -79,6 +86,7 @@ function AudioAssessment() {
     <AudioAssessmentContext.Provider
       value={{
         data,
+        studentAssignmentId,
       }}
     >
       {Component}

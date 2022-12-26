@@ -14,8 +14,16 @@ function ViewResource() {
   const listWord = getListWord(data as ResponseDefault);
   const componentDirection = getDirections(data as ResponseDefault);
   const contentHeaderFooter = getContentHeaderFooter(data as ResponseDefault);
+  console.log({ data });
   return (
     <SIndex>
+      <button
+        onClick={() => {
+          console.log("access token", localStorage.getItem("accessToken"));
+        }}
+      >
+        Access Token
+      </button>
       <Layout
         footer={<Footer content={contentHeaderFooter} />}
         header={<Header content={contentHeaderFooter} />}

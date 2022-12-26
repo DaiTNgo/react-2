@@ -14,7 +14,7 @@ import { useStoreSlider } from "../store/slider";
 import styled from "styled-components";
 
 function DoAssessment() {
-  const { data } = useAudioAssessmentContext();
+  const { data, studentAssignmentId } = useAudioAssessmentContext();
 
   //TODO:
   const [isStarting, setIsStarting] = useState(false);
@@ -34,11 +34,9 @@ function DoAssessment() {
     // console.log("Recording:", file);
     const audioFile = new FormData();
     audioFile.append("audioFile", file);
-    const accessToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzIwNDg4ODQsInVzZXJfbmFtZSI6ImRuZ29ccmJ2X2ZwclxyMVxyU0NcckxPR0lOX0FUXzE2NzIwNDUyODQ3MTFcciIsImF1dGhvcml0aWVzIjpbIlNUVURFTlQiLCJMT0dHRURfSU4iXSwianRpIjoiYWUyNjEzNzgtMWFkOC00NTIyLThmYmEtMzQzY2UzZjVlNWZhIiwiY2xpZW50X2lkIjoiV2ViQ2xpZW50Iiwic2NvcGUiOlsidWkiXX0.e2ApIKimzj7pg4KXaTS1UMnJ9lYHHfZg5dFy5a-9_GY";
+    const accessToken = localStorage.getItem("accessToken");
     fetch(
-      "https://cqa2api.sadlierconnect.com/activity/submitaudioassignment?studentAssignmentId=14760288&access_token=" +
-        accessToken,
+      `https://cqa2api.sadlierconnect.com/activity/submitaudioassignment?studentAssignmentId=${studentAssignmentId}&access_token=${accessToken}`,
       {
         method: "post",
         // @ts-ignore
