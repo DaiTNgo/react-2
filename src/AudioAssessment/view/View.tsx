@@ -1,12 +1,12 @@
-import Volumn from "../../Icons/Volumn";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Layout from "../components/Layout";
-import Slider from "../components/Slider";
-import { useAudioAssessmentContext } from "../ContextAudioAssessment";
-import { SIndex } from "../styled/view";
-import { ResponseDefault } from "./type";
-import { getContentHeaderFooter, getDirections, getListWord } from "./utils";
+import Volumn from '../../Icons/Volumn';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import Layout from '../components/Layout';
+import Slider from '../components/Slider';
+import { useAudioAssessmentContext } from '../ContextAudioAssessment';
+import { SIndex } from '../styled/view';
+import { ResponseDefault } from './type';
+import { getContentHeaderFooter, getDirections, getListWord } from './utils';
 
 function ViewResource() {
   const { data } = useAudioAssessmentContext();
@@ -17,18 +17,18 @@ function ViewResource() {
   console.log({ data });
   return (
     <SIndex>
-      <button
-        onClick={() => {
-          console.log("access token", localStorage.getItem("accessToken"));
-        }}
-      >
-        Access Token
-      </button>
+      {/* <button */}
+      {/*   onClick={() => { */}
+      {/*     console.log("access token", localStorage.getItem("accessToken")); */}
+      {/*   }} */}
+      {/* > */}
+      {/*   Access Token */}
+      {/* </button> */}
       <Layout
         footer={<Footer content={contentHeaderFooter} />}
         header={<Header content={contentHeaderFooter} />}
       >
-        <div className="flex items-start gap-1 wrapper">
+        <div className='flex items-start gap-1 wrapper'>
           <div>
             <Volumn />
           </div>
