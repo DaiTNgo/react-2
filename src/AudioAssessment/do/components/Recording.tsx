@@ -6,8 +6,9 @@ import React, {
     useState,
 } from "react";
 import Micro from "../../../Icons/Micro";
+import { ACTION_POST_MESSAGE } from "../../../enums/action";
 
-export const TIME_RECORD_STANDARD = 20;
+export const TIME_RECORD_STANDARD = 120;
 
 function rootMeanSquaredSignal(data: any) {
     let rms = 0;
@@ -30,9 +31,25 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
         echoCancellation: true,
     };
 
-    const handleRecord = useCallback(({ stream, mimeType }: any) => {
-        debugger;
+    // useEffect(() => {
+    //     const fn = (event: any) => {
+    //         if (!event.data) return;
+    //         switch (event.data.action) {
+    //             case ACTION_POST_MESSAGE.FPR_SEND_AUDIO:
+    //                 console.log("FPR:::BODY", event.data.body);
+    //                 break;
+    //             default:
+    //                 break;
+    //         }
+    //     };
+    //     window.addEventListener("message", fn);
+    //
+    //     return () => {
+    //         window.removeEventListener("message", fn);
+    //     };
+    // }, []);
 
+    const handleRecord = useCallback(({ stream, mimeType }: any) => {
         let recordedChunks: any = [];
 
         const audioContext = new AudioContext();
@@ -66,90 +83,65 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
                 stopped.current === true &&
                 mediaRecorder.state == "recording"
             ) {
-                console.log("hihihhiiiiiiiiiiiiiii");
                 mediaRecorder.stop();
                 setLevel(0);
             }
         };
-        mediaRecorder.ondataavailable = (e) => {
-            debugger;
-            if (e.data.size > 0) {
-                console.log("recordinggggggg");
-                recordedChunks.push(e.data);
-                analyser.getFloatTimeDomainData(signalData);
-                const meter = rootMeanSquaredSignal(signalData);
-                const dim = 100;
-                const size = dim * meter; // max:24 => / 2 => 12;
-                setLevel(Math.floor(size / 2));
-
-                debugger;
-            }
-
-            if (
-                stopped.current === true &&
-                mediaRecorder.state == "recording"
-            ) {
-                console.log("stoppingggggggg");
-                mediaRecorder.stop();
-                setLevel(0);
-
-                debugger;
-            }
-        };
-        // mediaRecorder.addEventListener('dataavailable', (e: BlobEvent) => {
-        //   if (e.data.size > 0) {
-        //     console.log('recordinggggggg');
-        //     recordedChunks.push(e.data);
-        //     analyser.getFloatTimeDomainData(signalData);
-        //     const meter = rootMeanSquaredSignal(signalData);
-        //     const dim = 100;
-        //     const size = dim * meter; // max:24 => / 2 => 12;
-        //     setLevel(Math.floor(size / 2));
-        //   }
+        // mediaRecorder.ondataavailable = (e) => {
+        //     if (e.data.size > 0) {
+        //         recordedChunks.push(e.data);
+        //         analyser.getFloatTimeDomainData(signalData);
+        //         const meter = rootMeanSquaredSignal(signalData);
+        //         const dim = 100;
+        //         const size = dim * meter; // max:24 => / 2 => 12;
+        //         setLevel(Math.floor(size / 2));
+        //     }
         //
-        //   if (stopped.current === true && mediaRecorder.state == 'recording') {
-        //     console.log('stoppingggggggg');
-        //     mediaRecorder.stop();
-        //     setLevel(0);
-        //   }
-        // });
+        //     if (
+        //         stopped.current === true &&
+        //         mediaRecorder.state == "recording"
+        //     ) {
+        //         console.log("stoppingggggggg");
+        //         mediaRecorder.stop();
+        //         setLevel(0);
+        //     }
+        // };
+        mediaRecorder.addEventListener("dataavailable", onRecord);
         mediaRecorder.addEventListener("stop", () => {
-            debugger;
-            // mediaRecorder.onstop = () => {
             const blob = new Blob(recordedChunks, {
                 type: mimeType,
             });
             recordedChunks = [];
-            console.log("stop:::");
-            // const filename = window.prompt("Enter file name");
-            // // @ts-ignore
-            // downloadLink.current.href = URL.createObjectURL(blob);
-            // // @ts-ignore
-            // downloadLink.current.download = `${filename || "recording"}.wav`;
-            // stopRecord();
             onSubmitAssignment(blob);
-            // };
         });
 
         mediaRecorder.start(200);
     }, []);
-
-    const recordAudio = useCallback(async () => {
+    const sendToParent = () => {
         debugger;
-        // try {
-        const mimeType = "audio/wav";
-        const stream = await navigator.mediaDevices.getUserMedia({
-            audio: audioRecordConstraints,
-        });
-        handleRecord({ stream, mimeType });
-        // } catch (e: any) {
-        //   console.log(e.name);
-        // }
+        window.parent.postMessage(
+            {
+                action: ACTION_POST_MESSAGE.FPR_GET_AUDIO,
+            },
+            "*"
+        );
+    };
+    const recordAudio = useCallback(async () => {
+        try {
+            const mimeType = "audio/wav";
+            // sendToParent();
+            const stream =
+                await window.self.navigator.mediaDevices.getUserMedia({
+                    audio: audioRecordConstraints,
+                });
+            handleRecord({ stream, mimeType });
+        } catch (e: any) {
+            console.log("FPR:::", e.name);
+        }
     }, [handleRecord]);
 
     useEffect(() => {
         recordAudio();
-        debugger;
     }, [recordAudio]);
 
     return (

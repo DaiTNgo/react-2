@@ -1,4 +1,7 @@
 export const ACTION_POST_MESSAGE = {
     LIST_WORD: "LIST_WORD",
     HEIGHT: "HEIGHT",
+    FPR_GET_AUDIO: "FPR_GET_AUDIO",
+    FPR_SEND_AUDIO: "FPR_SEND_AUDIO",
+    RESP_DATA: "RESP_DATA",
 } as const;

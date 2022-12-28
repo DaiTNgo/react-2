@@ -5,51 +5,57 @@ import DoAssessment from "./do";
 import { ResponseDefault } from "./view/type";
 import ViewResource from "./view";
 import { useObserverHeight } from "./hooks/useObserverHeight";
+import { ACTION_POST_MESSAGE } from "../enums/action";
 
 function AudioAssessment() {
-    const [data, setData] = useState<ResponseDefault | null>(null);
+    const [data, setData] = useState<ResponseDefault | null>(
+        new ResponseDefault()
+    );
 
     const [studentAssignmentId, setStudentAssignmentId] = useState<
         number | undefined
     >(undefined);
 
     const [layout, setLayout] = useState<ResourceLayoutEnum>(
-        ResourceLayoutEnum.VIEW_RESOURCE
+        ResourceLayoutEnum.DO_ASSIGNMENT
     );
-
-    const sendToParent = () => {
-        window.parent.postMessage(
-            {
-                child: data, //TODO:
-            },
-            "*"
-        );
-    };
 
     useEffect(() => {
         const fn = (event: any) => {
             console.log("FPR:::Send message from parent", event.data);
-            if (!event.data.response) return;
+            if (!event.data) return;
 
             console.log(
                 "FPR::: offsetHeight",
                 document.documentElement.offsetHeight
             );
+            switch (event.data.action) {
+                case ACTION_POST_MESSAGE.RESP_DATA:
+                    if (event.data.body.response) {
+                        setData(event.data.body.response);
+                    }
 
-            if (event.data.response) {
-                setData(event.data.response);
-            }
+                    if (event.data.body.layout) {
+                        setLayout(event.data.body.layout);
+                    }
 
-            if (event.data.layout) {
-                setLayout(event.data.layout);
-            }
+                    if (event.data.body.accessToken) {
+                        localStorage.setItem(
+                            "accessToken",
+                            event.data.body.accessToken
+                        );
+                    }
 
-            if (event.data.accessToken) {
-                localStorage.setItem("accessToken", event.data.accessToken);
-            }
-
-            if (event.data.studentAssignmentId) {
-                setStudentAssignmentId(event.data.studentAssignmentId);
+                    if (event.data.body.studentAssignmentId) {
+                        setStudentAssignmentId(
+                            event.data.body.studentAssignmentId
+                        );
+                    }
+                    break;
+                case ACTION_POST_MESSAGE.FPR_SEND_AUDIO:
+                    break;
+                default:
+                    break;
             }
         };
         window.addEventListener("message", fn);
