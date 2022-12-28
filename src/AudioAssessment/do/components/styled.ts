@@ -1,90 +1,90 @@
 import styled from "styled-components";
 
 export const ModalContainer = styled.div`
-  width: 500px;
-  height: 200px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-top: 8px solid #3579c1;
-  display: grid;
-  place-content: center;
-  place-items: center;
-  .modal-title {
-    font-size: 36px;
-    color: #4b4848;
-  }
-  .count-down {
-    width: 50px;
-    height: 50px;
-    background-color: #ccc;
-    border-radius: 50%;
+    width: 500px;
+    height: 200px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: 8px solid #3579c1;
     display: grid;
     place-content: center;
-    font-size: 20px;
-  }
+    place-items: center;
+    .modal-title {
+        font-size: 36px;
+        color: #4b4848;
+    }
+    .count-down {
+        width: 50px;
+        height: 50px;
+        background-color: #ccc;
+        border-radius: 50%;
+        display: grid;
+        place-content: center;
+        font-size: 20px;
+    }
 `;
 
 export const RecordContainer = styled.div`
-  background-color: rgb(111, 111, 111);
-  display: flex;
-  gap: 10px;
-  border-radius: 99999px;
-  padding: 4px;
-  align-items: center;
-  width: max-content;
-  min-width: 200px;
-  margin: 40px auto;
-  cursor: pointer;
-  user-select: none;
-  .micro-container {
-    background-color: #fff;
-    width: 50px;
-    height: 50px;
-    display: grid;
-    place-content: center;
-    border-radius: 50%;
-  }
-  .record-container {
-    color: #fff;
-    font-size: 24px;
-    font-weight: 500;
-  }
+    background-color: rgb(111, 111, 111);
+    display: flex;
+    gap: 10px;
+    border-radius: 99999px;
+    padding: 4px;
+    align-items: center;
+    width: max-content;
+    min-width: 200px;
+    margin: 40px auto;
+    cursor: pointer;
+    user-select: none;
+    .micro-container {
+        background-color: #fff;
+        width: 50px;
+        height: 50px;
+        display: grid;
+        place-content: center;
+        border-radius: 50%;
+    }
+    .record-container {
+        color: #fff;
+        font-size: 24px;
+        font-weight: 500;
+    }
 `;
 
 export const RecordingContainer = styled.div`
-  display: inline-block;
-  .micro-container {
-    top: 45;
-    left: -60;
-    position: absolute;
-  }
-  .loading-recording {
-    display: grid;
-    place-content: center;
-    font-weight: 700;
-  }
+    display: inline-block;
+    .micro-container {
+        top: 45;
+        left: -60;
+        position: absolute;
+    }
+    .loading-recording {
+        display: grid;
+        place-content: center;
+        font-weight: 700;
+    }
 
-  .recording-container {
-    padding: 10px 20px;
-    background-color: #c7c7c7;
-    border-radius: 10px;
-    .recording-item-wrapper {
-      display: flex;
-      gap: 10;
+    .recording-container {
+        padding: 10px 20px;
+        background-color: #c7c7c7;
+        border-radius: 10px;
+        .recording-item-wrapper {
+            display: flex;
+            gap: 10;
+        }
+        .recording-item {
+            width: 10px;
+            height: 40px;
+            border-radius: 999999px;
+            border: 1px solid black;
+            background-color: white;
+            &.active {
+                background-color: gray;
+            }
+        }
     }
-    .recording-item {
-      width: 10px;
-      height: 40px;
-      border-radius: 999999px;
-      border: 1px solid black;
-      background-color: white;
-      &.active {
-        background-color: gray;
-      }
+    .action-button {
+        border: 1px solid;
+        padding: 4px;
     }
-  }
-  .action-button {
-    border: 1px solid;
-    padding: 4px;
-  }
 `;
