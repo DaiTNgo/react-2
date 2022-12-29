@@ -6,7 +6,6 @@ import React, {
     useState,
 } from "react";
 import Micro from "../../../Icons/Micro";
-import { ACTION_POST_MESSAGE } from "../../../enums/action";
 
 export const TIME_RECORD_STANDARD = 120;
 
@@ -30,24 +29,6 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
     const audioRecordConstraints = {
         echoCancellation: true,
     };
-
-    // useEffect(() => {
-    //     const fn = (event: any) => {
-    //         if (!event.data) return;
-    //         switch (event.data.action) {
-    //             case ACTION_POST_MESSAGE.FPR_SEND_AUDIO:
-    //                 console.log("FPR:::BODY", event.data.body);
-    //                 break;
-    //             default:
-    //                 break;
-    //         }
-    //     };
-    //     window.addEventListener("message", fn);
-    //
-    //     return () => {
-    //         window.removeEventListener("message", fn);
-    //     };
-    // }, []);
 
     const handleRecord = useCallback(({ stream, mimeType }: any) => {
         let recordedChunks: any = [];
@@ -87,25 +68,6 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
                 setLevel(0);
             }
         };
-        // mediaRecorder.ondataavailable = (e) => {
-        //     if (e.data.size > 0) {
-        //         recordedChunks.push(e.data);
-        //         analyser.getFloatTimeDomainData(signalData);
-        //         const meter = rootMeanSquaredSignal(signalData);
-        //         const dim = 100;
-        //         const size = dim * meter; // max:24 => / 2 => 12;
-        //         setLevel(Math.floor(size / 2));
-        //     }
-        //
-        //     if (
-        //         stopped.current === true &&
-        //         mediaRecorder.state == "recording"
-        //     ) {
-        //         console.log("stoppingggggggg");
-        //         mediaRecorder.stop();
-        //         setLevel(0);
-        //     }
-        // };
         mediaRecorder.addEventListener("dataavailable", onRecord);
         mediaRecorder.addEventListener("stop", () => {
             const blob = new Blob(recordedChunks, {
@@ -117,19 +79,10 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
 
         mediaRecorder.start(200);
     }, []);
-    const sendToParent = () => {
-        debugger;
-        window.parent.postMessage(
-            {
-                action: ACTION_POST_MESSAGE.FPR_GET_AUDIO,
-            },
-            "*"
-        );
-    };
+
     const recordAudio = useCallback(async () => {
         try {
             const mimeType = "audio/wav";
-            // sendToParent();
             const stream =
                 await window.self.navigator.mediaDevices.getUserMedia({
                     audio: audioRecordConstraints,

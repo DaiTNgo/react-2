@@ -4,4 +4,5 @@ export const ACTION_POST_MESSAGE = {
     FPR_GET_AUDIO: "FPR_GET_AUDIO",
     FPR_SEND_AUDIO: "FPR_SEND_AUDIO",
     RESP_DATA: "RESP_DATA",
+    NAVIGATE: "NAVIGATE",
 } as const;
