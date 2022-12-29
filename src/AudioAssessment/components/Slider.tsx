@@ -1,10 +1,7 @@
-import { SSlider } from "../styled/view";
-import { useStoreSlider } from "../store/slider";
 import { MutableRefObject, useEffect } from "react";
 import { TIME_RECORD_STANDARD } from "../do/components/Recording";
-import { data } from "autoprefixer";
-import { useModalContext } from "../../context/ModalContext";
-import ModalSubmit from "../do/components/ModalSubmit";
+import { useStoreSlider } from "../store/slider";
+import "../styled/view.scss";
 
 interface Props {
     title: string;
@@ -82,7 +79,7 @@ function Slider({ isStarting, stopped, ...props }: Props) {
     };
 
     return (
-        <SSlider className="">
+        <div className="s-slider">
             <h4 className="text-center slider-title py-4">{props.title}</h4>
             <div
                 className="slider-wrapper flex items-center justify-center"
@@ -145,7 +142,7 @@ function Slider({ isStarting, stopped, ...props }: Props) {
                         );
                     })}
             </div>
-        </SSlider>
+        </div>
     );
 }
 

@@ -1,6 +1,5 @@
 import React from "react";
-import { SLayout } from "../styled/view";
-
+import "../styled/view.scss";
 interface Props {
     children?: React.ReactNode;
     footer?: React.ReactNode;
@@ -8,13 +7,13 @@ interface Props {
 }
 function Layout({ children, footer, header }: Props) {
     return (
-        <SLayout>
+        <div className="s-layout">
             {header && header}
             <div className="layout-container flex flex-col justify-between">
                 <div style={{}}>{children && children}</div>
                 {footer && footer}
             </div>
-        </SLayout>
+        </div>
     );
 }
 

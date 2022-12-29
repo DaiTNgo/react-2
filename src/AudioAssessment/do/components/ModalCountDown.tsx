@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useModalContext } from "../../../context/ModalContext";
-import { ModalContainer } from "./styled";
-
+import "./style.scss";
 function ModalCountDown({ startRecording }: { startRecording: any }) {
     const { destroyModal } = useModalContext();
 
@@ -22,10 +21,10 @@ function ModalCountDown({ startRecording }: { startRecording: any }) {
     }
 
     return (
-        <ModalContainer>
+        <div className="modal-container">
             <p className="modal-title">Recording will begin in...</p>
             <p className="count-down">{count}</p>
-        </ModalContainer>
+        </div>
     );
 }
 

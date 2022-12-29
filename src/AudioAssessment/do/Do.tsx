@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Layout from "../components/Layout";
 import Slider from "../components/Slider";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
-import { SIndex } from "../styled/view";
+import "../styled/view.scss";
 import { ResponseDefault } from "./type";
 import { getContentHeaderFooter, getDirections, getListWord } from "./utils";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -69,7 +69,7 @@ function DoAssessment() {
         };
     }, [isStarting]);
     return (
-        <SIndex>
+        <div className="s-index">
             <Layout
                 footer={<Footer content={contentHeaderFooter} />}
                 header={<Header content={contentHeaderFooter} />}
@@ -103,7 +103,7 @@ function DoAssessment() {
                     stopped={stopped}
                 />
             </Layout>
-        </SIndex>
+        </div>
     );
 }
 

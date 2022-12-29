@@ -1,12 +1,12 @@
 import { IPassageDate } from "../types";
-import * as S from "../styled/view";
+import "../styled/view.scss";
 interface Props {
     content: IPassageDate;
 }
 
 function Footer({ content }: Props) {
     return (
-        <S.Footer className="flex items-center justify-between mt-auto">
+        <div className={`flex items-center justify-between mt-auto footer`}>
             <div className="footer-left flex items-center justify-center">
                 <img src={content.programFooterImage} alt="footer resource" />
                 <span />
@@ -18,7 +18,7 @@ function Footer({ content }: Props) {
                     {content.copyright.replace("&copy;", "©")}
                 </p>
             </div>
-        </S.Footer>
+        </div>
     );
 }
 

@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Layout from "../components/Layout";
 import Slider from "../components/Slider";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
-import { SIndex } from "../styled/view";
+import "../styled/view.scss";
 import { ResponseDefault } from "./type";
 import { getContentHeaderFooter, getDirections, getListWord } from "./utils";
 
@@ -16,7 +16,7 @@ function ViewResource() {
     const contentHeaderFooter = getContentHeaderFooter(data as ResponseDefault);
     console.log({ data });
     return (
-        <SIndex>
+        <div className="s-index">
             {/* <button */}
             {/*   onClick={() => { */}
             {/*     console.log("access token", localStorage.getItem("accessToken")); */}
@@ -45,7 +45,7 @@ function ViewResource() {
                     data={listWord}
                 />
             </Layout>
-        </SIndex>
+        </div>
     );
 }
 

@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import Micro from "../../../Icons/Micro";
 import { ACTION_POST_MESSAGE } from "../../../enums/action";
+import "./style.scss";
 
 export const TIME_RECORD_STANDARD = 120;
 
@@ -145,70 +146,29 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
     }, [recordAudio]);
 
     return (
-        <div
-            style={{
-                display: "inline-block",
-            }}
-        >
+        <div className="recording-layout">
             <div className={"flex items-center gap-2 relative"}>
-                <div
-                    style={{
-                        top: 45,
-                        left: -60,
-                    }}
-                    className={"absolute"}
-                >
+                <div className={"absolute micro-wrapper"}>
                     <Micro width={50} height={50} />
                 </div>
                 <div className={"flex flex-col items-center gap-2"}>
-                    <div
-                        style={{
-                            display: "grid",
-                            placeContent: "center",
-                            fontWeight: 700,
-                        }}
-                    >
-                        Recording...
-                    </div>
-                    <div
-                        style={{
-                            padding: "10px 20px",
-                            backgroundColor: "#c7c7c7",
-                            borderRadius: 10,
-                        }}
-                    >
-                        <div
-                            style={{
-                                display: "flex",
-                                gap: 10,
-                            }}
-                        >
+                    <div className="recording-container">Recording...</div>
+                    <div className="recording-wrapper">
+                        <div className="recording">
                             {Array(12)
                                 .fill(0)
                                 .map((_, index) => {
                                     return (
                                         <div
                                             key={index}
-                                            style={{
-                                                width: 10,
-                                                height: 40,
-                                                borderRadius: 999999,
-                                                backgroundColor:
-                                                    level > index
-                                                        ? "gray"
-                                                        : "white",
-                                                border: "1px solid black",
-                                            }}
+                                            className={`item ${
+                                                level > index ? "active" : ""
+                                            }`}
                                         ></div>
                                     );
                                 })}
                         </div>
-                        <div
-                            className={"time"}
-                            style={{
-                                marginTop: 2,
-                            }}
-                        >
+                        <div className={"time"}>
                             <Time stopped={stopped} />
                         </div>
                     </div>

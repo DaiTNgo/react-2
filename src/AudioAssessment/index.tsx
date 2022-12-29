@@ -6,7 +6,7 @@ import { ResponseDefault } from "./view/type";
 import ViewResource from "./view";
 import { useObserverHeight } from "./hooks/useObserverHeight";
 import { ACTION_POST_MESSAGE } from "../enums/action";
-
+import "./styled/view.scss";
 function AudioAssessment() {
     const [data, setData] = useState<ResponseDefault | null>(
         new ResponseDefault()
@@ -67,17 +67,7 @@ function AudioAssessment() {
     useObserverHeight();
 
     if (!data) {
-        return (
-            <div
-                style={{
-                    width: "100%",
-                    height: "500px",
-                    backgroundColor: "#fff",
-                }}
-            >
-                Loading...
-            </div>
-        );
+        return <div className="loading-container">Loading...</div>;
     }
 
     const Component = (() => {

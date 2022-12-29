@@ -1,6 +1,6 @@
 import { useState } from "react";
-import * as S from "../styled/view";
 import { IPassageDate } from "../types";
+import "../styled/view.scss";
 
 interface Props {
     content: IPassageDate;
@@ -9,7 +9,7 @@ interface Props {
 function Header({ content }: Props) {
     const [loadImg, setLoadImg] = useState(true);
     return (
-        <S.Header className="flex">
+        <div className="flex header">
             <div className="header-container">
                 {loadImg && <div className="header-img" />}
                 <img
@@ -24,7 +24,7 @@ function Header({ content }: Props) {
                     {/* <p className="header-subtitle">{content.resourceTitle}</p> */}
                 </div>
             </div>
-        </S.Header>
+        </div>
     );
 }
 
