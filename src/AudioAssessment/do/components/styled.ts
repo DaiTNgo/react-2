@@ -1,4 +1,3 @@
-import { truncate } from "lodash";
 import styled, { css } from "styled-components";
 
 export const ModalContainer = styled.div`
