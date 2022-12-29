@@ -16,8 +16,7 @@ import ModalSubmit from "./components/ModalSubmit";
 import { useModalContext } from "../../context/ModalContext";
 
 function DoAssessment() {
-    const { data, studentAssignmentId = 14756740 } =
-        useAudioAssessmentContext();
+    const { data, studentAssignmentId } = useAudioAssessmentContext();
     const { openModal } = useModalContext();
 
     const [isStarting, setIsStarting] = useState(false);
@@ -41,9 +40,10 @@ function DoAssessment() {
         openModal(
             <ModalSubmit
                 onSubmit={async () => {
-                    // const accessToken = localStorage.getItem('accessToken');
-                    const accessToken =
-                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzIxOTg5MTQsInVzZXJfbmFtZSI6ImtzdHUyXHJidl9waG9uaWNzXHIxXHJTQ1xyTE9HSU5fQVRfMTY3MjE5NTMxNDI3MlxyIiwiYXV0aG9yaXRpZXMiOlsiU1RVREVOVCIsIkxPR0dFRF9JTiJdLCJqdGkiOiIyYTMwYjFhZi1jNGUwLTQzOWMtYTQwOC00YTVmOGI5NGM4ZDciLCJjbGllbnRfaWQiOiJXZWJDbGllbnQiLCJzY29wZSI6WyJ1aSJdfQ.fb99M2dUuGBMBuL0jX8RLKFQR1Hdd0Klzp2ZOrVpH-I";
+                    console.log("click me");
+                    const accessToken = localStorage.getItem("accessToken");
+                    // const accessToken =
+                    // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzIxOTg5MTQsInVzZXJfbmFtZSI6ImtzdHUyXHJidl9waG9uaWNzXHIxXHJTQ1xyTE9HSU5fQVRfMTY3MjE5NTMxNDI3MlxyIiwiYXV0aG9yaXRpZXMiOlsiU1RVREVOVCIsIkxPR0dFRF9JTiJdLCJqdGkiOiIyYTMwYjFhZi1jNGUwLTQzOWMtYTQwOC00YTVmOGI5NGM4ZDciLCJjbGllbnRfaWQiOiJXZWJDbGllbnQiLCJzY29wZSI6WyJ1aSJdfQ.fb99M2dUuGBMBuL0jX8RLKFQR1Hdd0Klzp2ZOrVpH-I";
                     const resp = await fetch(
                         `https://cqa2api.sadlierconnect.com/activity/submitaudioassignment?studentAssignmentId=${studentAssignmentId}&access_token=${accessToken}`,
                         {
