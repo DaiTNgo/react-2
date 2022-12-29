@@ -44,9 +44,9 @@ function AudioAssessment() {
                         );
                     }
 
-                    if (event.data.body.studentAssignmentId) {
+                    if (event.data.body.response.studentAssignmentId) {
                         setStudentAssignmentId(
-                            event.data.body.studentAssignmentId
+                            event.data.body.response.studentAssignmentId
                         );
                     }
                     break;
