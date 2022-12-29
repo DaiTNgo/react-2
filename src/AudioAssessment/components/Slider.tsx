@@ -19,6 +19,7 @@ function ArrowRight() {
         <svg
             style={{
                 width: 40,
+                marginInline: "auto",
             }}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 320 512"
@@ -35,6 +36,7 @@ function ArrowLeft() {
             viewBox="0 0 320 512"
             style={{
                 width: 40,
+                marginInline: "auto",
             }}
         >
             <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
@@ -84,12 +86,7 @@ function Slider({ isStarting, stopped, ...props }: Props) {
     return (
         <SSlider className="">
             <h4 className="text-center slider-title py-4">{props.title}</h4>
-            <div
-                className="slider-wrapper flex items-center justify-center"
-                style={{
-                    gap: 40,
-                }}
-            >
+            <div className="slider-wrapper flex items-center justify-center">
                 <button
                     onClick={handlePrevious}
                     className={`${showArrowPrevious ? "visible" : "invisible"}
@@ -124,6 +121,9 @@ function Slider({ isStarting, stopped, ...props }: Props) {
                     <button
                         className="stop-recording-button"
                         onClick={handleSubmit}
+                        style={{
+                            transform: "translateX(40px)",
+                        }}
                     >
                         Stop Recording
                     </button>

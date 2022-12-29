@@ -17,6 +17,8 @@ export const SSlider = styled.div`
         padding: 10px;
         //border: 1px solid #ccc;
         //border-radius: 10px;
+        min-width: 150px;
+        justify-content: center;
 
         &-previous {
         }
@@ -38,10 +40,6 @@ export const SSlider = styled.div`
     }
     .dot-inactive {
         background-color: inherit;
-    }
-
-    .slider-wrapper {
-        gap: 40px;
     }
 
     .slick-slider {

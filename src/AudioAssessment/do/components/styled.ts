@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import { truncate } from "lodash";
+import styled, { css } from "styled-components";
 
 export const ModalContainer = styled.div`
     width: 500px;
@@ -87,4 +88,50 @@ export const RecordingContainer = styled.div`
         border: 1px solid;
         padding: 4px;
     }
+`;
+
+export const Button = styled.button<{ loading?: boolean }>`
+    color: white;
+    background-color: rgb(75, 135, 71);
+    padding: 2px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    ${({ loading }) => {
+        if (!loading)
+            return css`
+                .loader {
+                    display: none;
+                }
+            `;
+        return css`
+            opacity: 0.5;
+            .loader {
+                display: inline-block;
+                vertical-align: middle;
+                position: relative;
+                margin-left: 10px;
+            }
+
+            @keyframes loader1 {
+                from {
+                    transform: rotate(0);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+            @keyframes loader1-center {
+                from {
+                    box-shadow: 0 0 0 10px #6532d2; /* background color */
+                }
+                to {
+                    box-shadow: 0 0 0 5px #6532d2; /* background color */
+                }
+            }
+            .loader1 {
+                transform-origin: center;
+                animation: loader1 1s linear infinite;
+            }
+        `;
+    }}
 `;
