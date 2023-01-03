@@ -1,21 +1,20 @@
 import AudioAssessment from "./AudioAssessment";
 import Modal from "./components/modal";
-import {ModalProvider} from "./context/ModalContext";
+import { ModalProvider } from "./context/ModalContext";
 
 function App() {
     return (
         <>
-            <AudioAssessment/>
-            <Modal/>
+            <AudioAssessment />
+            <Modal />
         </>
     );
 }
 
-
 function ProviderApp() {
     return (
         <ModalProvider>
-            <App/>
+            <App />
         </ModalProvider>
     );
 }

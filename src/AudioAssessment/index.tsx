@@ -6,6 +6,7 @@ import { ResponseDefault } from "./view/type";
 import ViewResource from "./view";
 import { useObserverHeight } from "./hooks/useObserverHeight";
 import { ACTION_POST_MESSAGE } from "../enums/action";
+import GradeAssessment from "./grade/grade";
 
 function AudioAssessment() {
     const [data, setData] = useState<ResponseDefault | null>(null);
@@ -84,6 +85,8 @@ function AudioAssessment() {
                 return <ViewResource />;
             case ResourceLayoutEnum.DO_ASSIGNMENT:
                 return <DoAssessment />;
+            case ResourceLayoutEnum.GRADING:
+                return <GradeAssessment />;
 
             default:
                 break;

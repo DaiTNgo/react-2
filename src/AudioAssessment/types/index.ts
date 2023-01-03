@@ -6,3 +6,9 @@ export interface IPassageDate {
     tocBackgroundImage: string;
     copyright: string;
 }
+
+export interface IPropsIcon {
+    width: number;
+    height: number;
+    fill: string;
+}
