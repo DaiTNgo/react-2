@@ -5,7 +5,7 @@ type ColumnsType<T> = {
     dataIndex: Omit<keyof T, "key">;
     key: any;
     width?: string | number;
-    render?: (record: T) => ReactNode;
+    render?: (record: T, index: number, dataSource: T[]) => ReactNode;
 };
 
 interface RcTableProps<T> {}

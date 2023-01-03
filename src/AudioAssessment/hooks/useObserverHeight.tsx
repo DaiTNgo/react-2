@@ -8,7 +8,7 @@ export const useObserverHeight = () => {
                 window.parent.postMessage(
                     {
                         resp: entrie.contentRect.height,
-                        action: ACTION_POST_MESSAGE.HEIGHT,
+                        action: ACTION_POST_MESSAGE.FPR_HEIGHT,
                     },
                     "*"
                 );

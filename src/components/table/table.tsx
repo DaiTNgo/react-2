@@ -2,78 +2,87 @@
 import React from "react";
 import { TableProps } from "../types";
 
-function Table<T>({ columns, dataSource }: TableProps<T>) {
+function Table<T>({ dataSource, columns }: TableProps<T>) {
     const { th, td } = ((_data, _columns) => {
         const th = [];
         const td = [];
         _columns.forEach((cl, index) => {
             th.push(
-                <th
+                <div
                     style={{
                         width: cl.width,
                         textAlign: cl.align,
                     }}
                     className="text-center"
                 >
-                    <div
-                        style={{
-                            marginLeft: index == 0 ? 20 : 0,
-                        }}
-                    >
-                        {cl["title"]}
-                    </div>
-                </th>
+                    <div>{cl["title"]}</div>
+                </div>
             );
         });
-        _data.forEach((rc) => {
+        _data.forEach((rc, _index) => {
             const _td = _columns.map((cl, index) => {
                 return (
-                    <td
+                    <div
+                        key={index}
                         style={{
                             width: cl.width,
-                            paddingTop: 16,
                             textAlign: cl.align,
+                            alignSelf: index == 0 ? "self-end" : "",
                         }}
                         className="text-center p-0"
                     >
                         <div
-                            style={{
-                                borderBottom: "1px solid",
-                                marginLeft: index == 0 ? 20 : 0,
-                                marginBottom: 10,
-                            }}
-                            className={"flex items-center justify-center gap-2"}
+                            className={`flex ${
+                                index !== 0 ? "items-center" : ""
+                            }
+                            ${cl.align == "center" ? "justify-center" : ""}
+                             gap-2
+                             w-full
+                             `}
                         >
-                            {cl.render ? cl.render(rc) : rc[cl["dataIndex"]]}
+                            {cl.render
+                                ? cl.render(rc, _index, _data)
+                                : rc[cl["dataIndex"]]}
                         </div>
-                    </td>
+                    </div>
                 );
             });
             td.push(
-                <tr
+                <div
+                    className={"flex items-center"}
                     style={{
-                        verticalAlign: "bottom",
+                        height: 60,
+                        borderBottom: "1px solid black",
+                        paddingRight: 30,
                     }}
                 >
                     {_td}
-                </tr>
+                </div>
             );
         });
         return { th, td };
     })(dataSource, columns);
+
     return (
-        <table className="w-full">
-            <thead>
-                <tr>{th}</tr>
-            </thead>
-            <tbody
+        <div className="w-full">
+            <div>
+                <div
+                    className={"flex"}
+                    style={{ padding: "0px 30px 0px 20px" }}
+                >
+                    {th}
+                </div>
+            </div>
+            <div
                 style={{
                     outline: "1px solid",
+                    paddingLeft: 20,
+                    paddingBottom: 10,
                 }}
             >
                 {td}
-            </tbody>
-        </table>
+            </div>
+        </div>
     );
 }
 

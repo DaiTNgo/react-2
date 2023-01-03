@@ -42,20 +42,21 @@ function DoAssessment() {
         openModal(
             <ModalSubmit
                 onSubmit={async () => {
-                    const accessToken = localStorage.getItem("accessToken");
+                    try {
+                        const accessToken = localStorage.getItem("accessToken");
+                        const resp = await fetch(
+                            `https://cqa2api.sadlierconnect.com/student/assignments/submissions?studentAssignmentId=${studentAssignmentId}&access_token=${accessToken}`,
+                            {
+                                method: "post",
+                                body: audioFile,
+                            }
+                        );
 
-                    const resp = await fetch(
-                        `https://cqa2api.sadlierconnect.com/activity/submitaudioassignment?studentAssignmentId=${studentAssignmentId}&access_token=${accessToken}`,
-                        {
-                            method: "post",
-                            body: audioFile,
-                        }
-                    );
-
-                    //TODO: ANY THING;
-                    sendToParent({
-                        action: ACTION_POST_MESSAGE.NAVIGATE,
-                    });
+                        //TODO: ANY THING;
+                        sendToParent({
+                            action: ACTION_POST_MESSAGE.FPR_NAVIGATE,
+                        });
+                    } catch (err) {}
                 }}
             />
         );

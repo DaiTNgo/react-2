@@ -6,17 +6,19 @@ import { ResponseDefault } from "./view/type";
 import ViewResource from "./view";
 import { useObserverHeight } from "./hooks/useObserverHeight";
 import { ACTION_POST_MESSAGE } from "../enums/action";
-import GradeAssessment from "./grade/grade";
+import GradeAssessment from "./grade";
 
 function AudioAssessment() {
-    const [data, setData] = useState<ResponseDefault | null>(null);
+    const [data, setData] = useState<ResponseDefault | null>(
+        new ResponseDefault()
+    );
 
     const [studentAssignmentId, setStudentAssignmentId] = useState<
         number | undefined
     >(undefined);
 
     const [layout, setLayout] = useState<ResourceLayoutEnum>(
-        ResourceLayoutEnum.VIEW_RESOURCE
+        ResourceLayoutEnum.GRADING
     );
 
     useEffect(() => {
@@ -29,7 +31,7 @@ function AudioAssessment() {
                 document.documentElement.offsetHeight
             );
             switch (event.data.action) {
-                case ACTION_POST_MESSAGE.RESP_DATA:
+                case ACTION_POST_MESSAGE.FPR_RESP_DATA:
                     if (event.data.body.response) {
                         setData(event.data.body.response);
                     }
@@ -50,8 +52,6 @@ function AudioAssessment() {
                             event.data.body.response.studentAssignmentId
                         );
                     }
-                    break;
-                case ACTION_POST_MESSAGE.FPR_SEND_AUDIO:
                     break;
                 default:
                     break;
