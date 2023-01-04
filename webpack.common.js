@@ -24,6 +24,10 @@ module.exports = {
         setupExitSignals: true,
     },
 
+    resolve: {
+        extensions: ["js", "jsx", "ts", "tsx"],
+    },
+
     module: {
         rules: [
             {
