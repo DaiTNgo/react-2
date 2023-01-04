@@ -20,15 +20,15 @@ module.exports = {
     target: "web",
 
     output: {
-        path: path.join(__dirname, "dist"),
+        path: path.resolve(__dirname, "dist"),
         filename: "bundle.[hash].js",
-        assetModuleFilename: "assets",
+        assetModuleFilename: "assets/[hash][ext][query]",
 
         //path insert in html
         publicPath: "/",
     },
 
-    mode: "development",
+    mode: "production",
     devtool: "source-map",
 
     devServer: {
@@ -85,7 +85,7 @@ module.exports = {
             {
                 test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
                 exclude: NODE_MODULES,
-                use: "assets/resource",
+                type: "asset/resource",
             },
         ],
     },

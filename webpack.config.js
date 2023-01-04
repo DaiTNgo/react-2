@@ -21,7 +21,7 @@ module.exports = {
 
     output: {
         path: path.join(__dirname, "dist"),
-        // filename: "bundle.js",
+        filename: "bundle.js",
         assetModuleFilename: "assets",
 
         //path insert in html
@@ -29,7 +29,7 @@ module.exports = {
     },
 
     mode: "development",
-    devtool: "source-map",
+    devtool: "eval-source-map",
 
     devServer: {
         setupExitSignals: true,
@@ -85,7 +85,7 @@ module.exports = {
             {
                 test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
                 exclude: NODE_MODULES,
-                use: "assets/resource",
+                type: "asset/resource",
             },
         ],
     },
