@@ -4,8 +4,7 @@
     "version": "0.0.0",
     "scripts": {
         "dev": "webpack server --hot --open --config webpack.config.js",
-        "build": "tsc && vite build ",
-        "preview": "vite preview"
+        "build": "webpack --config webpack.prod.js"
     },
     "dependencies": {
         "immer": "^9.0.17",
