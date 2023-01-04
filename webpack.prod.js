@@ -2,12 +2,14 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const plugins = [
     new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
         template: path.join(__dirname, "public", "index.html"),
     }),
+    new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
 ];
 
@@ -15,16 +17,19 @@ const NODE_MODULES = /node_modules/;
 
 module.exports = {
     entry: path.join(__dirname, "src", "main.tsx"),
+    target: "web",
 
     output: {
         path: path.join(__dirname, "dist"),
-        filename: "bundle.js",
-        // publicPath: path.join(__dirname, "dist"),
+        filename: "bundle.[hash].js",
+        assetModuleFilename: "assets",
+
+        //path insert in html
         publicPath: "/",
     },
 
-    mode: "production",
-    // devtool: false,
+    mode: "development",
+    devtool: "source-map",
 
     devServer: {
         setupExitSignals: true,
@@ -41,9 +46,14 @@ module.exports = {
                 exclude: NODE_MODULES,
                 use: [
                     {
-                        loader: "style-loader",
+                        loader: MiniCssExtractPlugin.loader,
                     },
-                    "css-loader",
+                    {
+                        loader: "css-loader",
+                        options: {
+                            modules: true,
+                        },
+                    },
                     "postcss-loader",
                     "sass-loader",
                 ],

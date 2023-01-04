@@ -9,6 +9,7 @@ const plugins = [
     new HtmlWebpackPlugin({
         template: path.join(__dirname, "public", "index.html"),
     }),
+    new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
 ];
 
@@ -45,8 +46,7 @@ module.exports = {
                 exclude: NODE_MODULES,
                 use: [
                     {
-                        // loader: "style-loader",
-                        loader: MiniCssExtractPlugin.loader(),
+                        loader: "style-loader",
                     },
                     {
                         loader: "css-loader",
