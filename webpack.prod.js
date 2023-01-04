@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const StylexPlugin = require("@ladifire-opensource/stylex-webpack-plugin");
 
 const plugins = [
     new ForkTsCheckerWebpackPlugin(),
@@ -11,6 +12,7 @@ const plugins = [
     }),
     new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
+    new StylexPlugin(),
 ];
 
 const NODE_MODULES = /node_modules/;
@@ -25,15 +27,11 @@ module.exports = {
         assetModuleFilename: "assets/[hash][ext][query]",
 
         //path insert in html
-        publicPath: "/",
+        publicPath: "./",
     },
 
     mode: "production",
-    devtool: "source-map",
-
-    devServer: {
-        setupExitSignals: true,
-    },
+    devtool: "eval-source-map",
 
     resolve: {
         extensions: [".js", ".jsx", ".ts", ".tsx"],
@@ -48,12 +46,7 @@ module.exports = {
                     {
                         loader: MiniCssExtractPlugin.loader,
                     },
-                    {
-                        loader: "css-loader",
-                        options: {
-                            modules: true,
-                        },
-                    },
+                    "css-loader",
                     "postcss-loader",
                     "sass-loader",
                 ],
@@ -63,25 +56,16 @@ module.exports = {
                 exclude: NODE_MODULES,
                 use: [
                     {
-                        loader: "swc-loader",
-                        options: {
-                            //When used with babel-loader, the parseMap option must be set to true.
-                            parseMap: true,
-                        },
+                        loader: StylexPlugin.loader,
+                    },
+                    {
+                        loader: "babel-loader",
+                    },
+                    {
+                        loader: "ts-loader",
                     },
                 ],
             },
-            // {
-            //     test: /\.(ts|tsx|js|jsx)$/,
-            //     exclude: NODE_MODULES,
-            //     use: {
-            //         loader: "ts-loader",
-            //         options: {
-            //             // @description: When used with babel-loader, the parseMap option must be set to true.
-            //             parseMap: true,
-            //         },
-            //     },
-            // },
             {
                 test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
                 exclude: NODE_MODULES,

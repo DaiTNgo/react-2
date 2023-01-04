@@ -2,15 +2,15 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const StylexPlugin = require("@ladifire-opensource/stylex-webpack-plugin");
 
 const plugins = [
     new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
         template: path.join(__dirname, "public", "index.html"),
     }),
-    new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
+    new StylexPlugin(),
 ];
 
 const NODE_MODULES = /node_modules/;
@@ -50,9 +50,6 @@ module.exports = {
                     },
                     {
                         loader: "css-loader",
-                        options: {
-                            modules: true,
-                        },
                     },
                     "postcss-loader",
                     "sass-loader",
@@ -63,6 +60,9 @@ module.exports = {
                 exclude: NODE_MODULES,
                 use: [
                     {
+                        loader: StylexPlugin.loader,
+                    },
+                    {
                         loader: "swc-loader",
                         options: {
                             //When used with babel-loader, the parseMap option must be set to true.
@@ -71,17 +71,6 @@ module.exports = {
                     },
                 ],
             },
-            // {
-            //     test: /\.(ts|tsx|js|jsx)$/,
-            //     exclude: NODE_MODULES,
-            //     use: {
-            //         loader: "ts-loader",
-            //         options: {
-            //             // @description: When used with babel-loader, the parseMap option must be set to true.
-            //             parseMap: true,
-            //         },
-            //     },
-            // },
             {
                 test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
                 exclude: NODE_MODULES,

@@ -3,7 +3,7 @@
     "jsc": {
         "parser": {
             "syntax": "typescript", //ecmascript
-            "jsx": true,
+            //             "jsx": true,
             "tsx": true,
             "dynamicImport": true,
             "exportDefaultFrom": true,
@@ -40,5 +40,14 @@
             }
         }
     },
-    "minify": false
+    "minify": true,
+    "isModule": true,
+    "sourceMaps": true,
+    "env": {
+        "targets": {
+            "chrome": "104"
+        },
+        "mode": "entry",
+        "coreJs": "3.22"
+    }
 }
