@@ -1,27 +1,28 @@
-import Check from "../../Icons/Check";
-import XMark from "../../Icons/XMark";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Layout from "../components/Layout";
+import React, { useState } from "react";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
-import { SIndex } from "../styled/view";
-import { ResponseDefault } from "./type";
-import { getPhonicsAssessmentType, getScore } from "./utils";
-import Table from "../../components/table";
-import Select from "../../components/select";
-import styles from "./grade.module.scss";
-import { className, sendToParent } from "../../helper";
-import { ISelectOption } from "../../components/select/select";
-import { useImmer } from "use-immer";
-import { useCallback, useState } from "react";
-import { ACTION_POST_MESSAGE } from "../../enums/action";
-import { VIEW_GRADE } from "../../enums/view-grade";
 import {
     getContentHeaderFooter,
     getDirections,
     getListWord,
 } from "../utils/convertLayout";
+import { ResponseDefault } from "../grade/type";
+import { getPhonicsAssessmentType, getScore } from "../grade/utils";
+import Select, { ISelectOption } from "../../components/select/select";
+import { useImmer } from "use-immer";
+import { className, sendToParent } from "../../helper";
+import { ACTION_POST_MESSAGE } from "../../enums/action";
+import styles from "../grade/grade.module.scss";
+import { VIEW_GRADE } from "../../enums/view-grade";
+import { SIndex } from "../styled/view";
+import Layout from "../components/Layout";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import Table from "../../components/table";
+import Check from "../../Icons/Check";
+import XMark from "../../Icons/XMark";
+import { getResultData } from "./utils";
 
+type Props = any;
 const useColumns = ({ setDataSource, phonicsAssessmentType }: any) => {
     return [
         {
@@ -198,8 +199,7 @@ const useColumns = ({ setDataSource, phonicsAssessmentType }: any) => {
         },
     ].filter((rc) => !rc?.hidden);
 };
-
-function GradeAssessment() {
+function ReGrade({}: Props) {
     const { data } = useAudioAssessmentContext();
     const listWord = getListWord(data as ResponseDefault);
     const { direction: componentDirection, pathAudio } = getDirections(
@@ -210,19 +210,12 @@ function GradeAssessment() {
         data as ResponseDefault
     );
 
-    const [selectedId, setSelectedId] = useState<number>(-1);
+    const [selectedId, setSelectedId] = useState<number>(() => {
+        return data.speedScore || -1;
+    });
 
     const [dataSource, setDataSource] = useImmer(() => {
-        return listWord.map((word, index) => {
-            return {
-                word: word,
-                key: index,
-                correct: "ide",
-                comments: "",
-                fluency: "ide",
-                accuracy: "ide",
-            };
-        });
+        return getResultData(data);
     });
 
     const columns = useColumns({
@@ -241,6 +234,7 @@ function GradeAssessment() {
                 score,
                 fluencyScore: fluency,
                 accuracyScore: accuracy,
+                isReGrading: true,
             },
         });
     };
@@ -352,4 +346,4 @@ function GradeAssessment() {
     );
 }
 
-export default GradeAssessment;
+export default ReGrade;

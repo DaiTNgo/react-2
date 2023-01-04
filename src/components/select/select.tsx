@@ -12,10 +12,11 @@ export interface ISelectOption {
 type Props = {
     options: ISelectOption[];
     onClick: (value: ISelectOption) => void;
-    selected: ISelectOption;
+    selectedId: number;
+    defaultOption: ISelectOption;
 };
 
-function Select({ options, onClick, selected }: Props) {
+function Select({ options, onClick, selectedId, defaultOption }: Props) {
     const [showDropdown, setShowDropdown] = React.useState(false);
 
     const refSelect = useRef<HTMLDivElement>(null);
@@ -24,6 +25,10 @@ function Select({ options, onClick, selected }: Props) {
         setShowDropdown(false);
     });
 
+    const label = [...options, defaultOption].find(
+        (item) => item.value === selectedId
+    )?.label;
+
     return (
         <div className={"relative flex items-center"} ref={refSelect}>
             <div
@@ -31,7 +36,7 @@ function Select({ options, onClick, selected }: Props) {
                 onClick={() => setShowDropdown(!showDropdown)}
             >
                 <div>
-                    <p className={"select-none"}>{selected.label}</p>
+                    <p className={"select-none"}>{label}</p>
                     <div
                         className={`${styles["fpr-arrow"]}
                         ${
