@@ -20,6 +20,10 @@ function AudioAssessment() {
         ResourceLayoutEnum.VIEW_RESOURCE
     );
 
+    const [accessToken, setAccessToken] = useState("");
+
+    const [location, setLocation] = useState("");
+
     useEffect(() => {
         const fn = (event: any) => {
             console.log("FPR:::Send message from parent", event.data);
@@ -40,10 +44,7 @@ function AudioAssessment() {
                     }
 
                     if (event.data.body.accessToken) {
-                        localStorage.setItem(
-                            "accessToken",
-                            event.data.body.accessToken
-                        );
+                        setAccessToken(event.data.body.accessToken);
                     }
 
                     if (event.data.body.response.studentAssignmentId) {
@@ -53,10 +54,7 @@ function AudioAssessment() {
                     }
 
                     if (event.data.body.location) {
-                        localStorage.setItem(
-                            "location",
-                            event.data.body.location
-                        );
+                        setLocation(event.data.body.location);
                     }
                     break;
                 default:
@@ -105,6 +103,8 @@ function AudioAssessment() {
             value={{
                 data,
                 studentAssignmentId,
+                accessToken,
+                location,
             }}
         >
             {Component}

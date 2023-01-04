@@ -22,7 +22,8 @@ import { sendToParent } from "../../helper";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
 
 function DoAssessment() {
-    const { data, studentAssignmentId } = useAudioAssessmentContext();
+    const { data, studentAssignmentId, accessToken } =
+        useAudioAssessmentContext();
     const { openModal } = useModalContext();
 
     const [isStarting, setIsStarting] = useState(false);
@@ -49,7 +50,6 @@ function DoAssessment() {
             <ModalSubmit
                 onSubmit={async () => {
                     try {
-                        const accessToken = localStorage.getItem("accessToken");
                         const resp = await fetch(
                             `https://cqa2api.sadlierconnect.com/student/assignments/submissions?studentAssignmentId=${studentAssignmentId}&access_token=${accessToken}`,
                             {

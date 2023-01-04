@@ -3,6 +3,8 @@ import { createContext, useContext } from "react";
 type AudioAssessmentContextType = {
     data: any;
     studentAssignmentId: number | undefined;
+    accessToken: string;
+    location: string;
 };
 
 export const AudioAssessmentContext =
