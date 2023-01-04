@@ -242,6 +242,8 @@ function GradeAssessment() {
                 gradingResults: dataSource,
                 speedScore: selected.value,
                 score,
+                fluencyScore: fluency,
+                accuracyScore: accuracy,
             },
         });
     };
