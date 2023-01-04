@@ -275,6 +275,9 @@ function GradeAssessment() {
                     <div className={styles.ScoreNum}>{accuracy}</div>
                 </div>
             ),
+            hidden:
+                phonicsAssessmentType ===
+                VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
         },
         {
             label: "Fluency Score",
@@ -288,6 +291,7 @@ function GradeAssessment() {
                     <div className={styles.ScoreNum}>{fluency}</div>
                 </div>
             ),
+            hidden: phonicsAssessmentType !== VIEW_GRADE.FLUENCY_CHECK,
         },
         {
             label: "Speed",
