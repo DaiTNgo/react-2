@@ -3,24 +3,42 @@
     "jsc": {
         "parser": {
             "syntax": "typescript", //ecmascript
-            // "jsx": true,
+            "jsx": true,
             "tsx": true,
             "dynamicImport": true,
+            "exportDefaultFrom": true,
+
             "privateMethod": false,
+
             "functionBind": false,
-            "exportDefaultFrom": false,
+
             "exportNamespaceFrom": false,
+
             "decorators": false,
+
             "decoratorsBeforeExport": false,
+
             "topLevelAwait": false,
-            "importMeta": false
+
+            "importMeta": true
         },
-        "target": "es5",
+        "target": "es2016",
         "loose": false,
-        "externalHelpers": false,
+
+        "externalHelpers": true,
         // Requires v1.2.50 or upper and requires target to be es2016 or upper.
-        "keepClassNames": false
+        "keepClassNames": false,
+
+        "transform": {
+            "react": {
+                "pragma": "React.createElement",
+                "pragmaFrag": "React.Fragment",
+                "throwIfNamespace": false,
+                "development": true,
+                "useBuiltins": true,
+                "runtime": "automatic"
+            }
+        }
     },
     "minify": false
 }
-

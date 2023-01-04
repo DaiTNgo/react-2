@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 0;
+    font-size: inherit;
+}
+
 html {
     font-size: 62.5%;
 }
@@ -9,13 +19,10 @@ html {
 body {
     font-size: 1.6rem;
     line-height: 1.25;
-
-    margin: 0;
-    padding: 0;
 }
 
-*,
-*:after,
-*:before {
-    box-sizing: border-box;
+img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
 }

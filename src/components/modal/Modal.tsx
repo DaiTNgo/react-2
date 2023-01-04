@@ -1,10 +1,6 @@
-import React, { Children } from "react";
+import React from "react";
 import { useModalContext } from "../../context/ModalContext";
 import Layout from "./Layout";
-
-interface Props {
-    isVisible: boolean;
-}
 
 function Modal() {
     const { children, isVisibleModal, destroyModal, propsModal } =
@@ -19,7 +15,6 @@ function Modal() {
                     backgroundColor: "rgba(255,255,255,0.8)",
                 }}
                 onClick={(e: any) => {
-                    // console.log({ e });
                     propsModal.closeMask && destroyModal();
                 }}
             ></div>

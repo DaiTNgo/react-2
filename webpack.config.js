@@ -1,10 +1,14 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const plugins = [
+    new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
         template: path.join(__dirname, "public", "index.html"),
     }),
+    new CleanWebpackPlugin(),
 ];
 
 const NODE_MODULES = /node_modules/;
@@ -15,14 +19,16 @@ module.exports = {
     output: {
         path: path.join(__dirname, "dist"),
         filename: "bundle.js",
-        publicPath: "./",
+        // publicPath: path.join(__dirname, "dist"),
+        publicPath: "/",
     },
 
     mode: "development",
+    devtool: "source-map",
 
-    // devServer: {
-    //     setupExitSignals: true,
-    // },
+    devServer: {
+        setupExitSignals: true,
+    },
 
     resolve: {
         extensions: [".js", ".jsx", ".ts", ".tsx"],
@@ -45,7 +51,7 @@ module.exports = {
             {
                 test: /\.(ts|tsx|js|jsx)$/,
                 exclude: NODE_MODULES,
-                use: "swc-loader",
+                use: [{ loader: "swc-loader" }],
             },
             // {
             //     test: /\.(ts|tsx|js|jsx)$/,
