@@ -9,16 +9,14 @@ import { ACTION_POST_MESSAGE } from "../enums/action";
 import GradeAssessment from "./grade";
 
 function AudioAssessment() {
-    const [data, setData] = useState<ResponseDefault | null>(
-        new ResponseDefault()
-    );
+    const [data, setData] = useState<ResponseDefault | null>(null);
 
     const [studentAssignmentId, setStudentAssignmentId] = useState<
         number | undefined
     >(undefined);
 
     const [layout, setLayout] = useState<ResourceLayoutEnum>(
-        ResourceLayoutEnum.GRADING
+        ResourceLayoutEnum.VIEW_RESOURCE
     );
 
     useEffect(() => {
