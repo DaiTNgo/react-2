@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import Volumn from "../../../Icons/Volumn";
+import IconVolume from "../../../Icons/Volume";
 import * as S from "./styled";
+
 interface Props {
     onSubmit: () => void;
 }
@@ -27,7 +28,7 @@ function ModalSubmit({ onSubmit }: Props) {
                     left: 10,
                 }}
             >
-                <Volumn fill={"rgb(153,153,153)"} />
+                <IconVolume fill={"rgb(153,153,153)"} />
             </div>
             <h3
                 style={{

@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 
-function Volumn({
+function Volume({
     width = 25,
     height = 25,
     fill,
@@ -24,4 +24,4 @@ function Volumn({
     );
 }
 
-export default memo(Volumn);
+export default memo(Volume);

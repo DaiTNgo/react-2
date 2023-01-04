@@ -6,13 +6,7 @@ import Layout from "../components/Layout";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 import { SIndex } from "../styled/view";
 import { ResponseDefault } from "./type";
-import {
-    getContentHeaderFooter,
-    getDirections,
-    getListWord,
-    getPhonicsAssessmentType,
-    getScore,
-} from "./utils";
+import { getPhonicsAssessmentType, getScore } from "./utils";
 import Table from "../../components/table";
 import Select from "../../components/select";
 import styles from "./grade.module.scss";
@@ -22,6 +16,11 @@ import { useImmer } from "use-immer";
 import { useCallback, useState } from "react";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
 import { VIEW_GRADE } from "../../enums/view-grade";
+import {
+    getContentHeaderFooter,
+    getDirections,
+    getListWord,
+} from "../utils/convertLayout";
 
 const useColumns = ({ setDataSource, phonicsAssessmentType }: any) => {
     return [
@@ -203,7 +202,9 @@ const useColumns = ({ setDataSource, phonicsAssessmentType }: any) => {
 function GradeAssessment() {
     const { data } = useAudioAssessmentContext();
     const listWord = getListWord(data as ResponseDefault);
-    const componentDirection = getDirections(data as ResponseDefault);
+    const { direction: componentDirection, pathAudio } = getDirections(
+        data as ResponseDefault
+    );
     const contentHeaderFooter = getContentHeaderFooter(data as ResponseDefault);
     const phonicsAssessmentType = getPhonicsAssessmentType(
         data as ResponseDefault

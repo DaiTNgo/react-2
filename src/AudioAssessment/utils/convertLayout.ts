@@ -1,4 +1,4 @@
-import { IPassageDate, ResponseDefault } from "./type";
+import { IPassageDate, ResponseDefault } from "../types";
 
 export const getListWord = (data: ResponseDefault) => {
     try {
@@ -7,12 +7,23 @@ export const getListWord = (data: ResponseDefault) => {
         return [];
     }
 };
-
+const REGEX_FIND_SRC_AUDIO = /src.(".+")/g;
 export const getDirections = (data: ResponseDefault) => {
     try {
-        return data.questionBean.listQuestion[0].questionSetPassageXML;
+        const pathAudio =
+            REGEX_FIND_SRC_AUDIO.exec(
+                data.questionBean.listQuestion[0].questionSetPassageXML
+            )?.[1] || "";
+        console.log("pathAudio", pathAudio);
+        return {
+            direction: data.questionBean.listQuestion[0].questionSetPassageXML,
+            pathAudio: pathAudio,
+        };
     } catch (_: any) {
-        return "";
+        return {
+            direction: "",
+            pathAudio: "",
+        };
     }
 };
 export const getContentHeaderFooter = (data: ResponseDefault): IPassageDate => {

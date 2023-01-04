@@ -1,12 +1,16 @@
-import Volumn from "../../Icons/Volumn";
+import IconVolume from "../../Icons/Volume";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Layout from "../components/Layout";
 import Slider from "../components/Slider";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 import { SIndex } from "../styled/view";
-import { ResponseDefault } from "./type";
-import { getContentHeaderFooter, getDirections, getListWord } from "./utils";
+import { ResponseDefault } from "../types";
+import {
+    getContentHeaderFooter,
+    getDirections,
+    getListWord,
+} from "../utils/convertLayout";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Recording, { TIME_RECORD_STANDARD } from "./components/Recording";
 import Record from "./components/Record";
@@ -31,7 +35,9 @@ function DoAssessment() {
     }, []);
 
     const listWord = getListWord(data as ResponseDefault);
-    const componentDirection = getDirections(data as ResponseDefault);
+    const { direction: componentDirection, pathAudio } = getDirections(
+        data as ResponseDefault
+    );
     const contentHeaderFooter = getContentHeaderFooter(data as ResponseDefault);
 
     const handleSubmitAssignment = (file: any) => {
@@ -80,7 +86,7 @@ function DoAssessment() {
             >
                 <div className="flex items-start gap-1 wrapper">
                     <div className="cursor-pointer">
-                        <Volumn />
+                        <IconVolume />
                     </div>
                     <div
                         dangerouslySetInnerHTML={{

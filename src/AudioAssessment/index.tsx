@@ -50,6 +50,13 @@ function AudioAssessment() {
                             event.data.body.response.studentAssignmentId
                         );
                     }
+
+                    if (event.data.body.location) {
+                        localStorage.setItem(
+                            "location",
+                            event.data.body.location
+                        );
+                    }
                     break;
                 default:
                     break;
