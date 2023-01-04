@@ -62,7 +62,14 @@ function DoAssessment() {
                         sendToParent({
                             action: ACTION_POST_MESSAGE.FPR_NAVIGATE,
                         });
-                    } catch (err) {}
+                    } catch (err) {
+                        // case 1: expired token
+
+                        // case 2: expired assignment
+                        sendToParent({
+                            action: ACTION_POST_MESSAGE.FPR_NAVIGATE,
+                        });
+                    }
                 }}
             />
         );
