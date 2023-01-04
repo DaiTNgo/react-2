@@ -1,4 +1,5 @@
 import { IPassageDate } from "../types";
+import { VIEW_GRADE } from "../../enums/view-grade";
 
 export interface Response {
     currentQuestion: null;
@@ -142,6 +143,7 @@ export class ResponseDefault extends Response {
     resource = {
         resourceId: 348881,
         title: "Part A: Short Vowels",
+        phonicsAssessmentType: VIEW_GRADE.HIGH_FREQUENCY_WORD,
     };
 
     questionBean = {
@@ -175,5 +177,6 @@ export class ResponseDefault extends Response {
         tocBackgroundImage: "",
         copyright:
             "Copyright &copy; 2021 William H. Sadlier, Inc. All rights reserved.",
+        phonicsAssessmentType: VIEW_GRADE.HIGH_FREQUENCY_WORD,
     };
 }

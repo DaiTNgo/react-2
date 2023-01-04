@@ -6,7 +6,13 @@ import Layout from "../components/Layout";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 import { SIndex } from "../styled/view";
 import { ResponseDefault } from "./type";
-import { getContentHeaderFooter, getDirections, getListWord } from "./utils";
+import {
+    getContentHeaderFooter,
+    getDirections,
+    getListWord,
+    getPhonicsAssessmentType,
+    getScore,
+} from "./utils";
 import Table from "../../components/table";
 import Select from "../../components/select";
 import styles from "./grade.module.scss";
@@ -15,11 +21,16 @@ import { ISelectOption } from "../../components/select/select";
 import { useImmer } from "use-immer";
 import { useCallback, useState } from "react";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
+import { VIEW_GRADE } from "../../enums/view-grade";
 
-const useColumns = (setDataSource: any) => {
+const useColumns = ({ setDataSource, phonicsAssessmentType }: any) => {
     return [
         {
-            title: "Short Vowels",
+            title:
+                phonicsAssessmentType ===
+                VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY
+                    ? "Short Vowels"
+                    : "Word",
             dataIndex: "word",
             key: "name",
             // width: "200px", //20%
@@ -45,6 +56,7 @@ const useColumns = (setDataSource: any) => {
                     </div>
                 );
             },
+            hidden: false,
         },
         {
             title: "Correct/Incorrect",
@@ -52,7 +64,7 @@ const useColumns = (setDataSource: any) => {
             key: "age",
             // width: "600px",
             width: "30%",
-            align: "center",
+            align: "left",
             render: (record: any, index: number) => {
                 const handleScore =
                     (correct: "ide" | "correct" | "incorrect") => () => {
@@ -76,13 +88,83 @@ const useColumns = (setDataSource: any) => {
                     </>
                 );
             },
+
+            hidden:
+                phonicsAssessmentType !==
+                VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
+        },
+        {
+            title: "Accuracy",
+            dataIndex: "accuracy",
+            key: "accuracy",
+            // width: "30%",
+            align: "center",
+            render: (record: any, index: number) => {
+                const handleGradeAccuracy =
+                    (correct: "ide" | "correct" | "incorrect") => () => {
+                        setDataSource((draft: any) => {
+                            draft[index].accuracy = correct;
+                        });
+                    };
+                return (
+                    <>
+                        <Check
+                            height={40}
+                            width={40}
+                            status={record.accuracy}
+                            onClick={handleGradeAccuracy("correct")}
+                        />
+                        <XMark
+                            height={40}
+                            status={record.accuracy}
+                            onClick={handleGradeAccuracy("incorrect")}
+                        />
+                    </>
+                );
+            },
+
+            hidden:
+                phonicsAssessmentType ===
+                VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
+        },
+        {
+            title: "Fluency",
+            dataIndex: "fluency",
+            key: "fluency",
+            width: "30%",
+            align: "center",
+            render: (record: any, index: number) => {
+                const handleGradeFluency =
+                    (correct: "ide" | "correct" | "incorrect") => () => {
+                        setDataSource((draft: any) => {
+                            draft[index].fluency = correct;
+                        });
+                    };
+                return (
+                    <>
+                        <Check
+                            height={40}
+                            width={40}
+                            status={record.fluency}
+                            onClick={handleGradeFluency("correct")}
+                        />
+                        <XMark
+                            height={40}
+                            status={record.fluency}
+                            onClick={handleGradeFluency("incorrect")}
+                        />
+                    </>
+                );
+            },
+
+            hidden: phonicsAssessmentType !== VIEW_GRADE.FLUENCY_CHECK,
         },
         {
             title: "Comments",
             dataIndex: "address",
             key: "address",
             // width: "200px",
-            width: "40%",
+            width: "30%",
             align: "left",
             render: (record: any, index: any) => {
                 return (
@@ -110,16 +192,22 @@ const useColumns = (setDataSource: any) => {
                     </div>
                 );
             },
+
+            hidden:
+                phonicsAssessmentType !==
+                VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
         },
-    ];
+    ].filter((rc) => !rc?.hidden);
 };
 
 function GradeAssessment() {
     const { data } = useAudioAssessmentContext();
-
     const listWord = getListWord(data as ResponseDefault);
     const componentDirection = getDirections(data as ResponseDefault);
     const contentHeaderFooter = getContentHeaderFooter(data as ResponseDefault);
+    const phonicsAssessmentType = getPhonicsAssessmentType(
+        data as ResponseDefault
+    );
 
     const [selected, setSelected] = useState<ISelectOption>({
         label: "Select",
@@ -140,14 +228,12 @@ function GradeAssessment() {
         });
     });
 
-    const columns = useColumns(setDataSource);
+    const columns = useColumns({
+        setDataSource,
+        phonicsAssessmentType,
+    });
 
-    const score = dataSource.reduce((acc, cur) => {
-        if (cur.correct === "correct") {
-            return acc + 1;
-        }
-        return acc;
-    }, 0);
+    const { score, accuracy, fluency } = getScore(dataSource);
 
     const handleSubmit = () => {
         sendToParent({
@@ -159,6 +245,74 @@ function GradeAssessment() {
             },
         });
     };
+
+    const listScore = [
+        {
+            label: "Score",
+            component: (
+                <div
+                    style={{
+                        marginRight: 40,
+                    }}
+                >
+                    <p className={className(styles.Label)}>SCORE</p>
+                    <div className={styles.ScoreNum}>{score}</div>
+                </div>
+            ),
+            hidden:
+                phonicsAssessmentType !==
+                VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
+        },
+        {
+            label: "Accuracy Score",
+            component: (
+                <div
+                    style={{
+                        marginRight: 40,
+                    }}
+                >
+                    <p className={className(styles.Label)}>Accuracy Score</p>
+                    <div className={styles.ScoreNum}>{accuracy}</div>
+                </div>
+            ),
+        },
+        {
+            label: "Fluency Score",
+            component: (
+                <div
+                    style={{
+                        marginRight: 40,
+                    }}
+                >
+                    <p className={className(styles.Label)}>Fluency Score</p>
+                    <div className={styles.ScoreNum}>{fluency}</div>
+                </div>
+            ),
+        },
+        {
+            label: "Speed",
+            component: (
+                <div
+                    style={{
+                        marginRight: 40,
+                    }}
+                >
+                    <p className={className(styles.Label)}>SPEED</p>
+                    <Select
+                        onClick={(select: ISelectOption) => {
+                            setSelected(select);
+                        }}
+                        selected={selected}
+                        options={[
+                            { label: "Slow/labored", value: 1, key: 1 },
+                            { label: "Moderate", value: 2, key: 2 },
+                            { label: "Fast", value: 3, key: 3 },
+                        ]}
+                    />
+                </div>
+            ),
+        },
+    ].filter((rc) => !rc?.hidden);
     return (
         <SIndex>
             <Layout
@@ -177,28 +331,9 @@ function GradeAssessment() {
                 <Table dataSource={dataSource} columns={columns} />
 
                 <div className={"flex items-center mt-4"}>
-                    <div
-                        style={{
-                            marginRight: 40,
-                        }}
-                    >
-                        <p className={className(styles.Label)}>SCORE</p>
-                        <div className={styles.ScoreNum}>{score}</div>
-                    </div>
-                    <div>
-                        <p className={className(styles.Label)}>SPEED</p>
-                        <Select
-                            onClick={(select: ISelectOption) => {
-                                setSelected(select);
-                            }}
-                            selected={selected}
-                            options={[
-                                { label: "Slow/labored", value: 1, key: 1 },
-                                { label: "Moderate", value: 2, key: 2 },
-                                { label: "Fast", value: 3, key: 3 },
-                            ]}
-                        />
-                    </div>
+                    {listScore.map((item, index) => {
+                        return item.component;
+                    })}
                 </div>
                 <div className={"mt-8"}></div>
                 <button className={styles.Save} onClick={handleSubmit}>

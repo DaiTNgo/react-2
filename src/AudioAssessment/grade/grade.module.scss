@@ -1,21 +1,22 @@
-.ScoreNum{
-  padding:6px 8px;
-  border-radius: 4px;
-  width: 60px;
-  background-color: #ddeff4;
+.ScoreNum {
+    padding: 6px 8px;
+    border-radius: 4px;
+    width: 60px;
+    background-color: #ddeff4;
 }
-.Save{
-  padding:4px 8px;
-  text-align: center;
-  color: white;
-  background-color: #3579c1;
+.Save {
+    padding: 4px 8px;
+    text-align: center;
+    color: white;
+    background-color: #3579c1;
 
-  border-radius: 4px;
-  min-width: 70px;
+    border-radius: 4px;
+    min-width: 70px;
 }
 
-.Label{
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 4px!important;
+.Label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px !important;
+    text-transform: uppercase;
 }

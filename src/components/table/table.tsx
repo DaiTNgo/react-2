@@ -10,7 +10,8 @@ function Table<T>({ dataSource, columns }: TableProps<T>) {
             th.push(
                 <div
                     style={{
-                        width: cl.width,
+                        width: cl.width ? cl.width : "auto",
+                        flexGrow: cl.width ? 0 : 1,
                         textAlign: cl.align,
                     }}
                     className="text-center"
@@ -28,6 +29,8 @@ function Table<T>({ dataSource, columns }: TableProps<T>) {
                             width: cl.width,
                             textAlign: cl.align,
                             alignSelf: index == 0 ? "self-end" : "",
+                            marginInline: cl.align == "center" ? "auto" : "",
+                            flexGrow: cl.width ? 0 : 1,
                         }}
                         className="text-center p-0"
                     >

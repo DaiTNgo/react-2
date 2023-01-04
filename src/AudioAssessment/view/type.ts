@@ -1,3 +1,5 @@
+import { VIEW_GRADE } from "../../enums/view-grade";
+
 export interface Response {
     currentQuestion: null;
     currentIndex: number;
@@ -140,6 +142,7 @@ export class ResponseDefault extends Response {
     resource = {
         resourceId: 348881,
         title: "Part A: Short Vowels",
+        phonicsAssessmentType: VIEW_GRADE.FLUENCY_CHECK,
     };
 
     questionBean = {
