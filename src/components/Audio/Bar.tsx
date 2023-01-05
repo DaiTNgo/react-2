@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import moment from "moment";
 import styles from "./audio.module.scss";
 import { formatTimeToMMSS } from "../../helper";
 
