@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const StylexPlugin = require("@ladifire-opensource/stylex-webpack-plugin");
+const { merge } = require("webpack-merge");
 
 const plugins = [
     new ForkTsCheckerWebpackPlugin(),
@@ -15,32 +16,12 @@ const plugins = [
 
 const NODE_MODULES = /node_modules/;
 
-module.exports = {
-    entry: path.join(__dirname, "src", "main.tsx"),
-    target: "web",
-
-    output: {
-        path: path.join(__dirname, "dist"),
-        filename: "bundle.js",
-        assetModuleFilename: "assets",
-
-        //path insert in html
-        publicPath: "/",
-    },
-
+module.exports = merge(require("./webpack.common"), {
     mode: "development",
     devtool: "eval-source-map",
 
     devServer: {
         setupExitSignals: true,
-    },
-
-    resolve: {
-        extensions: [".js", ".jsx", ".ts", ".tsx"],
-        alias: {
-            "~": path.resolve(__dirname, "src"),
-            // Templates: path.resolve(__dirname, "src/templates/"),
-        },
     },
 
     module: {
@@ -83,4 +64,4 @@ module.exports = {
         ],
     },
     plugins: plugins,
-};
+});

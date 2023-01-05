@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const StylexPlugin = require("@ladifire-opensource/stylex-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-
+const { merge } = require("webpack-merge");
 const plugins = [
     new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
@@ -19,12 +19,18 @@ const plugins = [
 
 const NODE_MODULES = /node_modules/;
 
-module.exports = {
-    entry: path.join(__dirname, "src", "main.tsx"),
-    target: "web",
-
+module.exports = merge(require("./webpack.common"), {
+    // entry: path.join(__dirname, "src", "main.tsx"),
+    // target: "web",
+    //
+    // resolve: {
+    //     extensions: [".js", ".jsx", ".ts", ".tsx"],
+    //     alias: {
+    //         "~": path.resolve(__dirname, "src"),
+    //     },
+    // },
     output: {
-        path: path.resolve(__dirname, "dist"),
+        // path: path.resolve(__dirname, "dist"),
         filename: "bundle.[hash].js",
         assetModuleFilename: "assets/[hash][ext][query]",
 
@@ -34,13 +40,6 @@ module.exports = {
 
     mode: "production",
     devtool: "source-map",
-
-    resolve: {
-        extensions: [".js", ".jsx", ".ts", ".tsx"],
-        alias: {
-            "~": path.resolve(__dirname, "src"),
-        },
-    },
 
     module: {
         rules: [
@@ -84,4 +83,4 @@ module.exports = {
         minimize: true,
         minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
     },
-};
+});
