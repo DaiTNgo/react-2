@@ -4,6 +4,8 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const StylexPlugin = require("@ladifire-opensource/stylex-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 const plugins = [
     new ForkTsCheckerWebpackPlugin(),
@@ -31,7 +33,7 @@ module.exports = {
     },
 
     mode: "production",
-    devtool: "eval-source-map",
+    devtool: "source-map",
 
     resolve: {
         extensions: [".js", ".jsx", ".ts", ".tsx"],
@@ -74,4 +76,9 @@ module.exports = {
         ],
     },
     plugins: plugins,
+
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
+    },
 };
