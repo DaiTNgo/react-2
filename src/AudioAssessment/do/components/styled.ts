@@ -54,8 +54,8 @@ export const RecordContainer = styled.div`
 export const RecordingContainer = styled.div`
     display: inline-block;
     .micro-container {
-        top: 45;
-        left: -60;
+        top: 45px;
+        left: -60px;
         position: absolute;
     }
     .loading-recording {
@@ -70,7 +70,7 @@ export const RecordingContainer = styled.div`
         border-radius: 10px;
         .recording-item-wrapper {
             display: flex;
-            gap: 10;
+            gap: 10px;
         }
         .recording-item {
             width: 10px;

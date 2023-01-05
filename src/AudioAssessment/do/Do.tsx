@@ -1,4 +1,3 @@
-import IconVolume from "../../Icons/Volume";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Layout from "../components/Layout";
@@ -16,15 +15,12 @@ import Recording, { TIME_RECORD_STANDARD } from "./components/Recording";
 import Record from "./components/Record";
 import { useStoreSlider } from "../store/slider";
 import styled from "styled-components";
-import ModalSubmit from "./components/ModalSubmit";
-import { useModalContext } from "../../context/ModalContext";
 import { sendToParent } from "../../helper";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
+import Volume from "../components/Volume";
 
 function DoAssessment() {
-    const { data, studentAssignmentId, accessToken } =
-        useAudioAssessmentContext();
-    const { openModal } = useModalContext();
+    const { data } = useAudioAssessmentContext();
 
     const [isStarting, setIsStarting] = useState(false);
 
@@ -42,37 +38,12 @@ function DoAssessment() {
     const contentHeaderFooter = getContentHeaderFooter(data as ResponseDefault);
 
     const handleSubmitAssignment = (file: any) => {
-        // console.log("Recording:", file);
-        const audioFile = new FormData();
-        audioFile.append("audioFile", file);
-        //cqa2api.sadlierconnect.com
-        openModal(
-            <ModalSubmit
-                onSubmit={async () => {
-                    try {
-                        const resp = await fetch(
-                            `http://localhost:9002/student/assignments/submissions?studentAssignmentId=${studentAssignmentId}&access_token=${accessToken}`,
-                            {
-                                method: "post",
-                                body: audioFile,
-                            }
-                        );
-
-                        //TODO: ANY THING;
-                        sendToParent({
-                            action: ACTION_POST_MESSAGE.FPR_NAVIGATE,
-                        });
-                    } catch (err) {
-                        // case 1: expired token
-
-                        // case 2: expired assignment
-                        sendToParent({
-                            action: ACTION_POST_MESSAGE.FPR_NAVIGATE,
-                        });
-                    }
-                }}
-            />
-        );
+        sendToParent({
+            action: ACTION_POST_MESSAGE.FPR_SUBMIT_AUDIO_ASSESSMENT,
+            body: {
+                file,
+            },
+        });
     };
 
     const stopped = useRef(false);
@@ -93,7 +64,7 @@ function DoAssessment() {
             >
                 <div className="flex items-start gap-1 wrapper">
                     <div className="cursor-pointer">
-                        <IconVolume />
+                        <Volume src={""} />
                     </div>
                     <div
                         dangerouslySetInnerHTML={{
@@ -116,7 +87,6 @@ function DoAssessment() {
                     title={data.resource.title}
                     data={listWord}
                     isStarting={isStarting}
-                    // onSubmitAssignment={handleSubmitAssignment}
                     stopped={stopped}
                 />
             </Layout>

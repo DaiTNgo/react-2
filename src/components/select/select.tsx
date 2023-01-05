@@ -55,10 +55,10 @@ function Select({ options, onClick, selectedId, defaultOption }: Props) {
                     <div
                         className={"absolute top-full inset-0"}
                         style={{
-                            height: 100,
                             overflowY: "auto",
                             border: "1px solid #3579c1",
                             borderTop: "none",
+                            maxHeight: 110,
                         }}
                     >
                         {options.map((item) => (
