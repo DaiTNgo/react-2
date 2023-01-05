@@ -58,6 +58,7 @@ function Select({ options, onClick, selectedId, defaultOption }: Props) {
                             overflowY: "auto",
                             border: "1px solid #3579c1",
                             borderTop: "none",
+                            height: 110,
                             maxHeight: 110,
                         }}
                     >
