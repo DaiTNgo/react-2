@@ -5,6 +5,7 @@ type AudioAssessmentContextType = {
     studentAssignmentId: number | undefined;
     accessToken: string;
     location: string;
+    urlRecordStudent: string;
 };
 
 export const AudioAssessmentContext =

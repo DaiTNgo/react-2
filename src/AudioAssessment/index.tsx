@@ -10,16 +10,16 @@ import GradeAssessment from "./grade";
 import ReGrade from "./re-grade";
 
 function AudioAssessment() {
-    const [data, setData] = useState<ResponseDefault | null>(
-        new ResponseDefault()
-    );
+    const [data, setData] = useState<ResponseDefault | null>(null);
 
     const [studentAssignmentId, setStudentAssignmentId] = useState<
         number | undefined
     >(undefined);
 
+    const [urlRecordStudent, setUrlRecordStudent] = useState("");
+
     const [layout, setLayout] = useState<ResourceLayoutEnum>(
-        ResourceLayoutEnum.GRADING
+        ResourceLayoutEnum.VIEW_RESOURCE
     );
 
     const [accessToken, setAccessToken] = useState("");
@@ -58,6 +58,14 @@ function AudioAssessment() {
                     if (event.data.body.location) {
                         setLocation(event.data.body.location);
                     }
+
+                    if (event.data.body.urlRecordStudent) {
+                        setUrlRecordStudent(event.data.body.urlRecordStudent);
+                    }
+
+                    break;
+                case ACTION_POST_MESSAGE.FPR_RESP_SYNC_AUDIO:
+                    setUrlRecordStudent(event.data.body.urlRecordStudent);
                     break;
                 default:
                     break;
@@ -107,6 +115,7 @@ function AudioAssessment() {
                 studentAssignmentId,
                 accessToken,
                 location,
+                urlRecordStudent,
             }}
         >
             {Component}

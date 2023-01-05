@@ -1,5 +1,3 @@
-import Check from "../../Icons/Check";
-import XMark from "../../Icons/XMark";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Layout from "../components/Layout";
@@ -13,7 +11,7 @@ import styles from "./grade.module.scss";
 import { className, sendToParent } from "../../helper";
 import { ISelectOption } from "../../components/select/select";
 import { useImmer } from "use-immer";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
 import { VIEW_GRADE } from "../../enums/view-grade";
 import {
@@ -24,9 +22,10 @@ import {
 import { StatusMachine } from "../../enums/status-machine";
 import { useColumnsGrade } from "../hooks/useColumnsGrade";
 import { Button } from "../../components/button";
+import IconSync from "../../Icons/Sync";
 
 function GradeAssessment() {
-    const { data } = useAudioAssessmentContext();
+    const { data, urlRecordStudent } = useAudioAssessmentContext();
     const listWord = getListWord(data as ResponseDefault);
     const { direction: componentDirection, pathAudio } = getDirections(
         data as ResponseDefault
@@ -146,6 +145,12 @@ function GradeAssessment() {
             ),
         },
     ].filter((rc) => !rc?.hidden);
+
+    const handleSyncAudio = useCallback(() => {
+        sendToParent({
+            action: ACTION_POST_MESSAGE.FPR_GET_SYNC_AUDIO,
+        });
+    }, []);
     return (
         <SIndex>
             <Layout
@@ -161,7 +166,16 @@ function GradeAssessment() {
                 </div>
                 <div className={"fpr-audio"}>
                     <p className={"fpr-audio__title"}>Recorded Content</p>
-                    <audio controls src={data.audioRecordedUrl}></audio>
+                    <div className={"flex items-center gap-4"}>
+                        <audio controls src={urlRecordStudent}></audio>
+                        <button
+                            className={styles.Sync}
+                            onClick={handleSyncAudio}
+                        >
+                            <IconSync fill={"white"} width={18} />
+                            <p>Sync</p>
+                        </button>
+                    </div>
                 </div>
 
                 <Table dataSource={dataSource} columns={columns} />
