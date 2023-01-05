@@ -1,14 +1,15 @@
 import React from "react";
 import { IPropsIcon } from "../AudioAssessment/types";
+import { StatusMachine } from "../enums/status-machine";
 
 function XMark({
     width,
     height,
-    status = "ide",
+    status = StatusMachine.IDLE,
     onClick = () => {},
 }: Partial<
     IPropsIcon & {
-        status?: "ide" | "incorrect" | "correct";
+        status?: StatusMachine;
         onClick: () => void;
     }
 >) {
@@ -22,7 +23,10 @@ function XMark({
                 xmlns="http://www.w3.org/2000/svg"
                 strokeWidth={6}
                 stroke={
-                    status == "correct" || status == "ide" ? "#ccc" : "black"
+                    status == StatusMachine.CORRECT ||
+                    status == StatusMachine.IDLE
+                        ? "#ccc"
+                        : "black"
                 }
                 onClick={onClick}
             >

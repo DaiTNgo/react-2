@@ -121,6 +121,18 @@ export const SIndex = styled.div`
         width: 670px;
         margin-inline: auto;
     }
+    .direction-title {
+        font-size: 3rem;
+    }
+    .fpr__directions {
+        margin-bottom: 1rem;
+    }
+    .fpr-audio {
+        margin-bottom: 3rem;
+        &__title {
+            font-size: 3rem;
+        }
+    }
 `;
 
 export const Header = styled.div`

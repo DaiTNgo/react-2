@@ -6,6 +6,7 @@ import React, {
     useState,
 } from "react";
 import Micro from "../../../Icons/Micro";
+import { MimeTypeAudio } from "../../../enums/mime-type-audio";
 
 export const TIME_RECORD_STANDARD = 120;
 
@@ -73,6 +74,7 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
             const blob = new Blob(recordedChunks, {
                 type: mimeType,
             });
+            // console.log(blob.type);
             recordedChunks = [];
             onSubmitAssignment(blob);
         });
@@ -82,7 +84,7 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
 
     const recordAudio = useCallback(async () => {
         try {
-            const mimeType = "audio/wav";
+            const mimeType = MimeTypeAudio.MPEG;
             const stream =
                 await window.self.navigator.mediaDevices.getUserMedia({
                     audio: audioRecordConstraints,
@@ -167,38 +169,6 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
                     </div>
                 </div>
             </div>
-
-            {/*<div className="container mt-3">*/}
-            {/*  <span>*/}
-            {/*    <a ref={downloadLink}>*/}
-            {/*      <button type="button" className="btn btn-primary mb-4">*/}
-            {/*        Download*/}
-            {/*      </button>*/}
-            {/*    </a>*/}
-            {/*  </span>*/}
-            {/*  <button*/}
-            {/*    onClick={() => (shouldStop.current = true)}*/}
-            {/*    type="button"*/}
-            {/*    className="btn btn-danger"*/}
-            {/*    style={{*/}
-            {/*      border: "1px solid",*/}
-            {/*      padding: 4,*/}
-            {/*    }}*/}
-            {/*  >*/}
-            {/*    Stop*/}
-            {/*  </button>*/}
-            {/*  <button*/}
-            {/*    type="button"*/}
-            {/*    onClick={recordAudio}*/}
-            {/*    className="btn btn-info"*/}
-            {/*    style={{*/}
-            {/*      border: "1px solid",*/}
-            {/*      padding: 4,*/}
-            {/*    }}*/}
-            {/*  >*/}
-            {/*    Record Audio*/}
-            {/*  </button>*/}
-            {/*</div>*/}
         </div>
     );
 }

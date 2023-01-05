@@ -1,5 +1,6 @@
 import { ResponseDefault } from "./type";
 import { VIEW_GRADE } from "../../enums/view-grade";
+import { StatusMachine } from "../../enums/status-machine";
 
 export const getPhonicsAssessmentType = (data: ResponseDefault) => {
     try {
@@ -14,13 +15,13 @@ export const getScore = (data: any) => {
     let accuracy = 0;
     let fluency = 0;
     for (const cur of data) {
-        if (cur.correct === "correct") {
+        if (cur.correct === StatusMachine.CORRECT) {
             score += 1;
         }
-        if (cur.fluency === "correct") {
+        if (cur.fluency === StatusMachine.CORRECT) {
             fluency += 1;
         }
-        if (cur.accuracy === "correct") {
+        if (cur.accuracy === StatusMachine.CORRECT) {
             accuracy += 1;
         }
     }

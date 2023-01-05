@@ -16,7 +16,11 @@ function Table<T>({ dataSource, columns }: TableProps<T>) {
                     }}
                     className="text-center"
                 >
-                    <div>{cl["title"]}</div>
+                    <div>
+                        {typeof cl["title"] === "function"
+                            ? cl["title"]()
+                            : cl["title"]}
+                    </div>
                 </div>
             );
         });
@@ -29,10 +33,12 @@ function Table<T>({ dataSource, columns }: TableProps<T>) {
                             width: cl.width,
                             textAlign: cl.align,
                             alignSelf: index == 0 ? "self-end" : "",
-                            marginInline: cl.align == "center" ? "auto" : "",
+                            // marginInline: cl.align == "center" ? "auto" : "",
                             flexGrow: cl.width ? 0 : 1,
                         }}
-                        className="text-center p-0"
+                        className={`text-center p-0 ${
+                            cl.align == "center" ? "flex items-center" : ""
+                        }`}
                     >
                         <div
                             className={`flex ${
@@ -55,7 +61,7 @@ function Table<T>({ dataSource, columns }: TableProps<T>) {
                     className={"flex items-center"}
                     style={{
                         height: 60,
-                        borderBottom: "1px solid black",
+                        borderBottom: "1px solid rgb(172, 172, 172)",
                         paddingRight: 30,
                     }}
                 >
@@ -78,7 +84,7 @@ function Table<T>({ dataSource, columns }: TableProps<T>) {
             </div>
             <div
                 style={{
-                    outline: "1px solid",
+                    outline: "2px solid rgb(172, 172, 172)",
                     paddingLeft: 20,
                     paddingBottom: 10,
                 }}

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 type ColumnsType<T> = {
-    title: string;
+    title: string | Function;
     dataIndex: Omit<keyof T, "key">;
     key: any;
     width?: string | number;

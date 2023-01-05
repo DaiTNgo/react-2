@@ -142,7 +142,7 @@ export class ResponseDefault extends Response {
     resource = {
         resourceId: 348881,
         title: "Part A: Short Vowels",
-        phonicsAssessmentType: VIEW_GRADE.FLUENCY_CHECK,
+        phonicsAssessmentType: VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
     };
 
     questionBean = {
