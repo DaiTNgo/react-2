@@ -1,7 +1,7 @@
 import React, { MutableRefObject, useRef, useState } from "react";
 import styles from "./select.module.scss";
 import { className } from "../../common/helper";
-import { useOnClickOutside } from "../../common/hooks/useClickOutSide";
+import { useOnClickOutside } from "../../hooks/useClickOutSide";
 
 export interface ISelectOption {
     label: string;

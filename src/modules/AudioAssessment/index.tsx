@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { ResourceLayoutEnum } from "../../common/constant/layout";
+import { ResourceLayoutEnum } from "~/common/constant/layout";
 import { AudioAssessmentContext } from "./ContextAudioAssessment";
 import DoAssessment from "./do";
 import { ResponseDefault } from "./view/type";
 import ViewResource from "./view";
 import { useObserverHeight } from "./hooks/useObserverHeight";
-import { ACTION_POST_MESSAGE } from "../../common/constant/action";
+import { ACTION_POST_MESSAGE } from "~/common/constant/action";
 import GradeAssessment from "./grade";
 
 function AudioAssessment() {
