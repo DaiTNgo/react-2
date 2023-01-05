@@ -51,7 +51,7 @@ function DoAssessment() {
                 onSubmit={async () => {
                     try {
                         const resp = await fetch(
-                            `https://localhost:9002/student/assignments/submissions?studentAssignmentId=${studentAssignmentId}&access_token=${accessToken}`,
+                            `http://localhost:9002/student/assignments/submissions?studentAssignmentId=${studentAssignmentId}&access_token=${accessToken}`,
                             {
                                 method: "post",
                                 body: audioFile,
