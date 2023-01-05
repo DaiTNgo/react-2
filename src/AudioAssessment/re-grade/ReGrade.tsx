@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 import {
     getContentHeaderFooter,
@@ -22,12 +22,15 @@ import Check from "../../Icons/Check";
 import XMark from "../../Icons/XMark";
 import { getResultData } from "./utils";
 import { useColumnsGrade } from "../hooks/useColumnsGrade";
+import { OPTIONS_SURVEY } from "../../enums/survey";
+import Audio from "../../components/Audio";
+import IconSync from "../../Icons/Sync";
+import { Button } from "../../components/button";
 
 type Props = any;
 
 function ReGrade({}: Props) {
-    const { data } = useAudioAssessmentContext();
-    const listWord = getListWord(data as ResponseDefault);
+    const { data, urlRecordStudent } = useAudioAssessmentContext();
     const { direction: componentDirection, pathAudio } = getDirections(
         data as ResponseDefault
     );
@@ -141,32 +144,67 @@ function ReGrade({}: Props) {
             ),
         },
     ].filter((rc) => !rc?.hidden);
+
+    const handleSyncAudio = useCallback(() => {
+        sendToParent({
+            action: ACTION_POST_MESSAGE.FPR_GET_SYNC_AUDIO,
+        });
+    }, []);
+
     return (
         <SIndex>
             <Layout
                 footer={<Footer content={contentHeaderFooter} />}
                 header={<Header content={contentHeaderFooter} />}
             >
-                <div className="flex items-start gap-1">
+                <div className="flex items-start gap-1 fpr__directions">
                     <div
                         dangerouslySetInnerHTML={{
                             __html: componentDirection,
                         }}
                     />
                 </div>
-                <audio controls src={data.audioRecordedUrl}></audio>
+                {(data.surveyImplementOption ===
+                    OPTIONS_SURVEY.LEVEL_ONE.SELF_GUIDED ||
+                    data.surveyImplementOption ===
+                        OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD) && (
+                    <div className={"fpr-audio"}>
+                        <p className={"fpr-audio__title"}>Recorded Content</p>
+                        <div className={"flex items-center gap-4 mt-2"}>
+                            <Audio src={urlRecordStudent} />
+                            {data.surveyImplementOption ===
+                                OPTIONS_SURVEY.LEVEL_ONE.SELF_GUIDED && (
+                                <button
+                                    className={styles.Sync}
+                                    onClick={handleSyncAudio}
+                                >
+                                    <IconSync fill={"white"} width={18} />
+                                    <p>Sync</p>
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                )}
 
                 <Table dataSource={dataSource} columns={columns} />
 
                 <div className={"flex items-center mt-4"}>
                     {listScore.map((item, index) => {
-                        return item.component;
+                        return (
+                            <React.Fragment key={index}>
+                                {item.component}
+                            </React.Fragment>
+                        );
                     })}
                 </div>
                 <div className={"mt-8"}></div>
-                <button className={styles.Save} onClick={handleSubmit}>
+                <Button
+                    needLoading
+                    className={styles.Save}
+                    onClick={handleSubmit}
+                >
                     Save
-                </button>
+                </Button>
             </Layout>
         </SIndex>
     );

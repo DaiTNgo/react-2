@@ -11,7 +11,7 @@ import styles from "./grade.module.scss";
 import { className, sendToParent } from "../../helper";
 import { ISelectOption } from "../../components/select/select";
 import { useImmer } from "use-immer";
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
 import { VIEW_GRADE } from "../../enums/view-grade";
 import {
@@ -192,7 +192,11 @@ function GradeAssessment() {
 
                 <div className={"flex items-center mt-4"}>
                     {listScore.map((item, index) => {
-                        return item.component;
+                        return (
+                            <React.Fragment key={index}>
+                                {item.component}
+                            </React.Fragment>
+                        );
                     })}
                 </div>
                 <div className={"mt-8"}></div>
