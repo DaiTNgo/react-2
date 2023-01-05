@@ -23,6 +23,7 @@ import {
 } from "../utils/convertLayout";
 import { StatusMachine } from "../../enums/status-machine";
 import { useColumnsGrade } from "../hooks/useColumnsGrade";
+import { Button } from "../../components/button";
 
 function GradeAssessment() {
     const { data } = useAudioAssessmentContext();
@@ -171,9 +172,13 @@ function GradeAssessment() {
                     })}
                 </div>
                 <div className={"mt-8"}></div>
-                <button className={styles.Save} onClick={handleSubmit}>
+                <Button
+                    needLoading
+                    className={styles.Save}
+                    onClick={handleSubmit}
+                >
                     Save
-                </button>
+                </Button>
             </Layout>
         </SIndex>
     );
