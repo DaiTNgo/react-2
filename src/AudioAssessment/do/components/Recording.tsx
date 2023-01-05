@@ -84,7 +84,7 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
 
     const recordAudio = useCallback(async () => {
         try {
-            const mimeType = MimeTypeAudio.MPEG;
+            const mimeType = MimeTypeAudio.MP3;
             const stream =
                 await window.self.navigator.mediaDevices.getUserMedia({
                     audio: audioRecordConstraints,
