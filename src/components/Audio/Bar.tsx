@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import styles from "./audio.module.scss";
-import { formatTimeToMMSS } from "../../helper";
+import { className, formatTimeToMMSS } from "../../helper";
 
 interface Props {
     curTime: number;
@@ -8,11 +8,6 @@ interface Props {
     onTimeUpdate: (time: number) => void;
 }
 
-const formatTime = (time: number | string) => {
-    const _time = Number(time);
-
-    if (!isNaN(_time)) return 0;
-};
 export default function Bar({ duration, curTime, onTimeUpdate }: Props) {
     const barRef = useRef<HTMLDivElement>(null);
 
@@ -20,7 +15,6 @@ export default function Bar({ duration, curTime, onTimeUpdate }: Props) {
 
     function formatDuration(duration: any) {
         return formatTimeToMMSS(duration);
-        // return moment(duration, "X").format("mm:ss");
     }
 
     const calcClickedTime = (e: any) => {
@@ -50,7 +44,13 @@ export default function Bar({ duration, curTime, onTimeUpdate }: Props) {
     return (
         <div className="bar">
             <div className={styles.Progress}>
-                <div className={styles.Thumb} ref={barRef} />
+                <div
+                    className={className(styles.Thumb, "cursor-pointer")}
+                    ref={barRef}
+                    onMouseDown={(e) => {
+                        onTimeUpdate(calcClickedTime(e));
+                    }}
+                />
                 <div
                     onMouseDown={handleTimeDrag}
                     className={styles.Track}

@@ -10,15 +10,17 @@ type Props = {
 
 function Audio({ src }: Props) {
     const refAudio = useRef<HTMLAudioElement>(null);
+    const [playing, setPlaying] = useState(false);
 
-    const { curTime, duration, playing, setPlaying, setClickedTime } =
-        useAudioPlayer(refAudio);
+    const { curTime, duration, setClickedTime } = useAudioPlayer(refAudio);
 
     const handlePlayAudio = () => {
+        refAudio.current!.play();
         setPlaying(true);
     };
 
     const handlePauseAudio = () => {
+        refAudio.current!.pause();
         setPlaying(false);
     };
 
