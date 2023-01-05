@@ -23,6 +23,8 @@ import { StatusMachine } from "../../enums/status-machine";
 import { useColumnsGrade } from "../hooks/useColumnsGrade";
 import { Button } from "../../components/button";
 import IconSync from "../../Icons/Sync";
+import Audio from "../../components/Audio";
+import { OPTIONS_SURVEY } from "../../enums/survey";
 
 function GradeAssessment() {
     const { data, urlRecordStudent } = useAudioAssessmentContext();
@@ -164,19 +166,27 @@ function GradeAssessment() {
                         }}
                     />
                 </div>
-                <div className={"fpr-audio"}>
-                    <p className={"fpr-audio__title"}>Recorded Content</p>
-                    <div className={"flex items-center gap-4"}>
-                        <audio controls src={urlRecordStudent}></audio>
-                        <button
-                            className={styles.Sync}
-                            onClick={handleSyncAudio}
-                        >
-                            <IconSync fill={"white"} width={18} />
-                            <p>Sync</p>
-                        </button>
+                {(data.surveyImplementOption ===
+                    OPTIONS_SURVEY.LEVEL_ONE.SELF_GUIDED ||
+                    data.surveyImplementOption ===
+                        OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD) && (
+                    <div className={"fpr-audio"}>
+                        <p className={"fpr-audio__title"}>Recorded Content</p>
+                        <div className={"flex items-center gap-4 mt-2"}>
+                            <Audio src={urlRecordStudent} />
+                            {data.surveyImplementOption ===
+                                OPTIONS_SURVEY.LEVEL_ONE.SELF_GUIDED && (
+                                <button
+                                    className={styles.Sync}
+                                    onClick={handleSyncAudio}
+                                >
+                                    <IconSync fill={"white"} width={18} />
+                                    <p>Sync</p>
+                                </button>
+                            )}
+                        </div>
                     </div>
-                </div>
+                )}
 
                 <Table dataSource={dataSource} columns={columns} />
 

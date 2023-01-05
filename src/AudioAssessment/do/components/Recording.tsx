@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import Micro from "../../../Icons/Micro";
 import { MimeTypeAudio } from "../../../enums/mime-type-audio";
+import { formatTimeToMMSS } from "../../../helper";
 
 export const TIME_RECORD_STANDARD = 120;
 
@@ -172,13 +173,7 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
         </div>
     );
 }
-const convertValueToTime = (value: number) => {
-    const minute = Math.floor(value / 60);
-    let second: number | string = value % 60;
-    second = second < 10 ? `0${second}` : second;
 
-    return `0${minute}:${second}`;
-};
 function Time({ stopped }: { stopped: MutableRefObject<boolean> }) {
     const [count, setCount] = useState(0);
     useEffect(() => {
@@ -192,7 +187,7 @@ function Time({ stopped }: { stopped: MutableRefObject<boolean> }) {
             clearInterval(id);
         };
     }, [stopped.current]);
-    return <>{convertValueToTime(count)}</>;
+    return <>{formatTimeToMMSS(count)}</>;
 }
 
 export default Recording;

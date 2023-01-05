@@ -30,7 +30,6 @@ function Button({ onClick, needLoading, children, ...props }: Props) {
 export { Button };
 
 export const MyButton = styled.button<{ loading?: boolean }>`
-    border-radius: 10px;
     cursor: pointer;
     ${({ loading }) => {
         if (!loading)
