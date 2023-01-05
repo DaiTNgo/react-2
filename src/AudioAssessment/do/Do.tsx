@@ -45,13 +45,13 @@ function DoAssessment() {
         // console.log("Recording:", file);
         const audioFile = new FormData();
         audioFile.append("audioFile", file);
-
+        //cqa2api.sadlierconnect.com
         openModal(
             <ModalSubmit
                 onSubmit={async () => {
                     try {
                         const resp = await fetch(
-                            `https://cqa2api.sadlierconnect.com/student/assignments/submissions?studentAssignmentId=${studentAssignmentId}&access_token=${accessToken}`,
+                            `https://localhost:9002/student/assignments/submissions?studentAssignmentId=${studentAssignmentId}&access_token=${accessToken}`,
                             {
                                 method: "post",
                                 body: audioFile,
