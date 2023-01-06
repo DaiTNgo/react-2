@@ -16,7 +16,7 @@ export const SSlider = styled.div`
         padding: 10px;
         //border: 1px solid #ccc;
         //border-radius: 10px;
-        min-width: 150px;
+        min-width: 160px;
         justify-content: center;
 
         &-previous {
@@ -26,12 +26,13 @@ export const SSlider = styled.div`
         }
     }
 
-    .stop-recording-button {
+    .finish-recording-button {
         background-color: black;
         color: white;
         padding: 4px 14px;
         cursor: pointer;
         border-radius: 4px;
+        min-width: 160px;
     }
 
     .dot-active {

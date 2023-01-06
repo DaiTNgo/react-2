@@ -128,9 +128,9 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
                     </div>
                     <div
                         style={{
-                            padding: "10px 20px",
-                            backgroundColor: "#c7c7c7",
+                            padding: "16px 20px",
                             borderRadius: 10,
+                            border: "4px solid #757575",
                         }}
                     >
                         <div
@@ -146,14 +146,14 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
                                         <div
                                             key={index}
                                             style={{
-                                                width: 10,
-                                                height: 40,
+                                                width: 14,
+                                                height: 32,
                                                 borderRadius: 999999,
                                                 backgroundColor:
                                                     level > index
-                                                        ? "gray"
+                                                        ? "#cacaca"
                                                         : "white",
-                                                border: "1px solid black",
+                                                border: "1px solid #707070",
                                             }}
                                         ></div>
                                     );
@@ -162,7 +162,8 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
                         <div
                             className={"time"}
                             style={{
-                                marginTop: 2,
+                                marginTop: 6,
+                                fontSize: 18,
                             }}
                         >
                             <Time stopped={stopped} />

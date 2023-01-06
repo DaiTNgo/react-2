@@ -119,13 +119,13 @@ function Slider({ isStarting, stopped, ...props }: Props) {
                 </button>
                 {isStarting && currentSlide === props.data.length - 1 && (
                     <button
-                        className="stop-recording-button"
+                        className="finish-recording-button"
                         onClick={handleSubmit}
                         style={{
                             transform: "translateX(40px)",
                         }}
                     >
-                        Stop Recording
+                        Finish Recording
                     </button>
                 )}
             </div>

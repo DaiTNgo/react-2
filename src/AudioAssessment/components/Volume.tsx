@@ -38,7 +38,7 @@ function Volume({ src }: Props) {
                 marginTop: 11,
             }}
         >
-            <IconVolume fill={starting ? "#0ac32d" : "black"} />
+            <IconVolume fill={starting ? "#0ac32d" : "#999999"} />
             <audio controls={false} ref={refAudio} src={src}></audio>
         </div>
     );
