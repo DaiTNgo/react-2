@@ -10,9 +10,7 @@ import GradeAssessment from "./grade";
 import ReGrade from "./re-grade";
 
 function AudioAssessment() {
-    const [data, setData] = useState<ResponseDefault | null>(
-        new ResponseDefault()
-    );
+    const [data, setData] = useState<ResponseDefault | null>(null);
 
     const [studentAssignmentId, setStudentAssignmentId] = useState<
         number | undefined
@@ -21,7 +19,7 @@ function AudioAssessment() {
     const [urlRecordStudent, setUrlRecordStudent] = useState("");
 
     const [layout, setLayout] = useState<ResourceLayoutEnum>(
-        ResourceLayoutEnum.GRADING
+        ResourceLayoutEnum.VIEW_RESOURCE
     );
 
     const [accessToken, setAccessToken] = useState("");
