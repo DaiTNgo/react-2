@@ -174,13 +174,8 @@ function GradeAssessment() {
                         <p className={"fpr-audio__title"}>Recorded Content</p>
                         <div className={"flex items-center gap-4 mt-2"}>
                             <Audio src={urlRecordStudent} />
-                            {/*<Audio*/}
-                            {/*    src={*/}
-                            {/*        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"*/}
-                            {/*    }*/}
-                            {/*/>*/}
                             {data.surveyImplementOption ===
-                                OPTIONS_SURVEY.LEVEL_ONE.SELF_GUIDED && (
+                                OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD && (
                                 <button
                                     className={styles.Sync}
                                     onClick={handleSyncAudio}
