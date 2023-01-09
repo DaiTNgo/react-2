@@ -25,7 +25,11 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
     useEffect(() => {
         const setAudioData = () => {
             if (audio.current!.duration == Infinity) {
-                audio.current!.currentTime = 0;
+                audio.current!.currentTime = 10000000;
+
+                setTimeout(() => {
+                    audio.current!.currentTime = 0;
+                }, 300);
             }
 
             audio.current!.addEventListener('durationchange', () => {
@@ -35,7 +39,7 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
             setDuration(audio.current!.duration);
             setCurTime(audio.current!.currentTime);
         };
-        // audio.current!.addEventListener('loadeddata', setAudioData);
+
         audio.current?.addEventListener('loadedmetadata', setAudioData);
         return () => {
             audio.current!.removeEventListener('loadeddata', setAudioData);

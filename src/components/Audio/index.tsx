@@ -15,7 +15,6 @@ function Audio({ src }: Props) {
     const { curTime, duration, setClickedTime } = useAudioPlayer(refAudio);
 
     const handlePlayAudio = () => {
-        refAudio.current!.load();
         refAudio.current!.play();
         setPlaying(true);
     };
