@@ -39,10 +39,10 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
                     audio.current!.currentTime = 0;
                     return;
                 };
-            } else {
-                setDuration(audio.current!.duration);
-                setCurTime(audio.current!.currentTime);
             }
+
+            setDuration(audio.current!.duration);
+            setCurTime(audio.current!.currentTime);
         };
         // audio.current!.addEventListener('loadeddata', setAudioData);
         audio.current?.addEventListener('loadedmetadata', setAudioData);
