@@ -1,4 +1,4 @@
-import { useState, useEffect, MutableRefObject, RefObject } from "react";
+import { useState, useEffect, MutableRefObject, RefObject } from 'react';
 
 function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
     const [duration, setDuration] = useState(0);
@@ -9,7 +9,7 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
     useEffect(() => {
         const setAudioTime = () => setCurTime(audio.current!.currentTime);
 
-        audio.current!.addEventListener("timeupdate", setAudioTime);
+        audio.current!.addEventListener('timeupdate', setAudioTime);
 
         if (clickedTime && clickedTime !== curTime) {
             audio.current!.currentTime = clickedTime;
@@ -19,18 +19,22 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
 
         // effect cleanup
         return () => {
-            audio.current!.removeEventListener("timeupdate", setAudioTime);
+            audio.current!.removeEventListener('timeupdate', setAudioTime);
         };
     }, [clickedTime]);
 
     useEffect(() => {
         const setAudioData = () => {
+            console.log({
+                currentTime: audio.current!.currentTime,
+                duration: audio.current!.duration,
+            });
             setDuration(audio.current!.duration);
             setCurTime(audio.current!.currentTime);
         };
-        audio.current!.addEventListener("loadeddata", setAudioData);
+        audio.current!.addEventListener('loadeddata', setAudioData);
         return () => {
-            audio.current!.removeEventListener("loadeddata", setAudioData);
+            audio.current!.removeEventListener('loadeddata', setAudioData);
         };
     }, []);
 

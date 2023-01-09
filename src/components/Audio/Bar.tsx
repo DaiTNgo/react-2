@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
-import styles from "./audio.module.scss";
-import { className, formatTimeToMMSS } from "../../helper";
+import React, { useRef } from 'react';
+import styles from './audio.module.scss';
+import { className, formatTimeToMMSS } from '../../helper';
 
 interface Props {
     curTime: number;
@@ -14,6 +14,7 @@ export default function Bar({ duration, curTime, onTimeUpdate }: Props) {
     const curPercentage = (curTime / duration) * 100;
 
     function formatDuration(duration: any) {
+        console.log('duration', duration);
         return formatTimeToMMSS(duration);
     }
 
@@ -34,18 +35,18 @@ export default function Bar({ duration, curTime, onTimeUpdate }: Props) {
             onTimeUpdate(calcClickedTime(eMove));
         };
 
-        document.addEventListener("mousemove", updateTimeOnMove);
+        document.addEventListener('mousemove', updateTimeOnMove);
 
-        document.addEventListener("mouseup", () => {
-            document.removeEventListener("mousemove", updateTimeOnMove);
+        document.addEventListener('mouseup', () => {
+            document.removeEventListener('mousemove', updateTimeOnMove);
         });
     };
 
     return (
-        <div className="bar">
+        <div className='bar'>
             <div className={styles.Progress}>
                 <div
-                    className={className(styles.Thumb, "cursor-pointer")}
+                    className={className(styles.Thumb, 'cursor-pointer')}
                     ref={barRef}
                     onMouseDown={(e) => {
                         onTimeUpdate(calcClickedTime(e));
