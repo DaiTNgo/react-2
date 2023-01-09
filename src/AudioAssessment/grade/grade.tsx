@@ -1,30 +1,30 @@
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Layout from "../components/Layout";
-import { useAudioAssessmentContext } from "../ContextAudioAssessment";
-import { SIndex } from "../styled/view";
-import { ResponseDefault } from "./type";
-import { getPhonicsAssessmentType, getScore } from "./utils";
-import Table from "../../components/table";
-import Select from "../../components/select";
-import styles from "./grade.module.scss";
-import { className, sendToParent } from "../../helper";
-import { ISelectOption } from "../../components/select/select";
-import { useImmer } from "use-immer";
-import React, { useCallback, useState } from "react";
-import { ACTION_POST_MESSAGE } from "../../enums/action";
-import { VIEW_GRADE } from "../../enums/view-grade";
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import Layout from '../components/Layout';
+import { useAudioAssessmentContext } from '../ContextAudioAssessment';
+import { SIndex } from '../styled/view';
+import { ResponseDefault } from './type';
+import { getPhonicsAssessmentType, getScore } from './utils';
+import Table from '../../components/table';
+import Select from '../../components/select';
+import styles from './grade.module.scss';
+import { className, sendToParent } from '../../helper';
+import { ISelectOption } from '../../components/select/select';
+import { useImmer } from 'use-immer';
+import React, { useCallback, useState } from 'react';
+import { ACTION_POST_MESSAGE } from '../../enums/action';
+import { VIEW_GRADE } from '../../enums/view-grade';
 import {
     getContentHeaderFooter,
     getDirections,
     getListWord,
-} from "../utils/convertLayout";
-import { StatusMachine } from "../../enums/status-machine";
-import { useColumnsGrade } from "../hooks/useColumnsGrade";
-import { Button } from "../../components/button";
-import IconSync from "../../Icons/Sync";
-import Audio from "../../components/Audio";
-import { OPTIONS_SURVEY } from "../../enums/survey";
+} from '../utils/convertLayout';
+import { StatusMachine } from '../../enums/status-machine';
+import { useColumnsGrade } from '../hooks/useColumnsGrade';
+import { Button } from '../../components/button';
+import IconSync from '../../Icons/Sync';
+import Audio from '../../components/Audio';
+import { OPTIONS_SURVEY } from '../../enums/survey';
 
 function GradeAssessment() {
     const { data, urlRecordStudent } = useAudioAssessmentContext();
@@ -45,7 +45,7 @@ function GradeAssessment() {
                 word: word,
                 key: index,
                 correct: StatusMachine.IDLE,
-                comment: "",
+                comment: '',
                 fluency: StatusMachine.IDLE,
                 accuracy: StatusMachine.IDLE,
             };
@@ -73,7 +73,7 @@ function GradeAssessment() {
 
     const listScore = [
         {
-            label: "Score",
+            label: 'Score',
             component: (
                 <div
                     style={{
@@ -89,7 +89,7 @@ function GradeAssessment() {
                 VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
         },
         {
-            label: "Accuracy Score",
+            label: 'Accuracy Score',
             component: (
                 <div
                     style={{
@@ -105,7 +105,7 @@ function GradeAssessment() {
                 VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
         },
         {
-            label: "Fluency Score",
+            label: 'Fluency Score',
             component: (
                 <div
                     style={{
@@ -119,7 +119,7 @@ function GradeAssessment() {
             hidden: phonicsAssessmentType !== VIEW_GRADE.FLUENCY_CHECK,
         },
         {
-            label: "Speed",
+            label: 'Speed',
             component: (
                 <div
                     style={{
@@ -133,14 +133,14 @@ function GradeAssessment() {
                         }}
                         selectedId={selectedId}
                         defaultOption={{
-                            label: "Select",
+                            label: 'Select',
                             value: -1,
                             key: -1,
                         }}
                         options={[
-                            { label: "Slow/labored", value: 1, key: 1 },
-                            { label: "Moderate", value: 2, key: 2 },
-                            { label: "Fast", value: 3, key: 3 },
+                            { label: 'Slow/labored', value: 1, key: 1 },
+                            { label: 'Moderate', value: 2, key: 2 },
+                            { label: 'Fast', value: 3, key: 3 },
                         ]}
                     />
                 </div>
@@ -159,28 +159,28 @@ function GradeAssessment() {
                 footer={<Footer content={contentHeaderFooter} />}
                 header={<Header content={contentHeaderFooter} />}
             >
-                <div className="flex items-start gap-1 fpr__directions">
+                <div className='flex items-start gap-1 fpr__directions'>
                     <div
                         dangerouslySetInnerHTML={{
                             __html: componentDirection,
                         }}
                     />
                 </div>
-                {(data.surveyImplementOption ===
+                {(data.assignment.surveyImplementOption ===
                     OPTIONS_SURVEY.LEVEL_ONE.SELF_GUIDED ||
-                    data.surveyImplementOption ===
+                    data.assignment.surveyImplementOption ===
                         OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD) && (
-                    <div className={"fpr-audio"}>
-                        <p className={"fpr-audio__title"}>Recorded Content</p>
-                        <div className={"flex items-center gap-4 mt-2"}>
+                    <div className={'fpr-audio'}>
+                        <p className={'fpr-audio__title'}>Recorded Content</p>
+                        <div className={'flex items-center gap-4 mt-2'}>
                             <Audio src={urlRecordStudent} />
-                            {data.surveyImplementOption ===
+                            {data.assignment.surveyImplementOption ===
                                 OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD && (
                                 <button
                                     className={styles.Sync}
                                     onClick={handleSyncAudio}
                                 >
-                                    <IconSync fill={"white"} width={18} />
+                                    <IconSync fill={'white'} width={18} />
                                     <p>Sync</p>
                                 </button>
                             )}
@@ -190,7 +190,7 @@ function GradeAssessment() {
 
                 <Table dataSource={dataSource} columns={columns} />
 
-                <div className={"flex items-center mt-4"}>
+                <div className={'flex items-center mt-4'}>
                     {listScore.map((item, index) => {
                         return (
                             <React.Fragment key={index}>
@@ -199,7 +199,7 @@ function GradeAssessment() {
                         );
                     })}
                 </div>
-                <div className={"mt-8"}></div>
+                <div className={'mt-8'}></div>
                 <Button
                     needLoading
                     className={styles.Save}

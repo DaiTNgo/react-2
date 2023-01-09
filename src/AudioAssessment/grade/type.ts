@@ -1,5 +1,5 @@
-import { IPassageDate } from "../types";
-import { VIEW_GRADE } from "../../enums/view-grade";
+import { IPassageDate } from '../types';
+import { VIEW_GRADE } from '../../enums/view-grade';
 
 export interface Response {
     currentQuestion: null;
@@ -13,7 +13,7 @@ export interface Response {
     showConnotation: boolean;
     showSelfCheckButtons: boolean;
     applicationSettingMap: {
-        enable_create_assignment: "Enable";
+        enable_create_assignment: 'Enable';
     };
     questionBean: {
         maxSize: 4;
@@ -35,37 +35,37 @@ export interface Response {
                 answerCount: -1;
                 correctAnswerNumber: -1;
                 correctAnswer: '{"comps":[{"id":"FPR_g1_cps_as1_q1_ans01","value":"","type":"Audio_Record"}]}';
-                correctAnswerHTML: "Answer will vary.";
+                correctAnswerHTML: 'Answer will vary.';
                 questionPoolId: -1;
                 maxScore: 1;
                 questionSetPassageId: 532425;
                 questionSetPassageXML: '<div class="direction-wrapper">\n<div class="direction-title">\n<div class="flash-card-audio">\n<audio src="/content/audios/DL_Survey.mp3"></audio>\n</div>\n<b>Directions:</b></div>\n\n<p class="direction-content">Select Record to begin.<br />\nRead the word aloud.<br />\nSelect the arrow to read the next word.<br />\nSelect Stop Recording when you finish the assessment. Then, select Submit to submit your recording to your teacher.</p>\n</div>';
-                questionType: "TE";
-                gridableType: "";
+                questionType: 'TE';
+                gridableType: '';
                 assessmentId: null;
                 responseScore: null;
                 originalScore: null;
                 lastModifiedScore: null;
-                rubric: "";
-                problemSolution: "";
-                rubricRules: "";
-                scoringFormula: "";
-                toolset: "";
-                webDOK: "";
+                rubric: '';
+                problemSolution: '';
+                rubricRules: '';
+                scoringFormula: '';
+                toolset: '';
+                webDOK: '';
                 correctAsIs: boolean;
-                questionUid: "5e0103cb-cf68-4eb1-a615-ce2e527fc611";
-                questionNumCssClass: "";
-                questionNumCssStyle: "";
+                questionUid: '5e0103cb-cf68-4eb1-a615-ce2e527fc611';
+                questionNumCssClass: '';
+                questionNumCssStyle: '';
                 toolsetList: [];
-                renderRule: "";
-                words: "";
-                connotation: "";
-                reportingRule: "";
+                renderRule: '';
+                words: '';
+                connotation: '';
+                reportingRule: '';
                 hideLabelRule: boolean;
-                printPregeneratedHtmlContent: "";
-                wordMeaning: "";
-                labelSchema: "";
-                labelSchemaCustom: "";
+                printPregeneratedHtmlContent: '';
+                wordMeaning: '';
+                labelSchema: '';
+                labelSchemaCustom: '';
                 hasAlgorithm: boolean;
                 hasMoved: boolean;
                 scoreList: null;
@@ -73,47 +73,47 @@ export interface Response {
                 responseId: null;
                 isSkippedAnswer: boolean;
                 isMaster: null;
-                hint1: "";
-                hint2: "";
-                hint3: "";
-                hint4: "";
+                hint1: '';
+                hint2: '';
+                hint3: '';
+                hint4: '';
                 screenId: 0;
                 screenElementId: 0;
-                feedback: "";
-                originalFeedback: "";
-                componentGradingRules: "";
+                feedback: '';
+                originalFeedback: '';
+                componentGradingRules: '';
                 autoScoreTE: boolean;
-                answerQuestionPid: "";
+                answerQuestionPid: '';
                 baseQuestionId: -1;
                 isLastQuestionSetInList: null;
                 needConvertToIse: null;
                 label: null;
                 isSkiped: boolean;
-                smp: "";
+                smp: '';
                 questionIdsGroup: [];
                 multipartQuestions: [];
                 studentQuestionNumber: 0;
                 standards: [];
                 parentLink: -1;
-                collaboration: "";
-                wordMapContent: "";
-                wordMapUri: "";
+                collaboration: '';
+                wordMapContent: '';
+                wordMapUri: '';
                 resourceTitle: null;
                 programTocName: null;
                 programTocId: null;
                 questionJson: '{"contents":["lat","ped","sib","mog","vun","fim","hep","yot","rud","cag"]}';
                 questionJsonObject: {
                     contents: [
-                        "lat",
-                        "ped",
-                        "sib",
-                        "mog",
-                        "vun",
-                        "fim",
-                        "hep",
-                        "yot",
-                        "rud",
-                        "cag"
+                        'lat',
+                        'ped',
+                        'sib',
+                        'mog',
+                        'vun',
+                        'fim',
+                        'hep',
+                        'yot',
+                        'rud',
+                        'cag'
                     ];
                 };
                 questionSetPassageXml: '<div class="direction-wrapper">\n<div class="direction-title">\n<div class="flash-card-audio">\n<audio src="/content/audios/DL_Survey.mp3"></audio>\n</div>\n<b>Directions:</b></div>\n\n<p class="direction-content">Select Record to begin.<br />\nRead the word aloud.<br />\nSelect the arrow to read the next word.<br />\nSelect Stop Recording when you finish the assessment. Then, select Submit to submit your recording to your teacher.</p>\n</div>';
@@ -135,17 +135,22 @@ export interface Response {
     passageData: IPassageDate;
     resource: {
         resourceId: 348881;
-        title: "Part A: Short Vowels";
+        title: 'Part A: Short Vowels';
     };
 }
 
 export class ResponseDefault extends Response {
     resource = {
         resourceId: 348881,
-        title: "Part A: Short Vowels",
+        title: 'Part A: Short Vowels',
         phonicsAssessmentType: VIEW_GRADE.HIGH_FREQUENCY_WORD,
     };
-
+    assignment = {
+        assessmentPeriod: 'BEGINNING_OF_YEAR_ASSESSMENT_PERIOD',
+        assignmentId: 972717,
+        name: 'Assessment: Cumulative Assessment: Fluency Check',
+        surveyImplementOption: 'SELF_GUIDED_ASSESSMENT',
+    };
     questionBean = {
         listQuestion: [
             {
@@ -153,16 +158,16 @@ export class ResponseDefault extends Response {
                     '<div class="direction-wrapper">\n<div class="direction-title">\n<div class="flash-card-audio">\n<audio src="/content/audios/DL_Survey.mp3"></audio>\n</div>\n<b>Directions:</b></div>\n\n<p class="direction-content">Select Record to begin.<br />\nRead the word aloud.<br />\nSelect the arrow to read the next word.<br />\nSelect Stop Recording when you finish the assessment. Then, select Submit to submit your recording to your teacher.</p>\n</div>',
                 questionJsonObject: {
                     contents: [
-                        "lat",
-                        "ped",
-                        "sib",
-                        "mog",
-                        "vun",
-                        "fim",
-                        "hep",
-                        "yot",
-                        "rud",
-                        "cag",
+                        'lat',
+                        'ped',
+                        'sib',
+                        'mog',
+                        'vun',
+                        'fim',
+                        'hep',
+                        'yot',
+                        'rud',
+                        'cag',
                     ],
                 },
             },
@@ -170,13 +175,13 @@ export class ResponseDefault extends Response {
     };
 
     passageData = {
-        programTocName: "",
-        resourceTitle: "",
-        productLevel: "",
-        programFooterImage: "",
-        tocBackgroundImage: "",
+        programTocName: '',
+        resourceTitle: '',
+        productLevel: '',
+        programFooterImage: '',
+        tocBackgroundImage: '',
         copyright:
-            "Copyright &copy; 2021 William H. Sadlier, Inc. All rights reserved.",
+            'Copyright &copy; 2021 William H. Sadlier, Inc. All rights reserved.',
         phonicsAssessmentType: VIEW_GRADE.HIGH_FREQUENCY_WORD,
     };
 }

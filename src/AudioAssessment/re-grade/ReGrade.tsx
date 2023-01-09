@@ -1,31 +1,31 @@
-import React, { useCallback, useState } from "react";
-import { useAudioAssessmentContext } from "../ContextAudioAssessment";
+import React, { useCallback, useState } from 'react';
+import { useAudioAssessmentContext } from '../ContextAudioAssessment';
 import {
     getContentHeaderFooter,
     getDirections,
     getListWord,
-} from "../utils/convertLayout";
-import { ResponseDefault } from "../grade/type";
-import { getPhonicsAssessmentType, getScore } from "../grade/utils";
-import Select, { ISelectOption } from "../../components/select/select";
-import { useImmer } from "use-immer";
-import { className, sendToParent } from "../../helper";
-import { ACTION_POST_MESSAGE } from "../../enums/action";
-import styles from "../grade/grade.module.scss";
-import { VIEW_GRADE } from "../../enums/view-grade";
-import { SIndex } from "../styled/view";
-import Layout from "../components/Layout";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Table from "../../components/table";
-import Check from "../../Icons/Check";
-import XMark from "../../Icons/XMark";
-import { getResultData } from "./utils";
-import { useColumnsGrade } from "../hooks/useColumnsGrade";
-import { OPTIONS_SURVEY } from "../../enums/survey";
-import Audio from "../../components/Audio";
-import IconSync from "../../Icons/Sync";
-import { Button } from "../../components/button";
+} from '../utils/convertLayout';
+import { ResponseDefault } from '../grade/type';
+import { getPhonicsAssessmentType, getScore } from '../grade/utils';
+import Select, { ISelectOption } from '../../components/select/select';
+import { useImmer } from 'use-immer';
+import { className, sendToParent } from '../../helper';
+import { ACTION_POST_MESSAGE } from '../../enums/action';
+import styles from '../grade/grade.module.scss';
+import { VIEW_GRADE } from '../../enums/view-grade';
+import { SIndex } from '../styled/view';
+import Layout from '../components/Layout';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import Table from '../../components/table';
+import Check from '../../Icons/Check';
+import XMark from '../../Icons/XMark';
+import { getResultData } from './utils';
+import { useColumnsGrade } from '../hooks/useColumnsGrade';
+import { OPTIONS_SURVEY } from '../../enums/survey';
+import Audio from '../../components/Audio';
+import IconSync from '../../Icons/Sync';
+import { Button } from '../../components/button';
 
 type Props = any;
 
@@ -70,7 +70,7 @@ function ReGrade({}: Props) {
 
     const listScore = [
         {
-            label: "Score",
+            label: 'Score',
             component: (
                 <div
                     style={{
@@ -86,7 +86,7 @@ function ReGrade({}: Props) {
                 VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
         },
         {
-            label: "Accuracy Score",
+            label: 'Accuracy Score',
             component: (
                 <div
                     style={{
@@ -102,7 +102,7 @@ function ReGrade({}: Props) {
                 VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
         },
         {
-            label: "Fluency Score",
+            label: 'Fluency Score',
             component: (
                 <div
                     style={{
@@ -116,7 +116,7 @@ function ReGrade({}: Props) {
             hidden: phonicsAssessmentType !== VIEW_GRADE.FLUENCY_CHECK,
         },
         {
-            label: "Speed",
+            label: 'Speed',
             component: (
                 <div
                     style={{
@@ -130,14 +130,14 @@ function ReGrade({}: Props) {
                         }}
                         selectedId={selectedId}
                         defaultOption={{
-                            label: "Select",
+                            label: 'Select',
                             value: -1,
                             key: -1,
                         }}
                         options={[
-                            { label: "Slow/labored", value: 1, key: 1 },
-                            { label: "Moderate", value: 2, key: 2 },
-                            { label: "Fast", value: 3, key: 3 },
+                            { label: 'Slow/labored', value: 1, key: 1 },
+                            { label: 'Moderate', value: 2, key: 2 },
+                            { label: 'Fast', value: 3, key: 3 },
                         ]}
                     />
                 </div>
@@ -157,28 +157,28 @@ function ReGrade({}: Props) {
                 footer={<Footer content={contentHeaderFooter} />}
                 header={<Header content={contentHeaderFooter} />}
             >
-                <div className="flex items-start gap-1 fpr__directions">
+                <div className='flex items-start gap-1 fpr__directions'>
                     <div
                         dangerouslySetInnerHTML={{
                             __html: componentDirection,
                         }}
                     />
                 </div>
-                {(data.surveyImplementOption ===
+                {(data.assignment.surveyImplementOption ===
                     OPTIONS_SURVEY.LEVEL_ONE.SELF_GUIDED ||
-                    data.surveyImplementOption ===
+                    data.assignment.surveyImplementOption ===
                         OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD) && (
-                    <div className={"fpr-audio"}>
-                        <p className={"fpr-audio__title"}>Recorded Content</p>
-                        <div className={"flex items-center gap-4 mt-2"}>
+                    <div className={'fpr-audio'}>
+                        <p className={'fpr-audio__title'}>Recorded Content</p>
+                        <div className={'flex items-center gap-4 mt-2'}>
                             <Audio src={urlRecordStudent} />
-                            {data.surveyImplementOption ===
-                                OPTIONS_SURVEY.LEVEL_ONE.SELF_GUIDED && (
+                            {data.assignment.surveyImplementOption ===
+                                OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD && (
                                 <button
                                     className={styles.Sync}
                                     onClick={handleSyncAudio}
                                 >
-                                    <IconSync fill={"white"} width={18} />
+                                    <IconSync fill={'white'} width={18} />
                                     <p>Sync</p>
                                 </button>
                             )}
@@ -188,7 +188,7 @@ function ReGrade({}: Props) {
 
                 <Table dataSource={dataSource} columns={columns} />
 
-                <div className={"flex items-center mt-4"}>
+                <div className={'flex items-center mt-4'}>
                     {listScore.map((item, index) => {
                         return (
                             <React.Fragment key={index}>
@@ -197,7 +197,7 @@ function ReGrade({}: Props) {
                         );
                     })}
                 </div>
-                <div className={"mt-8"}></div>
+                <div className={'mt-8'}></div>
                 <Button
                     needLoading
                     className={styles.Save}
