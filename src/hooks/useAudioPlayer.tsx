@@ -24,22 +24,13 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
 
     useEffect(() => {
         const setAudioData = () => {
-            console.log({
-                currentTime: audio.current!.currentTime,
-                duration: audio.current!.duration,
-                audio: audio.current,
-            });
-
             if (audio.current!.duration == Infinity) {
-                audio.current!.currentTime = 1e101;
-                audio.current!.ontimeupdate = function () {
-                    this.ontimeupdate = () => {
-                        return;
-                    };
-                    audio.current!.currentTime = 0;
-                    return;
-                };
+                audio.current!.currentTime = 0;
             }
+
+            audio.current!.addEventListener('durationchange', () => {
+                setDuration(audio.current!.duration);
+            });
 
             setDuration(audio.current!.duration);
             setCurTime(audio.current!.currentTime);
