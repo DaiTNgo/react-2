@@ -27,6 +27,7 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
             console.log({
                 currentTime: audio.current!.currentTime,
                 duration: audio.current!.duration,
+                audio: audio.current,
             });
             setDuration(audio.current!.duration);
             setCurTime(audio.current!.currentTime);
