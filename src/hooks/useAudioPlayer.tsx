@@ -29,8 +29,20 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
                 duration: audio.current!.duration,
                 audio: audio.current,
             });
-            setDuration(audio.current!.duration);
-            setCurTime(audio.current!.currentTime);
+
+            if (audio.current!.duration == Infinity) {
+                audio.current!.currentTime = 1e101;
+                audio.current!.ontimeupdate = function () {
+                    this.ontimeupdate = () => {
+                        return;
+                    };
+                    audio.current!.currentTime = 0;
+                    return;
+                };
+            } else {
+                setDuration(audio.current!.duration);
+                setCurTime(audio.current!.currentTime);
+            }
         };
         // audio.current!.addEventListener('loadeddata', setAudioData);
         audio.current?.addEventListener('loadedmetadata', setAudioData);
