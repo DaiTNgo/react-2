@@ -1,9 +1,9 @@
-import React, { AudioHTMLAttributes, useEffect, useRef, useState } from "react";
-import styles from "./audio.module.scss";
-import IconPlay from "../../Icons/Play";
-import IconPause from "../../Icons/Pause";
-import useAudioPlayer from "../../hooks/useAudioPlayer";
-import Bar from "./Bar";
+import React, { AudioHTMLAttributes, useEffect, useRef, useState } from 'react';
+import styles from './audio.module.scss';
+import IconPlay from '../../Icons/Play';
+import IconPause from '../../Icons/Pause';
+import useAudioPlayer from '../../hooks/useAudioPlayer';
+import Bar from './Bar';
 type Props = {
     src: string;
 };
@@ -26,14 +26,14 @@ function Audio({ src }: Props) {
 
     return (
         <React.Fragment>
-            <div className={"flex items-center gap-4"}>
+            <div className={'flex items-center gap-4'}>
                 {playing ? (
                     <button className={styles.Pause} onClick={handlePauseAudio}>
-                        <IconPause fill={"white"} />
+                        <IconPause fill={'white'} />
                     </button>
                 ) : (
                     <button className={styles.Play} onClick={handlePlayAudio}>
-                        <IconPlay fill={"white"} />
+                        <IconPlay fill={'white'} />
                     </button>
                 )}
 

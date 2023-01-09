@@ -3,7 +3,6 @@ import { useState, useEffect, MutableRefObject, RefObject } from 'react';
 function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
     const [duration, setDuration] = useState(0);
     const [curTime, setCurTime] = useState(0);
-    // const [playing, setPlaying] = useState(false);
     const [clickedTime, setClickedTime] = useState<number>(0);
 
     useEffect(() => {
@@ -32,7 +31,8 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
             setDuration(audio.current!.duration);
             setCurTime(audio.current!.currentTime);
         };
-        audio.current!.addEventListener('loadeddata', setAudioData);
+        // audio.current!.addEventListener('loadeddata', setAudioData);
+        audio.current?.addEventListener('loadedmetadata', setAudioData);
         return () => {
             audio.current!.removeEventListener('loadeddata', setAudioData);
         };
