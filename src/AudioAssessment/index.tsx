@@ -10,9 +10,7 @@ import GradeAssessment from "./grade";
 import ReGrade from "./re-grade";
 
 function AudioAssessment() {
-    const [data, setData] = useState<ResponseDefault | null>(
-        new ResponseDefault()
-    );
+    const [data, setData] = useState<ResponseDefault | null>();
 
     const [studentAssignmentId, setStudentAssignmentId] = useState<
         number | undefined

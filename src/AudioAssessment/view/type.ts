@@ -139,12 +139,25 @@ export interface Response {
 }
 
 export class ResponseDefault extends Response {
-    resource = {
-        resourceId: 348881,
-        title: "Part A: Short Vowels",
-        phonicsAssessmentType: VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
+    assignment = {
+        assignmentId: 972717,
+        name: "Assessment: Cumulative Assessment: Fluency Check",
+        surveyImplementOption: "SELF_GUIDED_ASSESSMENT",
+        assessmentPeriod: "BEGINNING_OF_YEAR_ASSESSMENT_PERIOD",
     };
-
+    resource = {
+        resourceId: 352100,
+        title: "Cumulative Assessment: Fluency Check",
+        resourceBrand: "ISE",
+        phonicsSurveyType: "SURVEYFLUENCY",
+        phonicsAssessmentType: VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY, //"Fluency Check",
+        toc: {
+            programTOCId: 7641,
+            name: "Assessment",
+        },
+        assignableResource: false,
+        audioAssessment: true,
+    };
     questionBean = {
         listQuestion: [
             {

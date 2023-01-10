@@ -50,7 +50,9 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
         //-------------------
         // mediaStreamSource.connect(audioContext);
 
-        const mediaRecorder = new MediaRecorder(stream);
+        const mediaRecorder = new MediaRecorder(stream, {
+            mimeType: MimeTypeAudio.MP3,
+        });
 
         const onRecord = (e: BlobEvent) => {
             if (e.data.size > 0) {

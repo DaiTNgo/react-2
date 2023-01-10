@@ -1,7 +1,8 @@
 import { createContext, useContext } from "react";
+import { ResponseDefault } from "./view/type";
 
 type AudioAssessmentContextType = {
-    data: any;
+    data: ResponseDefault;
     studentAssignmentId: number | undefined;
     accessToken: string;
     location: string;

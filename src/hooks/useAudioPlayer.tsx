@@ -1,4 +1,4 @@
-import { useState, useEffect, MutableRefObject, RefObject } from 'react';
+import { useState, useEffect, MutableRefObject, RefObject } from "react";
 
 function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
     const [duration, setDuration] = useState(0);
@@ -8,7 +8,7 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
     useEffect(() => {
         const setAudioTime = () => setCurTime(audio.current!.currentTime);
 
-        audio.current!.addEventListener('timeupdate', setAudioTime);
+        audio.current!.addEventListener("timeupdate", setAudioTime);
 
         if (clickedTime && clickedTime !== curTime) {
             audio.current!.currentTime = clickedTime;
@@ -18,7 +18,8 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
 
         // effect cleanup
         return () => {
-            audio.current!.removeEventListener('timeupdate', setAudioTime);
+            if (audio.current)
+                audio.current!.removeEventListener("timeupdate", setAudioTime);
         };
     }, [clickedTime]);
 
@@ -32,7 +33,7 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
                 }, 300);
             }
 
-            audio.current!.addEventListener('durationchange', () => {
+            audio.current!.addEventListener("durationchange", () => {
                 setDuration(audio.current!.duration);
             });
 
@@ -40,9 +41,10 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
             setCurTime(audio.current!.currentTime);
         };
 
-        audio.current?.addEventListener('loadedmetadata', setAudioData);
+        audio.current?.addEventListener("loadedmetadata", setAudioData);
         return () => {
-            audio.current!.removeEventListener('loadeddata', setAudioData);
+            if (audio.current)
+                audio.current!.removeEventListener("loadeddata", setAudioData);
         };
     }, []);
 
