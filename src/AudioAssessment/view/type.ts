@@ -181,6 +181,9 @@ export class ResponseDefault extends Response {
         ],
     };
 
+    gradingResults = [];
+    speedScore = 0;
+
     passageData = {
         programTocName: "",
         resourceTitle: "",

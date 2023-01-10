@@ -1,4 +1,4 @@
-import { ResponseDefault } from "../types";
+import { ResponseDefault } from "../view/type";
 
 export const getResultData = (
     data: ResponseDefault & { gradingResults: any[] }
