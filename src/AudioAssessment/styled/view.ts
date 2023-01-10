@@ -108,13 +108,11 @@ export const SIndex = styled.div`
         font-size: 18px;
 
         b {
-            font-family: "HelveticaNeue-Bold", Helvetica, arial, sans-serif;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         p {
             font-size: 18px;
-            font-family: "HelveticaNeue-Light", Helvetica, arial, sans-serif;
         }
     }
 
@@ -176,14 +174,12 @@ export const Header = styled.div`
         .header-title {
             font-size: 20px;
             padding-top: 15px;
-            font-family: "HelveticaNeue-Bold";
-            font-weight: normal;
+            font-weight: 700;
             color: #fff;
         }
 
         .header-subtitle {
             color: #a7d6f8;
-            font-family: "HelveticaNeue";
             font-size: 16px;
         }
     }
@@ -208,6 +204,5 @@ export const Footer = styled.div`
         border-left: 1px solid #666666;
         padding-left: var(--space);
         margin-left: var(--space);
-        font-family: HelveticaNeue;
     }
 `;

@@ -10,7 +10,9 @@ function Footer({ content }: Props) {
             <div className="footer-left flex items-center justify-center">
                 <img
                     style={{
-                        height: 23,
+                        height: 40,
+                        width: 230,
+                        objectFit: "contain",
                     }}
                     src={content.programFooterImage}
                     alt="footer resource"
