@@ -8,7 +8,13 @@ function Footer({ content }: Props) {
     return (
         <S.Footer className="flex items-center justify-between mt-auto">
             <div className="footer-left flex items-center justify-center">
-                <img src={content.programFooterImage} alt="footer resource" />
+                <img
+                    style={{
+                        height: 23,
+                    }}
+                    src={content.programFooterImage}
+                    alt="footer resource"
+                />
                 <span />
                 <p className="program-footer-name">{content.productLevel}</p>
             </div>
