@@ -134,6 +134,22 @@ export const SIndex = styled.div`
             font-size: 3rem;
         }
     }
+
+    //.direction-title {
+    //    b {
+    //        position: relative;
+    //        &::after {
+    //            position: absolute;
+    //            top: 50%;
+    //            /* left: 100%; */
+    //            content: "";
+    //            width: 40px;
+    //            height: 100%;
+    //            transform: translateY(-50%);
+    //            background: url("https://www.wired.com/wp-content/uploads/images_blogs/wiredscience/2012/12/birdlights.jpg");
+    //        }
+    //    }
+    //}
 `;
 
 export const Header = styled.div`

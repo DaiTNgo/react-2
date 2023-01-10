@@ -35,10 +35,15 @@ function Volume({ src }: Props) {
         <div
             onClick={handleStartAudio}
             style={{
-                marginTop: 11,
+                position: "absolute",
+                top: 15,
+                left: 170,
             }}
         >
-            <IconVolume fill={starting ? "#0ac32d" : "#999999"} />
+            <IconVolume
+                active={starting}
+                fill={starting ? "#0ac32d" : "#999999"}
+            />
             <audio controls={false} ref={refAudio} src={src}></audio>
         </div>
     );
