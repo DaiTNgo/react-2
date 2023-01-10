@@ -131,7 +131,7 @@ function Slider({ isStarting, stopped, ...props }: Props) {
             <div className="dots flex justify-center gap-2 mt-4">
                 {props.data.length && (
                     <p>
-                        {currentSlide + 1} Of {props.data.length}
+                        {currentSlide + 1} out of {props.data.length}
                     </p>
                 )}
             </div>
