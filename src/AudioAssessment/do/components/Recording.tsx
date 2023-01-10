@@ -61,7 +61,6 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
                 const size = dim * meter; // max:24 => / 2 => 12;
                 setLevel(Math.floor(size / 2));
             }
-
             if (
                 stopped.current === true &&
                 mediaRecorder.state == "recording"
@@ -75,7 +74,6 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
             const blob = new Blob(recordedChunks, {
                 type: mimeType,
             });
-            // console.log(blob.type);
             recordedChunks = [];
             onSubmitAssignment(blob);
         });
@@ -84,15 +82,14 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
     }, []);
 
     const recordAudio = useCallback(async () => {
+        const mimeType = MimeTypeAudio.MP3;
         try {
-            const mimeType = MimeTypeAudio.MP3;
-            const stream =
-                await window.self.navigator.mediaDevices.getUserMedia({
-                    audio: audioRecordConstraints,
-                });
+            const stream = await window.navigator.mediaDevices.getUserMedia({
+                audio: audioRecordConstraints,
+            });
             handleRecord({ stream, mimeType });
         } catch (e: any) {
-            console.log("FPR:::", e.name);
+            console.log("[ERR]", e);
         }
     }, [handleRecord]);
 

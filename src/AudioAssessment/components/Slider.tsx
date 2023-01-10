@@ -114,7 +114,6 @@ function Slider({ isStarting, stopped, ...props }: Props) {
                     }
                     `}
                 >
-                    {/*mx-4*/}
                     <ArrowRight />
                 </button>
                 {isStarting && currentSlide === props.data.length - 1 && (
@@ -130,20 +129,11 @@ function Slider({ isStarting, stopped, ...props }: Props) {
                 )}
             </div>
             <div className="dots flex justify-center gap-2 mt-4">
-                {props.data &&
-                    props.data.length > 0 &&
-                    props.data.map((_, i) => {
-                        return (
-                            <div
-                                className="w-3 h-3 rounded-full border border-gray-400 cursor-pointer"
-                                style={{
-                                    backgroundColor:
-                                        i === currentSlide ? "gray" : "inherit",
-                                }}
-                                onClick={onChange(i)}
-                            />
-                        );
-                    })}
+                {props.data.length && (
+                    <p>
+                        {currentSlide + 1} Of {props.data.length}
+                    </p>
+                )}
             </div>
         </SSlider>
     );

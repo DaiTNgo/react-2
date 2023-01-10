@@ -159,6 +159,7 @@ export const useColumnsGrade = ({
             render: (record: any, index: any) => {
                 return (
                     <div
+                        className={"w-full"}
                         style={{
                             border: "1px solid #ccc",
                             borderRadius: 4,
@@ -167,9 +168,7 @@ export const useColumnsGrade = ({
                         }}
                     >
                         <input
-                            style={{
-                                outline: "none",
-                            }}
+                            className={"w-full outline-none"}
                             type={"text"}
                             placeholder={"Enter text here. (Optional)"}
                             value={record.comment}

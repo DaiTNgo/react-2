@@ -28,14 +28,10 @@ import { OPTIONS_SURVEY } from "../../enums/survey";
 
 function GradeAssessment() {
     const { data, urlRecordStudent } = useAudioAssessmentContext();
-    const listWord = getListWord(data as ResponseDefault);
-    const { direction: componentDirection, pathAudio } = getDirections(
-        data as ResponseDefault
-    );
-    const contentHeaderFooter = getContentHeaderFooter(data as ResponseDefault);
-    const phonicsAssessmentType = getPhonicsAssessmentType(
-        data as ResponseDefault
-    );
+    const listWord = getListWord(data);
+    const { direction: componentDirection, pathAudio } = getDirections(data);
+    const contentHeaderFooter = getContentHeaderFooter(data);
+    const phonicsAssessmentType = getPhonicsAssessmentType(data);
 
     const [selectedId, setSelectedId] = useState<number>(-1);
 
@@ -166,15 +162,15 @@ function GradeAssessment() {
                         }}
                     />
                 </div>
-                {(data.assignments.surveyImplementOption ===
+                {(data.assignment.surveyImplementOption ===
                     OPTIONS_SURVEY.LEVEL_ONE.SELF_GUIDED ||
-                    data.assignments.surveyImplementOption ===
+                    data.assignment.surveyImplementOption ===
                         OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD) && (
                     <div className={"fpr-audio"}>
                         <p className={"fpr-audio__title"}>Recorded Content</p>
                         <div className={"flex items-center gap-4 mt-2"}>
                             <Audio src={urlRecordStudent} />
-                            {data.assignments.surveyImplementOption ===
+                            {data.assignment.surveyImplementOption ===
                                 OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD && (
                                 <button
                                     className={styles.Sync}

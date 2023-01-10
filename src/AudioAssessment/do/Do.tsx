@@ -62,10 +62,13 @@ function DoAssessment() {
                 footer={<Footer content={contentHeaderFooter} />}
                 header={<Header content={contentHeaderFooter} />}
             >
-                <div className="flex items-start gap-1 wrapper">
-                    <div className="cursor-pointer">
-                        <Volume src={""} />
-                    </div>
+                <div className="flex items-start gap-1 wrapper relative">
+                    <Volume
+                        // src={"https://cqa2.sadlierconnect.com" + pathAudio}
+                        src={
+                            "https://cqa.sadlierconnect.com/content/803001/007743417/direction-line.mp3"
+                        }
+                    />
                     <div
                         dangerouslySetInnerHTML={{
                             __html: componentDirection,
@@ -83,12 +86,15 @@ function DoAssessment() {
                         <Record startRecording={startRecording} />
                     )}
                 </Wrapper>
-                <Slider
-                    title={data.resource.title}
-                    data={listWord}
-                    isStarting={isStarting}
-                    stopped={stopped}
-                />
+
+                {isStarting && (
+                    <Slider
+                        title={data.resource.title}
+                        data={listWord}
+                        isStarting={isStarting}
+                        stopped={stopped}
+                    />
+                )}
             </Layout>
         </SIndex>
     );

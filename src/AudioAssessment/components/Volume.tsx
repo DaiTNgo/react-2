@@ -36,8 +36,8 @@ function Volume({ src }: Props) {
             onClick={handleStartAudio}
             style={{
                 position: "absolute",
-                top: 15,
-                left: 170,
+                top: 14,
+                left: 140,
             }}
         >
             <IconVolume
