@@ -11,7 +11,7 @@ import styles from "./grade.module.scss";
 import { className, sendToParent } from "../../helper";
 import { ISelectOption } from "../../components/select/select";
 import { useImmer } from "use-immer";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
 import { VIEW_GRADE } from "../../enums/view-grade";
 import {
@@ -35,37 +35,22 @@ function GradeAssessment() {
 
     const [selectedId, setSelectedId] = useState<number>(-1);
 
-    const [dataSource, setDataSource] = useImmer(() => {
-        return listWord.map((word, index) => {
-            return {
-                word: word,
-                key: index,
-                correct: StatusMachine.IDLE,
-                comment: "",
-                fluency: StatusMachine.IDLE,
-                accuracy: StatusMachine.IDLE,
-            };
-        });
+    const defaultOption = <T, K>(word: T, key: K) => ({
+        word,
+        key,
+        correct: StatusMachine.IDLE,
+        comment: "",
+        fluency: StatusMachine.IDLE,
+        accuracy: StatusMachine.IDLE,
     });
 
-    const columns = useColumnsGrade({
-        setDataSource,
-        phonicsAssessmentType,
+    const [dataSource, setDataSource] = useImmer(() => {
+        return listWord.map((word, index) => {
+            return defaultOption(word, index);
+        });
     });
 
     const { score, accuracy, fluency } = getScore(dataSource);
-    const handleSubmit = () => {
-        sendToParent({
-            action: ACTION_POST_MESSAGE.FPR_SUBMIT_GRADING,
-            body: {
-                gradingResults: dataSource,
-                speedScore: selectedId,
-                score,
-                fluencyScore: fluency,
-                accuracyScore: accuracy,
-            },
-        });
-    };
 
     const listScore = [
         {
@@ -144,11 +129,68 @@ function GradeAssessment() {
         },
     ].filter((rc) => !rc?.hidden);
 
+    const columns = useColumnsGrade({
+        setDataSource,
+        phonicsAssessmentType,
+    });
+
+    const handleSubmit = () => {
+        sendToParent({
+            action: ACTION_POST_MESSAGE.FPR_SUBMIT_GRADING,
+            body: {
+                gradingResults: dataSource,
+                speedScore: selectedId,
+                score,
+                fluencyScore: fluency,
+                accuracyScore: accuracy,
+            },
+        });
+    };
+
     const handleSyncAudio = useCallback(() => {
         sendToParent({
             action: ACTION_POST_MESSAGE.FPR_GET_SYNC_AUDIO,
         });
     }, []);
+
+    const resetAll = () => {
+        setDataSource(
+            listWord.map((word, index) => {
+                return defaultOption(word, index);
+            })
+        );
+
+        setSelectedId(-1);
+    };
+    useEffect(() => {
+        const fn = (event: any) => {
+            switch (event.data.action) {
+                case ACTION_POST_MESSAGE.FPR_GRADE_VALIDATE:
+                    sendToParent({
+                        action: ACTION_POST_MESSAGE.FPR_GRADE_VALIDATE,
+                        body: {
+                            gradingResults: dataSource,
+                            speedScore: selectedId,
+                            score,
+                            fluencyScore: fluency,
+                            accuracyScore: accuracy,
+                        },
+                    });
+                    break;
+                case ACTION_POST_MESSAGE.FPR_CHANGE_STUDENT:
+                    resetAll();
+                    break;
+
+                default:
+                    break;
+            }
+        };
+        window.addEventListener("message", fn);
+        return () => {
+            window.removeEventListener("message", fn);
+        };
+    }, [dataSource, selectedId, score, fluency, accuracy]);
+
     return (
         <SIndex>
             <Layout
