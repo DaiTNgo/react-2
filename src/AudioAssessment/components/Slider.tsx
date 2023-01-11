@@ -83,6 +83,22 @@ function Slider({ isStarting, stopped, ...props }: Props) {
         if (stopped) stopped.current = true;
     };
 
+    const renderSlideData = () => {
+        if (isStarting) {
+            if (props.data && props.data.length > 0) {
+                return (
+                    <div className={"word-assessment"}>
+                        {props.data.find((item, index) => {
+                            return index === currentSlide;
+                        })}
+                    </div>
+                );
+            }
+        } else {
+            return <div className={"word-assessment"}></div>;
+        }
+    };
+
     return (
         <SSlider className="">
             <h4 className="text-center slider-title py-4">{props.title}</h4>
@@ -95,13 +111,7 @@ function Slider({ isStarting, stopped, ...props }: Props) {
                 >
                     <ArrowLeft />
                 </button>
-                {props.data && props.data.length > 0 && (
-                    <div className={"word-assessment"}>
-                        {props.data.find((item, index) => {
-                            return index === currentSlide;
-                        })}
-                    </div>
-                )}
+                {renderSlideData()}
 
                 <button
                     onClick={handleNext}
@@ -111,8 +121,8 @@ function Slider({ isStarting, stopped, ...props }: Props) {
                         currentSlide === props.data.length - 1 && isStarting
                             ? "hidden"
                             : ""
-                    }
-                    `}
+                    }`}
+                    disabled={!isStarting}
                 >
                     <ArrowRight />
                 </button>
