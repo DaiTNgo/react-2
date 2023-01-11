@@ -11,6 +11,7 @@ function Volume({ src }: Props) {
 
     useEffect(() => {
         if (!refAudio.current) return;
+
         const listenEnded = () => {
             setStarting(false);
         };
@@ -26,10 +27,15 @@ function Volume({ src }: Props) {
     const handleStartAudio = useCallback(() => {
         if (!refAudio.current) return;
 
-        refAudio.current.currentTime = 0;
-        refAudio.current.play();
-        setStarting(true);
-    }, []);
+        if (starting) {
+            refAudio.current.pause();
+            setStarting((v) => !v);
+        } else {
+            refAudio.current.currentTime = 0;
+            refAudio.current.play();
+            setStarting((v) => !v);
+        }
+    }, [starting]);
 
     return (
         <div
