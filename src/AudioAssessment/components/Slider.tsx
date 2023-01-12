@@ -9,9 +9,10 @@ import ModalSubmit from "../do/components/ModalSubmit";
 interface Props {
     title: string;
     data: any[];
-    isStarting: boolean;
+    isStarting?: boolean;
     // onSubmitAssignment: (file: any) => void;
     stopped?: MutableRefObject<boolean>;
+    needShowWord?: boolean;
 }
 
 function ArrowRight() {
@@ -44,7 +45,7 @@ function ArrowLeft() {
     );
 }
 
-function Slider({ isStarting, stopped, ...props }: Props) {
+function Slider({ isStarting, needShowWord = true, stopped, ...props }: Props) {
     const { currentSlide, changeSlide, increaseSlide, decreaseSlide } =
         useStoreSlider();
 
@@ -84,7 +85,7 @@ function Slider({ isStarting, stopped, ...props }: Props) {
     };
 
     const renderSlideData = () => {
-        if (isStarting) {
+        if (needShowWord) {
             if (props.data && props.data.length > 0) {
                 return (
                     <div className={"word-assessment"}>
@@ -98,7 +99,6 @@ function Slider({ isStarting, stopped, ...props }: Props) {
             return <div className={"word-assessment"}></div>;
         }
     };
-
     return (
         <SSlider className="">
             <h4 className="text-center slider-title py-4">{props.title}</h4>
@@ -122,7 +122,7 @@ function Slider({ isStarting, stopped, ...props }: Props) {
                             ? "hidden"
                             : ""
                     }`}
-                    disabled={!isStarting}
+                    disabled={!needShowWord}
                 >
                     <ArrowRight />
                 </button>

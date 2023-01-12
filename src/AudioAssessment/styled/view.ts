@@ -176,6 +176,7 @@ export const Header = styled.div`
             padding-top: 15px;
             font-weight: 700;
             color: #fff;
+            font-family: "HelveticaNeue-Bold", "Roboto", sans-serif;
         }
 
         .header-subtitle {

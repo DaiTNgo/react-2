@@ -89,6 +89,7 @@ function DoAssessment() {
 
                 <Slider
                     title={data.resource.title}
+                    needShowWord={isStarting}
                     data={listWord}
                     isStarting={isStarting}
                     stopped={stopped}
