@@ -3,17 +3,13 @@ import Header from "../components/Header";
 import Layout from "../components/Layout";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 import { SIndex } from "../styled/view";
-import { ResponseDefault } from "./type";
 import { getPhonicsAssessmentType, getScore } from "./utils";
 import Table from "../../components/table";
-import Select from "../../components/select";
 import styles from "./grade.module.scss";
-import { className, sendToParent } from "../../helper";
-import { ISelectOption } from "../../components/select/select";
+import { sendToParent } from "../../helper";
 import { useImmer } from "use-immer";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
-import { VIEW_GRADE } from "../../enums/view-grade";
 import {
     getContentHeaderFooter,
     getDirections,
@@ -25,6 +21,8 @@ import { Button } from "../../components/button";
 import IconSync from "../../Icons/Sync";
 import Audio from "../../components/Audio";
 import { OPTIONS_SURVEY } from "../../enums/survey";
+import useListScore from "../hooks/useListScore";
+import { useListenPostMessage } from "../hooks/useListenPostMessage";
 
 function GradeAssessment() {
     const { data, urlRecordStudent } = useAudioAssessmentContext();
@@ -50,91 +48,22 @@ function GradeAssessment() {
         });
     });
 
-    const { score, accuracy, fluency } = getScore(dataSource);
+    const scores = getScore(dataSource);
+    const { score, fluency, accuracy } = scores;
 
-    const listScore = [
-        {
-            label: "Score",
-            component: (
-                <div
-                    style={{
-                        marginRight: 40,
-                    }}
-                >
-                    <p className={className(styles.Label)}>SCORE</p>
-                    <div className={styles.ScoreNum}>{score}</div>
-                </div>
-            ),
-            hidden:
-                phonicsAssessmentType !==
-                VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
-        },
-        {
-            label: "Accuracy Score",
-            component: (
-                <div
-                    style={{
-                        marginRight: 40,
-                    }}
-                >
-                    <p className={className(styles.Label)}>Accuracy Score</p>
-                    <div className={styles.ScoreNum}>{accuracy}</div>
-                </div>
-            ),
-            hidden:
-                phonicsAssessmentType ===
-                VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
-        },
-        {
-            label: "Fluency Score",
-            component: (
-                <div
-                    style={{
-                        marginRight: 40,
-                    }}
-                >
-                    <p className={className(styles.Label)}>Fluency Score</p>
-                    <div className={styles.ScoreNum}>{fluency}</div>
-                </div>
-            ),
-            hidden: phonicsAssessmentType !== VIEW_GRADE.FLUENCY_CHECK,
-        },
-        {
-            label: "Speed",
-            component: (
-                <div
-                    style={{
-                        marginRight: 40,
-                    }}
-                >
-                    <p className={className(styles.Label)}>SPEED</p>
-                    <Select
-                        onClick={(select: ISelectOption) => {
-                            setSelectedId(select.value);
-                        }}
-                        selectedId={selectedId}
-                        defaultOption={{
-                            label: "Select",
-                            value: -1,
-                            key: -1,
-                        }}
-                        options={[
-                            { label: "Slow/labored", value: 1, key: 1 },
-                            { label: "Moderate", value: 2, key: 2 },
-                            { label: "Fast", value: 3, key: 3 },
-                        ]}
-                    />
-                </div>
-            ),
-        },
-    ].filter((rc) => !rc?.hidden);
+    const listScore = useListScore({
+        scores,
+        phonicsAssessmentType,
+        selectedId,
+        setSelectedId,
+    });
 
     const columns = useColumnsGrade({
         setDataSource,
         phonicsAssessmentType,
     });
 
-    const handleSubmit = () => {
+    const handleSubmit = useCallback(() => {
         sendToParent({
             action: ACTION_POST_MESSAGE.FPR_SUBMIT_GRADING,
             resp: {
@@ -145,7 +74,7 @@ function GradeAssessment() {
                 accuracyScore: accuracy,
             },
         });
-    };
+    }, [dataSource, selectedId]);
 
     const handleSyncAudio = useCallback(() => {
         sendToParent({
@@ -153,18 +82,19 @@ function GradeAssessment() {
         });
     }, []);
 
-    const resetAll = () => {
+    const resetGradeSource = () => {
         setDataSource(
             listWord.map((word, index) => {
                 return defaultOption(word, index);
             })
         );
 
+        // speed select
         setSelectedId(-1);
     };
 
-    useEffect(() => {
-        const fn = (event: any) => {
+    useListenPostMessage(
+        (event) => {
             switch (event.data.action) {
                 case ACTION_POST_MESSAGE.FPR_GRADE_VALIDATE:
                     sendToParent({
@@ -179,19 +109,25 @@ function GradeAssessment() {
                     });
                     break;
                 case ACTION_POST_MESSAGE.FPR_CHANGE_STUDENT:
-                    resetAll();
+                    resetGradeSource();
                     break;
 
                 default:
                     break;
             }
-        };
-        window.addEventListener("message", fn);
-        return () => {
-            window.removeEventListener("message", fn);
-        };
-    }, [dataSource, selectedId, score, fluency, accuracy]);
+        },
+        [dataSource, selectedId]
+    );
 
+    const showAudio =
+        data.assignment.surveyImplementOption ===
+            OPTIONS_SURVEY.LEVEL_ONE.SELF_GUIDED ||
+        data.assignment.surveyImplementOption ===
+            OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD;
+
+    const showSyncAudio =
+        data.assignment.surveyImplementOption ===
+        OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD;
     return (
         <SIndex>
             <Layout
@@ -205,16 +141,12 @@ function GradeAssessment() {
                         }}
                     />
                 </div>
-                {(data.assignment.surveyImplementOption ===
-                    OPTIONS_SURVEY.LEVEL_ONE.SELF_GUIDED ||
-                    data.assignment.surveyImplementOption ===
-                        OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD) && (
+                {showAudio && (
                     <div className={"fpr-audio"}>
                         <p className={"fpr-audio__title"}>Recorded Content</p>
                         <div className={"flex items-center gap-4 mt-2"}>
                             <Audio src={urlRecordStudent} />
-                            {data.assignment.surveyImplementOption ===
-                                OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD && (
+                            {showSyncAudio && (
                                 <button
                                     className={styles.Sync}
                                     onClick={handleSyncAudio}

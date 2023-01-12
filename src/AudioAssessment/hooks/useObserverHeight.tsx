@@ -1,17 +1,11 @@
 import { useEffect } from "react";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
 
-export const useObserverHeight = () => {
+export const useObserverHeight = (callBack: (height: number) => void) => {
     useEffect(() => {
         let resizeObserver = new ResizeObserver((entries) => {
-            for (const entrie of entries) {
-                window.parent.postMessage(
-                    {
-                        resp: entrie.contentRect.height,
-                        action: ACTION_POST_MESSAGE.FPR_HEIGHT,
-                    },
-                    "*"
-                );
+            for (const entry of entries) {
+                callBack(entry.contentRect.height);
             }
         });
 

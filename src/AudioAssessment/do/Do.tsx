@@ -24,6 +24,8 @@ function DoAssessment() {
 
     const [isStarting, setIsStarting] = useState(false);
 
+    const stopped = useRef(false);
+
     const { changeSlide } = useStoreSlider();
 
     const startRecording = useCallback(() => {
@@ -46,7 +48,6 @@ function DoAssessment() {
         });
     };
 
-    const stopped = useRef(false);
     useEffect(() => {
         if (!isStarting) return;
         const id = setTimeout(() => {
@@ -56,6 +57,7 @@ function DoAssessment() {
             clearTimeout(id);
         };
     }, [isStarting]);
+
     return (
         <SIndex>
             <Layout

@@ -1,4 +1,5 @@
 import { VIEW_GRADE } from "../../enums/view-grade";
+import { ACTION_POST_MESSAGE } from "../../enums/action";
 
 export interface Response {
     currentQuestion: null;
@@ -144,6 +145,13 @@ export interface IPassageDate {
     programFooterImage: string;
     tocBackgroundImage: string;
     copyright: string;
+}
+
+export interface IEventPostMessage {
+    data: {
+        action: ACTION_POST_MESSAGE;
+        body: any;
+    };
 }
 
 export interface IPropsIcon {

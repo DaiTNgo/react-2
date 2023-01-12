@@ -45,7 +45,12 @@ function ArrowLeft() {
     );
 }
 
-function Slider({ isStarting, needShowWord = true, stopped, ...props }: Props) {
+function Slider({
+    isStarting = false,
+    needShowWord = true,
+    stopped,
+    ...props
+}: Props) {
     const { currentSlide, changeSlide, increaseSlide, decreaseSlide } =
         useStoreSlider();
 
@@ -114,7 +119,7 @@ function Slider({ isStarting, needShowWord = true, stopped, ...props }: Props) {
                 {renderSlideData()}
 
                 <button
-                    onClick={handleNext}
+                    onClick={needShowWord ? handleNext : () => {}}
                     className={`${showArrowNext ? "visible" : "invisible"}
                     audio-btn
                     ${

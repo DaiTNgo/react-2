@@ -1,13 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 import { getContentHeaderFooter, getDirections } from "../utils/convertLayout";
 import { getPhonicsAssessmentType, getScore } from "../grade/utils";
-import Select, { ISelectOption } from "../../components/select/select";
 import { useImmer } from "use-immer";
-import { className, sendToParent } from "../../helper";
+import { sendToParent } from "../../helper";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
 import styles from "../grade/grade.module.scss";
-import { VIEW_GRADE } from "../../enums/view-grade";
 import { SIndex } from "../styled/view";
 import Layout from "../components/Layout";
 import Footer from "../components/Footer";
@@ -19,31 +17,38 @@ import { OPTIONS_SURVEY } from "../../enums/survey";
 import Audio from "../../components/Audio";
 import IconSync from "../../Icons/Sync";
 import { Button } from "../../components/button";
+import useListScore from "../hooks/useListScore";
+import { useListenPostMessage } from "../hooks/useListenPostMessage";
 
-type Props = any;
+function ReGrade() {
+    const [selectedId, setSelectedId] = useState<number>(() => {
+        return data?.speedScore || -1;
+    });
+    const [dataSource, setDataSource] = useImmer(() => {
+        return getResultData(data);
+    });
 
-function ReGrade({}: Props) {
     const { data, urlRecordStudent } = useAudioAssessmentContext();
     const { direction: componentDirection, pathAudio } = getDirections(data);
     const contentHeaderFooter = getContentHeaderFooter(data);
     const phonicsAssessmentType = getPhonicsAssessmentType(data);
-
-    const [selectedId, setSelectedId] = useState<number>(() => {
-        return data?.speedScore || -1;
-    });
-
-    const [dataSource, setDataSource] = useImmer(() => {
-        return getResultData(data);
-    });
 
     const columns = useColumnsGrade({
         setDataSource,
         phonicsAssessmentType,
     });
 
-    const { score, accuracy, fluency } = getScore(dataSource);
+    const scores = getScore(dataSource);
+    const { score, fluency, accuracy } = scores;
 
-    const handleSubmit = () => {
+    const listScore = useListScore({
+        scores,
+        phonicsAssessmentType,
+        selectedId,
+        setSelectedId,
+    });
+
+    const handleSubmit = useCallback(() => {
         sendToParent({
             action: ACTION_POST_MESSAGE.FPR_SUBMIT_GRADING,
             resp: {
@@ -55,88 +60,7 @@ function ReGrade({}: Props) {
                 isReGrading: true,
             },
         });
-    };
-    useEffect(() => {
-        setDataSource(getResultData(data));
-        setSelectedId(data?.studentAssignment?.speedScore || -1);
-    }, [data]);
-
-    const listScore = [
-        {
-            label: "Score",
-            component: (
-                <div
-                    style={{
-                        marginRight: 40,
-                    }}
-                >
-                    <p className={className(styles.Label)}>SCORE</p>
-                    <div className={styles.ScoreNum}>{score}</div>
-                </div>
-            ),
-            hidden:
-                phonicsAssessmentType !==
-                VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
-        },
-        {
-            label: "Accuracy Score",
-            component: (
-                <div
-                    style={{
-                        marginRight: 40,
-                    }}
-                >
-                    <p className={className(styles.Label)}>Accuracy Score</p>
-                    <div className={styles.ScoreNum}>{accuracy}</div>
-                </div>
-            ),
-            hidden:
-                phonicsAssessmentType ===
-                VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
-        },
-        {
-            label: "Fluency Score",
-            component: (
-                <div
-                    style={{
-                        marginRight: 40,
-                    }}
-                >
-                    <p className={className(styles.Label)}>Fluency Score</p>
-                    <div className={styles.ScoreNum}>{fluency}</div>
-                </div>
-            ),
-            hidden: phonicsAssessmentType !== VIEW_GRADE.FLUENCY_CHECK,
-        },
-        {
-            label: "Speed",
-            component: (
-                <div
-                    style={{
-                        marginRight: 40,
-                    }}
-                >
-                    <p className={className(styles.Label)}>SPEED</p>
-                    <Select
-                        onClick={(select: ISelectOption) => {
-                            setSelectedId(select.value);
-                        }}
-                        selectedId={selectedId}
-                        defaultOption={{
-                            label: "Select",
-                            value: -1,
-                            key: -1,
-                        }}
-                        options={[
-                            { label: "Slow/labored", value: 1, key: 1 },
-                            { label: "Moderate", value: 2, key: 2 },
-                            { label: "Fast", value: 3, key: 3 },
-                        ]}
-                    />
-                </div>
-            ),
-        },
-    ].filter((rc) => !rc?.hidden);
+    }, [dataSource, selectedId]);
 
     const handleSyncAudio = useCallback(() => {
         sendToParent({
@@ -144,8 +68,14 @@ function ReGrade({}: Props) {
         });
     }, []);
 
-    useEffect(() => {
-        const fn = (event: any) => {
+    const updateDataStudent = useCallback(() => {
+        // desc: for change student grade
+        setDataSource(getResultData(data));
+        setSelectedId(data.studentAssignment.speedScore || -1);
+    }, [data]);
+
+    useListenPostMessage(
+        (event: any) => {
             switch (event.data.action) {
                 case ACTION_POST_MESSAGE.FPR_GRADE_VALIDATE:
                     sendToParent({
@@ -162,17 +92,25 @@ function ReGrade({}: Props) {
                     break;
                 case ACTION_POST_MESSAGE.FPR_CHANGE_STUDENT:
                     // resetAll();
+                    updateDataStudent();
                     break;
 
                 default:
                     break;
             }
-        };
-        window.addEventListener("message", fn);
-        return () => {
-            window.removeEventListener("message", fn);
-        };
-    }, [dataSource, selectedId, score, fluency, accuracy]);
+        },
+        [dataSource, selectedId, updateDataStudent]
+    );
+
+    const showAudio =
+        data.assignment.surveyImplementOption ===
+            OPTIONS_SURVEY.LEVEL_ONE.SELF_GUIDED ||
+        data.assignment.surveyImplementOption ===
+            OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD;
+
+    const showSyncAudio =
+        data.assignment.surveyImplementOption ===
+        OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD;
 
     return (
         <SIndex>
@@ -187,16 +125,12 @@ function ReGrade({}: Props) {
                         }}
                     />
                 </div>
-                {(data.assignment.surveyImplementOption ===
-                    OPTIONS_SURVEY.LEVEL_ONE.SELF_GUIDED ||
-                    data.assignment.surveyImplementOption ===
-                        OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD) && (
+                {showAudio && (
                     <div className={"fpr-audio"}>
                         <p className={"fpr-audio__title"}>Recorded Content</p>
                         <div className={"flex items-center gap-4 mt-2"}>
                             <Audio src={urlRecordStudent} />
-                            {data.assignment.surveyImplementOption ===
-                                OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD && (
+                            {showSyncAudio && (
                                 <button
                                     className={styles.Sync}
                                     onClick={handleSyncAudio}
