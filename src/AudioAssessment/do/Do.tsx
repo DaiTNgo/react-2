@@ -87,14 +87,12 @@ function DoAssessment() {
                     )}
                 </Wrapper>
 
-                {isStarting && (
-                    <Slider
-                        title={data.resource.title}
-                        data={listWord}
-                        isStarting={isStarting}
-                        stopped={stopped}
-                    />
-                )}
+                <Slider
+                    title={data.resource.title}
+                    data={listWord}
+                    isStarting={isStarting}
+                    stopped={stopped}
+                />
             </Layout>
         </SIndex>
     );
