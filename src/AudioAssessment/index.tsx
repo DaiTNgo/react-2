@@ -12,10 +12,6 @@ import ReGrade from "./re-grade";
 function AudioAssessment() {
     const [data, setData] = useState<ResponseDefault | null>();
 
-    const [studentAssignmentId, setStudentAssignmentId] = useState<
-        number | undefined
-    >(undefined);
-
     const [urlRecordStudent, setUrlRecordStudent] = useState("");
 
     const [layout, setLayout] = useState<ResourceLayoutEnum>(
@@ -47,12 +43,6 @@ function AudioAssessment() {
 
                     if (event.data.body.accessToken) {
                         setAccessToken(event.data.body.accessToken);
-                    }
-
-                    if (event.data.body.response.studentAssignmentId) {
-                        setStudentAssignmentId(
-                            event.data.body.response.studentAssignmentId
-                        );
                     }
 
                     if (event.data.body.location) {
@@ -112,7 +102,6 @@ function AudioAssessment() {
         <AudioAssessmentContext.Provider
             value={{
                 data,
-                studentAssignmentId,
                 accessToken,
                 location,
                 urlRecordStudent,

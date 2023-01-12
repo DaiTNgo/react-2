@@ -162,6 +162,7 @@ function GradeAssessment() {
 
         setSelectedId(-1);
     };
+
     useEffect(() => {
         const fn = (event: any) => {
             switch (event.data.action) {
@@ -238,11 +239,7 @@ function GradeAssessment() {
                     })}
                 </div>
                 <div className={"mt-8"}></div>
-                <Button
-                    needLoading
-                    className={styles.Save}
-                    onClick={handleSubmit}
-                >
+                <Button className={styles.Save} onClick={handleSubmit}>
                     Save
                 </Button>
             </Layout>

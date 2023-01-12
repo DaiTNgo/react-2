@@ -3,7 +3,6 @@ import { ResponseDefault } from "./view/type";
 
 type AudioAssessmentContextType = {
     data: ResponseDefault;
-    studentAssignmentId: number | undefined;
     accessToken: string;
     location: string;
     urlRecordStudent: string;

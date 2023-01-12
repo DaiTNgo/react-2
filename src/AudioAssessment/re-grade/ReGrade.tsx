@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 import { getContentHeaderFooter, getDirections } from "../utils/convertLayout";
 import { getPhonicsAssessmentType, getScore } from "../grade/utils";
@@ -56,6 +56,10 @@ function ReGrade({}: Props) {
             },
         });
     };
+    useEffect(() => {
+        setDataSource(getResultData(data));
+        setSelectedId(data?.studentAssignment?.speedScore || -1);
+    }, [data]);
 
     const listScore = [
         {
@@ -140,6 +144,36 @@ function ReGrade({}: Props) {
         });
     }, []);
 
+    useEffect(() => {
+        const fn = (event: any) => {
+            switch (event.data.action) {
+                case ACTION_POST_MESSAGE.FPR_GRADE_VALIDATE:
+                    sendToParent({
+                        action: ACTION_POST_MESSAGE.FPR_GRADE_VALIDATE,
+                        body: {
+                            gradingResults: dataSource,
+                            speedScore: selectedId,
+                            score,
+                            fluencyScore: fluency,
+                            accuracyScore: accuracy,
+                            isReGrading: true,
+                        },
+                    });
+                    break;
+                case ACTION_POST_MESSAGE.FPR_CHANGE_STUDENT:
+                    // resetAll();
+                    break;
+
+                default:
+                    break;
+            }
+        };
+        window.addEventListener("message", fn);
+        return () => {
+            window.removeEventListener("message", fn);
+        };
+    }, [dataSource, selectedId, score, fluency, accuracy]);
+
     return (
         <SIndex>
             <Layout
@@ -187,11 +221,7 @@ function ReGrade({}: Props) {
                     })}
                 </div>
                 <div className={"mt-8"}></div>
-                <Button
-                    needLoading
-                    className={styles.Save}
-                    onClick={handleSubmit}
-                >
+                <Button className={styles.Save} onClick={handleSubmit}>
                     Save
                 </Button>
             </Layout>
