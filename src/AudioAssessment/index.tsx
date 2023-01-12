@@ -10,14 +10,12 @@ import GradeAssessment from "./grade";
 import ReGrade from "./re-grade";
 
 function AudioAssessment() {
-    const [data, setData] = useState<ResponseDefault | null>(
-        new ResponseDefault()
-    );
+    const [data, setData] = useState<ResponseDefault | null>(null);
 
     const [urlRecordStudent, setUrlRecordStudent] = useState("");
 
     const [layout, setLayout] = useState<ResourceLayoutEnum>(
-        ResourceLayoutEnum.DO_ASSIGNMENT
+        ResourceLayoutEnum.VIEW_RESOURCE
     );
 
     const [accessToken, setAccessToken] = useState("");
