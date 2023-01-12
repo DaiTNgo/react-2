@@ -137,7 +137,7 @@ function GradeAssessment() {
     const handleSubmit = () => {
         sendToParent({
             action: ACTION_POST_MESSAGE.FPR_SUBMIT_GRADING,
-            body: {
+            resp: {
                 gradingResults: dataSource,
                 speedScore: selectedId,
                 score,
@@ -169,7 +169,7 @@ function GradeAssessment() {
                 case ACTION_POST_MESSAGE.FPR_GRADE_VALIDATE:
                     sendToParent({
                         action: ACTION_POST_MESSAGE.FPR_GRADE_VALIDATE,
-                        body: {
+                        resp: {
                             gradingResults: dataSource,
                             speedScore: selectedId,
                             score,

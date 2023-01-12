@@ -21,7 +21,7 @@ export const useColumnsGrade = ({
                     ? () => <Title>Short Vowels</Title>
                     : () => <Title>Word</Title>,
             dataIndex: "word",
-            key: "name",
+            key: "word",
             // width: "200px", //20%
             width: "30%",
             align: "left",
@@ -49,8 +49,8 @@ export const useColumnsGrade = ({
         },
         {
             title: () => <Title>Correct/Incorrect</Title>,
-            dataIndex: "age",
-            key: "age",
+            dataIndex: "correct",
+            key: "correct",
             // width: "600px",
             width: "40%",
             align: "center",
@@ -151,8 +151,8 @@ export const useColumnsGrade = ({
         },
         {
             title: () => <Title>Comments</Title>,
-            dataIndex: "address",
-            key: "address",
+            dataIndex: "comments",
+            key: "comments",
             // width: "200px",
             width: "30%",
             align: "left",

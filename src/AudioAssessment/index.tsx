@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { ResourceLayoutEnum } from "../enums/layout";
 import { AudioAssessmentContext } from "./ContextAudioAssessment";
 import DoAssessment from "./do";
@@ -9,6 +9,61 @@ import { ACTION_POST_MESSAGE } from "../enums/action";
 import GradeAssessment from "./grade";
 import ReGrade from "./re-grade";
 
+// let nextId = 0;
+// let todos = [{ id: nextId++, text: "Todo #1" }];
+// let listeners = [];
+// export const todosStore = {
+//     data;
+//      fn(event: any) {
+//         console.log("FPR:::Send message from parent", event.data);
+//         if (!event.data) return;
+//
+//         switch (event.data.action) {
+//             case ACTION_POST_MESSAGE.FPR_RESP_DATA:
+//                 if (event.data.body.response) {
+//                     data=event.data.body.response;
+//                 }
+//
+//                 if (event.data.body.layout) {
+//                     setLayout(event.data.body.layout);
+//                 }
+//
+//                 if (event.data.body.urlRecordStudent) {
+//                     setUrlRecordStudent(event.data.body.urlRecordStudent);
+//                 }
+//
+//                 break;
+//             case ACTION_POST_MESSAGE.FPR_RESP_SYNC_AUDIO:
+//                 setUrlRecordStudent(event.data.body.urlRecordStudent);
+//                 break;
+//             default:
+//                 break;
+//         }
+//     };
+//     subscribe() {
+//         window.addEventListener("message")
+//         return () => {
+//             listeners = listeners.filter((l) => l !== listener);
+//         };
+//     },
+//     getSnapshot() {
+//         return todos;
+//     },
+// };
+//
+// function emitChange() {
+//     for (let listener of listeners) {
+//         listener();
+//     }
+// }
+//
+// const usePostMessage = () => {
+//     const todos = useSyncExternalStore(
+//         ,
+//         window.removeEventListener("message")
+//     );
+// };
+
 function AudioAssessment() {
     const [data, setData] = useState<ResponseDefault | null>(null);
 
@@ -18,19 +73,11 @@ function AudioAssessment() {
         ResourceLayoutEnum.VIEW_RESOURCE
     );
 
-    const [accessToken, setAccessToken] = useState("");
-
-    const [location, setLocation] = useState("");
-
     useEffect(() => {
         const fn = (event: any) => {
             console.log("FPR:::Send message from parent", event.data);
             if (!event.data) return;
 
-            console.log(
-                "FPR::: offsetHeight",
-                document.documentElement.offsetHeight
-            );
             switch (event.data.action) {
                 case ACTION_POST_MESSAGE.FPR_RESP_DATA:
                     if (event.data.body.response) {
@@ -39,14 +86,6 @@ function AudioAssessment() {
 
                     if (event.data.body.layout) {
                         setLayout(event.data.body.layout);
-                    }
-
-                    if (event.data.body.accessToken) {
-                        setAccessToken(event.data.body.accessToken);
-                    }
-
-                    if (event.data.body.location) {
-                        setLocation(event.data.body.location);
                     }
 
                     if (event.data.body.urlRecordStudent) {
@@ -102,8 +141,6 @@ function AudioAssessment() {
         <AudioAssessmentContext.Provider
             value={{
                 data,
-                accessToken,
-                location,
                 urlRecordStudent,
             }}
         >

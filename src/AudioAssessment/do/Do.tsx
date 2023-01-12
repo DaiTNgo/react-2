@@ -40,7 +40,7 @@ function DoAssessment() {
     const handleSubmitAssignment = (file: any) => {
         sendToParent({
             action: ACTION_POST_MESSAGE.FPR_SUBMIT_AUDIO_ASSESSMENT,
-            body: {
+            resp: {
                 file,
             },
         });

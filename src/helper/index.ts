@@ -1,8 +1,8 @@
-export const sendToParent = ({ action, body }: { action: any; body?: any }) => {
+export const sendToParent = ({ action, resp }: { action: any; resp?: any }) => {
     window.parent.postMessage(
         {
             action,
-            body,
+            resp,
         },
         "*"
     );
