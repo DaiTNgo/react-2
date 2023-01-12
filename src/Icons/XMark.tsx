@@ -26,7 +26,7 @@ function XMark({
                     status == StatusMachine.CORRECT ||
                     status == StatusMachine.IDLE
                         ? "#ccc"
-                        : "black"
+                        : "#f00"
                 }
                 onClick={onClick}
             >
