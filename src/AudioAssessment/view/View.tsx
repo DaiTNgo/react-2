@@ -42,7 +42,7 @@ function ViewResource() {
                 </div>
 
                 <Slider
-                    isStarting={false}
+                    isStarting={true}
                     title={data.resource.title}
                     data={listWord}
                 />
