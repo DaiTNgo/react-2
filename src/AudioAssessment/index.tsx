@@ -79,6 +79,11 @@ function AudioAssessment() {
                     setData(event.data.body.response);
                 }
                 break;
+            case ACTION_POST_MESSAGE.FPR_PRINT:
+                sendToParent({
+                    action: ACTION_POST_MESSAGE.FPR_PRINT,
+                });
+                break;
             default:
                 break;
         }
