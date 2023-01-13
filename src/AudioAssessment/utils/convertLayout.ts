@@ -34,8 +34,8 @@ export const getContentHeaderFooter = (data: ResponseDefault): IPassageDate => {
             programTocName: "",
             resourceTitle: "",
             productLevel: "",
-            programFooterImage: "",
-            tocBackgroundImage: "",
+            // programFooterImage: "",
+            // tocBackgroundImage: "",
             copyright:
                 "Copyright &copy; 2021 William H. Sadlier, Inc. All rights reserved.",
         };

@@ -142,8 +142,8 @@ export interface IPassageDate {
     programTocName: string;
     resourceTitle: string;
     productLevel: string;
-    programFooterImage: string;
-    tocBackgroundImage: string;
+    // programFooterImage: string;
+    // tocBackgroundImage: string;
     copyright: string;
 }
 
@@ -194,8 +194,8 @@ export class ResponseDefault extends Response {
         programTocName: "",
         resourceTitle: "",
         productLevel: "",
-        programFooterImage: "",
-        tocBackgroundImage: "",
+        // programFooterImage: "",
+        // tocBackgroundImage: "",
         copyright:
             "Copyright &copy; 2021 William H. Sadlier, Inc. All rights reserved.",
     };

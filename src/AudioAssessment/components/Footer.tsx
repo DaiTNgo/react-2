@@ -14,7 +14,10 @@ function Footer({ content }: Props) {
                         width: 230,
                         objectFit: "contain",
                     }}
-                    src={content.programFooterImage}
+                    // src={content.programFooterImage}
+                    src={
+                        "https://static.assets.sadlierconnect.com/sc-content/javascript/phonics/assets/fpr/fpr_text.svg"
+                    }
                     alt="footer resource"
                 />
                 <span />

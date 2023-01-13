@@ -14,7 +14,10 @@ function Header({ content }: Props) {
                 {loadImg && <div className="header-img" />}
                 <img
                     alt="background header"
-                    src={content.tocBackgroundImage}
+                    // src={content.tocBackgroundImage}
+                    src={
+                        "https://static.assets.sadlierconnect.com/sc-content/javascript/phonics/assets/fpr/vwie_tab_g3.jpg"
+                    }
                     onLoad={() => {
                         setLoadImg(false);
                     }}
