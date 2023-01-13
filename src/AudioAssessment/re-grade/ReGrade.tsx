@@ -21,17 +21,17 @@ import useListScore from "../hooks/useListScore";
 import { useListenPostMessage } from "../hooks/useListenPostMessage";
 
 function ReGrade() {
+    const { data, urlRecordStudent } = useAudioAssessmentContext();
+    const { direction: componentDirection, pathAudio } = getDirections(data);
+    const contentHeaderFooter = getContentHeaderFooter(data);
+    const phonicsAssessmentType = getPhonicsAssessmentType(data);
+
     const [selectedId, setSelectedId] = useState<number>(() => {
         return data?.speedScore || -1;
     });
     const [dataSource, setDataSource] = useImmer(() => {
         return getResultData(data);
     });
-
-    const { data, urlRecordStudent } = useAudioAssessmentContext();
-    const { direction: componentDirection, pathAudio } = getDirections(data);
-    const contentHeaderFooter = getContentHeaderFooter(data);
-    const phonicsAssessmentType = getPhonicsAssessmentType(data);
 
     const columns = useColumnsGrade({
         setDataSource,
