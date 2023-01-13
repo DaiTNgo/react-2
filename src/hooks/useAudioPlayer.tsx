@@ -4,6 +4,7 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
     const [duration, setDuration] = useState(0);
     const [curTime, setCurTime] = useState(0);
     const [clickedTime, setClickedTime] = useState<number>(0);
+    const [playing, setPlaying] = useState(false);
 
     useEffect(() => {
         const setAudioTime = () => setCurTime(audio.current!.currentTime);
@@ -32,7 +33,6 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
                     audio.current!.currentTime = 0;
                 }, 300);
             }
-
             audio.current!.addEventListener("durationchange", () => {
                 setDuration(audio.current!.duration);
             });
@@ -41,7 +41,12 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
             setCurTime(audio.current!.currentTime);
         };
 
-        audio.current?.addEventListener("loadedmetadata", setAudioData);
+        audio.current!.addEventListener("loadedmetadata", setAudioData);
+
+        audio.current!.addEventListener("ended", () => {
+            setPlaying(false);
+        });
+
         return () => {
             if (audio.current)
                 audio.current!.removeEventListener("loadeddata", setAudioData);
@@ -52,6 +57,8 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
         curTime,
         duration,
         setClickedTime,
+        playing,
+        setPlaying,
     };
 }
 
