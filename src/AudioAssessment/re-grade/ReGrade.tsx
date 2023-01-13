@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 import { getContentHeaderFooter, getDirections } from "../utils/convertLayout";
 import { getPhonicsAssessmentType, getScore } from "../grade/utils";
@@ -68,7 +68,7 @@ function ReGrade() {
         });
     }, []);
 
-    const updateDataStudent = useCallback(() => {
+    useEffect(() => {
         // desc: for change student grade
         setDataSource(getResultData(data));
         setSelectedId(data.studentAssignment.speedScore || -1);
@@ -90,16 +90,12 @@ function ReGrade() {
                         },
                     });
                     break;
-                case ACTION_POST_MESSAGE.FPR_CHANGE_STUDENT:
-                    // resetAll();
-                    updateDataStudent();
-                    break;
 
                 default:
                     break;
             }
         },
-        [dataSource, selectedId, updateDataStudent]
+        [dataSource, selectedId]
     );
 
     const showAudio =

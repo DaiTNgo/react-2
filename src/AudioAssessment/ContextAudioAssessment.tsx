@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, Dispatch, SetStateAction, useContext } from "react";
 import { ResponseDefault } from "./view/type";
 
 type AudioAssessmentContextType = {

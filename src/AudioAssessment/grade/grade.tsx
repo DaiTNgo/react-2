@@ -111,7 +111,6 @@ function GradeAssessment() {
                 case ACTION_POST_MESSAGE.FPR_CHANGE_STUDENT:
                     resetGradeSource();
                     break;
-
                 default:
                     break;
             }

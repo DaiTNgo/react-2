@@ -6,7 +6,6 @@ import { useObserverHeight } from "./hooks/useObserverHeight";
 import { ACTION_POST_MESSAGE } from "../enums/action";
 import { sendToParent } from "../helper";
 import { useListenPostMessage } from "./hooks/useListenPostMessage";
-import { IEventPostMessage } from "./types";
 
 const DoAssessment = lazy(() => import("./do"));
 // import DoAssessment from "./do";
@@ -64,6 +63,14 @@ function AudioAssessment() {
                 break;
             case ACTION_POST_MESSAGE.FPR_RESP_SYNC_AUDIO:
                 setUrlRecordStudent(event.data.body.urlRecordStudent);
+                break;
+            case ACTION_POST_MESSAGE.FPR_CHANGE_STUDENT:
+                if (event.data.body.urlRecordStudent) {
+                    setUrlRecordStudent(event.data.body.urlRecordStudent);
+                }
+                if (event.data.body.response) {
+                    setData(event.data.body.response);
+                }
                 break;
             default:
                 break;
