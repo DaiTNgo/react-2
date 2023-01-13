@@ -22,7 +22,7 @@ function rootMeanSquaredSignal(data: any) {
 
 interface Props {
     numOfWord: number;
-    onSubmitAssignment: (file: any) => void;
+    onSubmitAssignment: (file: Blob) => void;
     stopped: MutableRefObject<boolean>;
     blink: boolean;
 }

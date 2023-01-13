@@ -22,7 +22,7 @@ import Volume from "../components/Volume";
 function DoAssessment() {
     const { data } = useAudioAssessmentContext();
 
-    const [isStarting, setIsStarting] = useState(true); //true
+    const [isStarting, setIsStarting] = useState(false); //true
     const stopped = useRef(false);
 
     const [blink, setBlink] = useState(false);
@@ -34,13 +34,11 @@ function DoAssessment() {
         changeSlide(0);
     }, []);
 
-    const listWord = getListWord(data as ResponseDefault);
-    const { direction: componentDirection, pathAudio } = getDirections(
-        data as ResponseDefault
-    );
-    const contentHeaderFooter = getContentHeaderFooter(data as ResponseDefault);
+    const listWord = getListWord(data);
+    const { direction: componentDirection, pathAudio } = getDirections(data);
+    const contentHeaderFooter = getContentHeaderFooter(data);
 
-    const handleSubmitAssignment = (file: any) => {
+    const handleSubmitAssignment = (file: Blob) => {
         sendToParent({
             action: ACTION_POST_MESSAGE.FPR_SUBMIT_AUDIO_ASSESSMENT,
             resp: {
