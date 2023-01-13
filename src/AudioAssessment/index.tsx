@@ -34,6 +34,7 @@ const FallBack = () => {
 };
 
 function AudioAssessment() {
+    const [scale, setScale] = useState(1);
     const [data, setData] = useState<ResponseDefault | null>(null);
 
     const [urlRecordStudent, setUrlRecordStudent] = useState("");
@@ -45,6 +46,12 @@ function AudioAssessment() {
     useListenPostMessage((event) => {
         console.log("FPR:::Send message from parent", event.data);
         if (!event.data) return;
+
+        if (/changeScale/i.test(event.data as unknown as string as any)) {
+            // @ts-ignore
+            const textScale = event.data.match(/changeScale=(.*)/i)[1];
+            setScale(textScale);
+        }
 
         switch (event.data.action) {
             case ACTION_POST_MESSAGE.FPR_RESP_DATA:
@@ -107,7 +114,14 @@ function AudioAssessment() {
                 urlRecordStudent,
             }}
         >
-            <Suspense fallback={<FallBack />}>{Component}</Suspense>
+            <div
+                style={{
+                    transform: `scale(${scale})`,
+                    transformOrigin: `${scale < 1 ? "center" : "top left"} `,
+                }}
+            >
+                <Suspense fallback={<FallBack />}>{Component}</Suspense>
+            </div>
         </AudioAssessmentContext.Provider>
     );
 }
