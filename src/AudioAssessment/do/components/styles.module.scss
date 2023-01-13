@@ -1,0 +1,47 @@
+.Dot {
+    --nomarl: 3px;
+    display: inline-block;
+    width: var(--nomarl);
+    height: var(--nomarl);
+    background-color: black;
+    & + .Dot {
+        margin-left: 3px;
+    }
+    animation: 1s blink infinite;
+}
+.Dot-1 {
+}
+.Dot-2 {
+    animation-delay: 250ms;
+}
+.Dot-3 {
+    animation-delay: 500ms;
+}
+
+@keyframes blink {
+    50% {
+        background-color: transparent;
+    }
+}
+
+.Recording {
+    display: flex;
+    font-weight: 700;
+    align-items: center;
+    gap: 5px;
+}
+
+.Blink {
+    animation: expired-time 1s ease-in-out infinite;
+}
+@keyframes expired-time {
+    0% {
+        background-color: #d9d9d9;
+    }
+    20% {
+        background-color: #ccc;
+    }
+    50% {
+        background-color: white;
+    }
+}

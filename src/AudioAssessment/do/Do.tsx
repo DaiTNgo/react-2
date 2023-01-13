@@ -22,9 +22,10 @@ import Volume from "../components/Volume";
 function DoAssessment() {
     const { data } = useAudioAssessmentContext();
 
-    const [isStarting, setIsStarting] = useState(false);
-
+    const [isStarting, setIsStarting] = useState(true); //true
     const stopped = useRef(false);
+
+    const [blink, setBlink] = useState(false);
 
     const { changeSlide } = useStoreSlider();
 
@@ -53,8 +54,13 @@ function DoAssessment() {
         const id = setTimeout(() => {
             stopped.current = true;
         }, TIME_RECORD_STANDARD * 1000);
+
+        const idBlink = setTimeout(() => {
+            setBlink(true);
+        }, TIME_RECORD_STANDARD * 1000 - 30000);
         return () => {
             clearTimeout(id);
+            clearTimeout(idBlink);
         };
     }, [isStarting]);
 
@@ -83,6 +89,7 @@ function DoAssessment() {
                             onSubmitAssignment={handleSubmitAssignment}
                             numOfWord={listWord.length}
                             stopped={stopped}
+                            blink={blink}
                         />
                     ) : (
                         <Record startRecording={startRecording} />

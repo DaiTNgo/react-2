@@ -7,7 +7,8 @@ import React, {
 } from "react";
 import Micro from "../../../Icons/Micro";
 import { MimeTypeAudio } from "../../../enums/mime-type-audio";
-import { formatTimeToMMSS } from "../../../helper";
+import { className, formatTimeToMMSS } from "../../../helper";
+import S from "./styles.module.scss";
 
 export const TIME_RECORD_STANDARD = 120;
 
@@ -23,9 +24,10 @@ interface Props {
     numOfWord: number;
     onSubmitAssignment: (file: any) => void;
     stopped: MutableRefObject<boolean>;
+    blink: boolean;
 }
 
-function Recording({ onSubmitAssignment, stopped }: Props) {
+function Recording({ onSubmitAssignment, stopped, blink }: Props) {
     const [level, setLevel] = useState(0);
 
     const audioRecordConstraints = {
@@ -114,14 +116,13 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
                     <Micro width={50} height={50} />
                 </div>
                 <div className={"flex flex-col items-center gap-2"}>
-                    <div
-                        style={{
-                            display: "grid",
-                            placeContent: "center",
-                            fontWeight: 700,
-                        }}
-                    >
-                        Recording...
+                    <div className={`${className(S.Recording)}`}>
+                        Recording
+                        <div>
+                            <span className={className(S.Dot, S["Dot-1"])} />
+                            <span className={className(S.Dot, S["Dot-2"])} />
+                            <span className={className(S.Dot, S["Dot-3"])} />
+                        </div>
                     </div>
                     <div
                         style={{
@@ -129,6 +130,7 @@ function Recording({ onSubmitAssignment, stopped }: Props) {
                             borderRadius: 10,
                             border: "4px solid #757575",
                         }}
+                        className={className(blink ? S.Blink : "")}
                     >
                         <div
                             style={{

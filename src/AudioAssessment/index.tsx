@@ -34,12 +34,14 @@ const FallBack = () => {
 };
 
 function AudioAssessment() {
-    const [data, setData] = useState<ResponseDefault | null>(null);
+    const [data, setData] = useState<ResponseDefault | null>(
+        new ResponseDefault()
+    );
 
     const [urlRecordStudent, setUrlRecordStudent] = useState("");
 
     const [layout, setLayout] = useState<ResourceLayoutEnum>(
-        ResourceLayoutEnum.VIEW_RESOURCE
+        ResourceLayoutEnum.DO_ASSIGNMENT
     );
 
     useListenPostMessage((event) => {
