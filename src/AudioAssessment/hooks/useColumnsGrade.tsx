@@ -7,7 +7,7 @@ import styled from "styled-components";
 const Title = styled.p`
     font-size: 24px;
     padding: 12px 4px;
-    font-weight: 500;
+    font-weight: 700;
 `;
 export const useColumnsGrade = ({
     setDataSource,
