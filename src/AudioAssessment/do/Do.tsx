@@ -18,6 +18,7 @@ import styled from "styled-components";
 import { sendToParent } from "../../helper";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
 import Volume from "../components/Volume";
+import { useListenPostMessage } from "../hooks/useListenPostMessage";
 
 function DoAssessment() {
     const { data } = useAudioAssessmentContext();
@@ -61,6 +62,20 @@ function DoAssessment() {
             clearTimeout(idBlink);
         };
     }, [isStarting]);
+
+    useListenPostMessage((event) => {
+        switch (event.data.action) {
+            case ACTION_POST_MESSAGE.FPR_SUBMIT_AUDIO_ASSESSMENT:
+                if (isStarting) stopped.current = true;
+
+                sendToParent({
+                    action: ACTION_POST_MESSAGE.FPR_ASSIGNMENT_EXPIRED_TIME,
+                });
+                break;
+            default:
+                break;
+        }
+    });
 
     return (
         <SIndex>
