@@ -63,9 +63,9 @@ function AudioAssessment() {
                     setLayout(event.data.body.layout);
                 }
 
-                if (event.data.body.urlRecordStudent) {
-                    setUrlRecordStudent(event.data.body.urlRecordStudent);
-                }
+                // if (event.data.body.urlRecordStudent) {
+                setUrlRecordStudent(event.data.body.urlRecordStudent || "");
+                // }
 
                 break;
             case ACTION_POST_MESSAGE.FPR_RESP_SYNC_AUDIO:
