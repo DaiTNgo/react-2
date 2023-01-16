@@ -89,6 +89,7 @@ function DoAssessment() {
                         src={
                             "https://cqa.sadlierconnect.com/content/803001/007743417/direction-line.mp3"
                         }
+                        isStartingRecord={isStarting}
                     />
                     <div
                         dangerouslySetInnerHTML={{
