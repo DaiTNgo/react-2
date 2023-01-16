@@ -4,11 +4,11 @@ import React, {
     useEffect,
     useRef,
     useState,
-} from "react";
-import Micro from "../../../Icons/Micro";
-import { MimeTypeAudio } from "../../../enums/mime-type-audio";
-import { className, formatTimeToMMSS } from "../../../helper";
-import S from "./styles.module.scss";
+} from 'react';
+import Micro from '../../../Icons/Micro';
+import { MimeTypeAudio } from '../../../enums/mime-type-audio';
+import { className, formatTimeToMMSS } from '../../../helper';
+import S from './styles.module.scss';
 
 export const TIME_RECORD_STANDARD = 120;
 
@@ -65,14 +65,14 @@ function Recording({ onSubmitAssignment, stopped, blink }: Props) {
             }
             if (
                 stopped.current === true &&
-                mediaRecorder.state == "recording"
+                mediaRecorder.state == 'recording'
             ) {
                 mediaRecorder.stop();
                 setLevel(0);
             }
         };
-        mediaRecorder.addEventListener("dataavailable", onRecord);
-        mediaRecorder.addEventListener("stop", () => {
+        mediaRecorder.addEventListener('dataavailable', onRecord);
+        mediaRecorder.addEventListener('stop', () => {
             const blob = new Blob(recordedChunks, {
                 type: mimeType,
             });
@@ -91,7 +91,7 @@ function Recording({ onSubmitAssignment, stopped, blink }: Props) {
             });
             handleRecord({ stream, mimeType });
         } catch (e: any) {
-            console.log("[ERR]", e);
+            console.log('[ERR]', e);
         }
     }, [handleRecord]);
 
@@ -102,39 +102,38 @@ function Recording({ onSubmitAssignment, stopped, blink }: Props) {
     return (
         <div
             style={{
-                display: "inline-block",
+                display: 'inline-block',
             }}
         >
-            <div className={"flex items-center gap-2 relative"}>
+            <div className={'flex items-center gap-2 relative'}>
                 <div
                     style={{
                         top: 45,
                         left: -60,
                     }}
-                    className={"absolute"}
+                    className={'absolute'}
                 >
                     <Micro width={50} height={50} />
                 </div>
-                <div className={"flex flex-col items-center gap-2"}>
+                <div className={'flex flex-col items-center gap-2'}>
                     <div className={`${className(S.Recording)}`}>
                         Recording
                         <div>
-                            <span className={className(S.Dot, S["Dot-1"])} />
-                            <span className={className(S.Dot, S["Dot-2"])} />
-                            <span className={className(S.Dot, S["Dot-3"])} />
+                            <span className={className(S.Dot, S['Dot-1'])} />
+                            <span className={className(S.Dot, S['Dot-2'])} />
+                            <span className={className(S.Dot, S['Dot-3'])} />
                         </div>
                     </div>
                     <div
                         style={{
-                            padding: "16px 20px",
+                            padding: '16px 20px',
                             borderRadius: 10,
-                            border: "4px solid #757575",
                         }}
-                        className={className(blink ? S.Blink : "")}
+                        className={className(blink ? S.Blink : S.NotBlink)}
                     >
                         <div
                             style={{
-                                display: "flex",
+                                display: 'flex',
                                 gap: 10,
                             }}
                         >
@@ -150,16 +149,16 @@ function Recording({ onSubmitAssignment, stopped, blink }: Props) {
                                                 borderRadius: 999999,
                                                 backgroundColor:
                                                     level > index
-                                                        ? "#cacaca"
-                                                        : "white",
-                                                border: "1px solid #707070",
+                                                        ? '#cacaca'
+                                                        : 'white',
+                                                border: '1px solid #707070',
                                             }}
                                         ></div>
                                     );
                                 })}
                         </div>
                         <div
-                            className={"time"}
+                            className={'time'}
                             style={{
                                 marginTop: 6,
                                 fontSize: 18,
@@ -187,6 +186,10 @@ function Time({ stopped }: { stopped: MutableRefObject<boolean> }) {
             clearInterval(id);
         };
     }, [stopped.current]);
+
+    if (count > TIME_RECORD_STANDARD) {
+        return <>{formatTimeToMMSS(TIME_RECORD_STANDARD)}</>;
+    }
     return <>{formatTimeToMMSS(count)}</>;
 }
 

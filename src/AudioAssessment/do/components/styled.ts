@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 export const ModalContainer = styled.div`
     width: 500px;
@@ -12,6 +12,7 @@ export const ModalContainer = styled.div`
     .modal-title {
         font-size: 36px;
         color: #4b4848;
+        font-weight: 700;
     }
     .count-down {
         width: 50px;

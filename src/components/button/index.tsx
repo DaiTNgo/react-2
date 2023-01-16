@@ -21,7 +21,7 @@ function Button({ onClick, needLoading, children, ...props }: Props) {
         >
             {children}
             <div className="loader loader1">
-                <Loading />
+                <IconLoading />
             </div>
         </MyButton>
     );
@@ -70,8 +70,45 @@ export const MyButton = styled.button<{ loading?: boolean }>`
         `;
     }}
 `;
+export function Loading({ className }: { className?: string }) {
+    return (
+        <DIV className={className}>
+            <div className="loader loader1">
+                <IconLoading />
+            </div>
+        </DIV>
+    );
+}
+const DIV = styled.div`
+    opacity: 0.5;
+    .loader {
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+    }
 
-function Loading() {
+    @keyframes loader1 {
+        from {
+            transform: rotate(0);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+    @keyframes loader1-center {
+        from {
+            box-shadow: 0 0 0 10px #6532d2; /* background color */
+        }
+        to {
+            box-shadow: 0 0 0 5px #6532d2; /* background color */
+        }
+    }
+    .loader1 {
+        transform-origin: center;
+        animation: loader1 1s linear infinite;
+    }
+`;
+function IconLoading() {
     return (
         <svg
             viewBox="0 0 1024 1024"

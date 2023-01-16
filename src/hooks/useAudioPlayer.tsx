@@ -5,6 +5,7 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
     const [curTime, setCurTime] = useState(0);
     const [clickedTime, setClickedTime] = useState<number>(0);
     const [playing, setPlaying] = useState(false);
+    const [isLoadingAudio, setIsLoadingAudio] = useState(true);
 
     useEffect(() => {
         const setAudioTime = () => setCurTime(audio.current!.currentTime);
@@ -39,17 +40,29 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
 
             setDuration(audio.current!.duration);
             setCurTime(audio.current!.currentTime);
+            setIsLoadingAudio(false);
         };
 
-        audio.current!.addEventListener("loadedmetadata", setAudioData);
+        const setLoadingAudio = () => {
+            setIsLoadingAudio(true);
+        };
 
-        audio.current!.addEventListener("ended", () => {
+        const completeAudio = () => {
             setPlaying(false);
-        });
+        };
+        audio.current!.addEventListener("loadedmetadata", setAudioData);
+        audio.current!.addEventListener("loadstart", setLoadingAudio);
+        audio.current!.addEventListener("ended", completeAudio);
 
         return () => {
-            if (audio.current)
+            if (audio.current) {
                 audio.current!.removeEventListener("loadeddata", setAudioData);
+                audio.current!.removeEventListener(
+                    "loadstart",
+                    setLoadingAudio
+                );
+                audio.current!.removeEventListener("ended", completeAudio);
+            }
         };
     }, []);
 
@@ -59,6 +72,7 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
         setClickedTime,
         playing,
         setPlaying,
+        isLoadingAudio,
     };
 }
 

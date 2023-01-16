@@ -11,8 +11,14 @@ type Props = {
 function Audio({ src }: Props) {
     const refAudio = useRef<HTMLAudioElement>(null);
 
-    const { curTime, duration, setClickedTime, playing, setPlaying } =
-        useAudioPlayer(refAudio);
+    const {
+        curTime,
+        duration,
+        setClickedTime,
+        playing,
+        setPlaying,
+        isLoadingAudio,
+    } = useAudioPlayer(refAudio);
 
     const handlePlayAudio = () => {
         refAudio.current!.play();
@@ -41,10 +47,10 @@ function Audio({ src }: Props) {
                     curTime={curTime}
                     duration={duration}
                     onTimeUpdate={(time) => setClickedTime(time)}
+                    loading={isLoadingAudio}
                 />
             </div>
-
-            <audio controls={false} ref={refAudio} src={src}></audio>
+            <audio controls={false} ref={refAudio} src={src} />
         </React.Fragment>
     );
 }

@@ -1,6 +1,6 @@
-import { VIEW_GRADE } from "../../enums/view-grade";
-import { StatusMachine } from "../../enums/status-machine";
-import { ResponseDefault } from "../view/type";
+import { VIEW_GRADE } from '../../enums/view-grade';
+import { StatusMachine } from '../../enums/status-machine';
+import { ResponseDefault } from '../view/type';
 
 export const getPhonicsAssessmentType = (data: ResponseDefault) => {
     try {
@@ -31,4 +31,24 @@ export const getScore = (data: any) => {
         accuracy,
         fluency,
     };
+};
+
+export const transformIdleToIncorrect = (data: any) => {
+    return data.map((item: any) => {
+        return {
+            ...item,
+            correct:
+                item.correct === StatusMachine.IDLE
+                    ? StatusMachine.INCORRECT
+                    : item.correct,
+            fluency:
+                item.fluency === StatusMachine.IDLE
+                    ? StatusMachine.INCORRECT
+                    : item.fluency,
+            accuracy:
+                item.accuracy === StatusMachine.IDLE
+                    ? StatusMachine.INCORRECT
+                    : item.accuracy,
+        };
+    });
 };

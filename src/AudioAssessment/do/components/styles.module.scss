@@ -32,8 +32,13 @@
 }
 
 .Blink {
+    border: 4px solid #757575;
     animation: expired-time 1s ease-in-out infinite;
 }
+.NotBlink {
+    background-color: #ccc;
+}
+
 @keyframes expired-time {
     0% {
         background-color: #d9d9d9;
