@@ -1,31 +1,31 @@
-import { lazy, Suspense, useState } from 'react';
-import { ResourceLayoutEnum } from '../enums/layout';
-import { AudioAssessmentContext } from './ContextAudioAssessment';
-import { ResponseDefault } from './view/type';
-import { useObserverHeight } from './hooks/useObserverHeight';
-import { ACTION_POST_MESSAGE } from '../enums/action';
-import { sendToParent } from '../helper';
-import { useListenPostMessage } from './hooks/useListenPostMessage';
+import { lazy, Suspense, useState } from "react";
+import { ResourceLayoutEnum } from "../enums/layout";
+import { AudioAssessmentContext } from "./ContextAudioAssessment";
+import { ResponseDefault } from "./view/type";
+import { useObserverHeight } from "./hooks/useObserverHeight";
+import { ACTION_POST_MESSAGE } from "../enums/action";
+import { sendToParent } from "../helper";
+import { useListenPostMessage } from "./hooks/useListenPostMessage";
 
-const DoAssessment = lazy(() => import('./do'));
+const DoAssessment = lazy(() => import("./do"));
 // import DoAssessment from "./do";
 
-const ViewResource = lazy(() => import('./view'));
+const ViewResource = lazy(() => import("./view"));
 // import ViewResource from "./view";
 
-const GradeAssessment = lazy(() => import('./grade'));
+const GradeAssessment = lazy(() => import("./grade"));
 // import GradeAssessment from "./grade";
 
-const ReGrade = lazy(() => import('./re-grade'));
+const ReGrade = lazy(() => import("./re-grade"));
 // import ReGrade from "./re-grade";
 
 const FallBack = () => {
     return (
         <div
             style={{
-                width: '100%',
-                height: '500px',
-                backgroundColor: '#fff',
+                width: "100%",
+                height: "500px",
+                backgroundColor: "#fff",
             }}
         >
             Loading...
@@ -35,16 +35,18 @@ const FallBack = () => {
 
 function AudioAssessment() {
     const [scale, setScale] = useState(1);
-    const [data, setData] = useState<ResponseDefault | null>(null);
+    const [data, setData] = useState<ResponseDefault | null>(
+        new ResponseDefault()
+    );
 
-    const [urlRecordStudent, setUrlRecordStudent] = useState('');
+    const [urlRecordStudent, setUrlRecordStudent] = useState("");
 
     const [layout, setLayout] = useState<ResourceLayoutEnum>(
-        ResourceLayoutEnum.VIEW_RESOURCE
+        ResourceLayoutEnum.DO_ASSIGNMENT
     );
 
     useListenPostMessage((event) => {
-        console.log('FPR:::Send message from parent', event.data);
+        console.log("FPR:::Send message from parent", event.data);
         if (!event.data) return;
 
         if (/changeScale/i.test(event.data as unknown as string as any)) {
@@ -63,14 +65,14 @@ function AudioAssessment() {
                     setLayout(event.data.body.layout);
                 }
 
-                setUrlRecordStudent(event.data.body.urlRecordStudent || '');
+                setUrlRecordStudent(event.data.body.urlRecordStudent || "");
 
                 break;
             case ACTION_POST_MESSAGE.FPR_RESP_SYNC_AUDIO:
                 setUrlRecordStudent(event.data.body.urlRecordStudent);
                 break;
             case ACTION_POST_MESSAGE.FPR_CHANGE_STUDENT:
-                setUrlRecordStudent(event.data.body.urlRecordStudent || '');
+                setUrlRecordStudent(event.data.body.urlRecordStudent || "");
 
                 if (event.data.body.response) {
                     setData(event.data.body.response);
@@ -119,7 +121,7 @@ function AudioAssessment() {
             <div
                 style={{
                     transform: `scale(${scale})`,
-                    transformOrigin: `${scale < 1 ? 'center' : 'top left'} `,
+                    transformOrigin: `${scale < 1 ? "center" : "top left"} `,
                 }}
             >
                 <Suspense fallback={<FallBack />}>{Component}</Suspense>

@@ -1,6 +1,10 @@
 import styled, { css } from "styled-components";
 
 export const ModalContainer = styled.div`
+    --num-count-down: 3s;
+    --width: 50px;
+    --stroke-dasharray: 142px;
+
     width: 500px;
     height: 200px;
     background-color: #fff;
@@ -9,10 +13,12 @@ export const ModalContainer = styled.div`
     display: grid;
     place-content: center;
     place-items: center;
+
     .modal-title {
         font-size: 36px;
         color: #4b4848;
     }
+
     .count-down {
         width: 50px;
         height: 50px;
@@ -22,6 +28,78 @@ export const ModalContainer = styled.div`
         display: grid;
         place-content: center;
         font-size: 20px;
+    }
+
+    .countdown {
+        position: relative;
+        height: var(--width);
+        width: var(--width);
+    }
+
+    .countdown-number {
+        position: absolute;
+
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        font-size: 20px;
+        color: black;
+    }
+
+    svg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: var(--width);
+        height: var(--width);
+        transform: rotateZ(-90deg);
+
+        .circle-bar {
+            stroke-dasharray: var(--stroke-dasharray);
+            stroke-dashoffset: 0px;
+            stroke-linecap: round;
+            stroke-width: 3px;
+            stroke: gray;
+            fill: none;
+            animation: countdown-bar var(--num-count-down) linear 1;
+        }
+
+        .circle-thumb {
+            stroke-dasharray: 0px;
+            stroke-dashoffset: var(--stroke-dasharray);
+            stroke-linecap: round;
+            stroke-width: 2px;
+            stroke: #ccc;
+            fill: none;
+            animation: circle-thumb var(--num-count-down) linear 1;
+        }
+    }
+
+    @keyframes countdown-bar {
+        from {
+            stroke-dashoffset: 0;
+        }
+        to {
+            stroke-dashoffset: var(--stroke-dasharray);
+        }
+    }
+    @keyframes circle-thumb {
+        from {
+            stroke-dashoffset: var(--stroke-dasharray);
+        }
+        to {
+            stroke-dashoffset: 0px;
+        }
+    }
+
+    @keyframes rotate {
+        from {
+            transform: rotate(0);
+        }
+        to {
+            transform: rotate(-360deg);
+        }
     }
 `;
 
