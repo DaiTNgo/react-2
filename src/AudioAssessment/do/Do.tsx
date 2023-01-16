@@ -21,12 +21,13 @@ import Volume from "../components/Volume";
 import { useListenPostMessage } from "../hooks/useListenPostMessage";
 
 function DoAssessment() {
-    const { data } = useAudioAssessmentContext();
+    const [isStarting, setIsStarting] = useState(false);
+    const [blink, setBlink] = useState(false);
+    const [needStopDirections, setNeedStopDirections] = useState(false);
 
-    const [isStarting, setIsStarting] = useState(false); //true
     const stopped = useRef(false);
 
-    const [blink, setBlink] = useState(false);
+    const { data } = useAudioAssessmentContext();
 
     const { changeSlide } = useStoreSlider();
 
@@ -90,7 +91,7 @@ function DoAssessment() {
                         src={
                             "https://cqa.sadlierconnect.com/content/803001/007743417/direction-line.mp3"
                         }
-                        isStartingRecord={isStarting}
+                        stopDirections={needStopDirections}
                     />
                     <div
                         dangerouslySetInnerHTML={{
@@ -107,7 +108,12 @@ function DoAssessment() {
                             blink={blink}
                         />
                     ) : (
-                        <Record startRecording={startRecording} />
+                        <Record
+                            onClick={() => {
+                                setNeedStopDirections(true);
+                            }}
+                            startRecording={startRecording}
+                        />
                     )}
                 </Wrapper>
 

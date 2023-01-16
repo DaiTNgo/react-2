@@ -3,10 +3,10 @@ import IconVolume from "../../Icons/Volume";
 
 type Props = {
     src: string;
-    isStartingRecord: boolean;
+    stopDirections: boolean;
 };
 
-function Volume({ src, isStartingRecord }: Props) {
+function Volume({ src, stopDirections }: Props) {
     const [starting, setStarting] = useState(false);
     const refAudio = useRef<HTMLAudioElement>(null);
 
@@ -26,10 +26,10 @@ function Volume({ src, isStartingRecord }: Props) {
     }, []);
 
     useEffect(() => {
-        if (isStartingRecord) {
+        if (stopDirections) {
             setStarting(false);
         }
-    }, [isStartingRecord]);
+    }, [stopDirections]);
 
     const handleStartAudio = useCallback(() => {
         if (!refAudio.current) return;

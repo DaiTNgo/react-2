@@ -4,12 +4,19 @@ import Micro from "../../../Icons/Micro";
 import ModalCountDown from "./ModalCountDown";
 import { RecordContainer } from "./styled";
 
-function Record({ startRecording }: { startRecording: any }) {
+function Record({
+    startRecording,
+    onClick,
+}: {
+    startRecording: any;
+    onClick: () => void;
+}) {
     const { openModal } = useModalContext();
     return (
         <RecordContainer
             className="do-assignment-record"
             onClick={() => {
+                onClick();
                 openModal(<ModalCountDown startRecording={startRecording} />);
             }}
         >
