@@ -16,7 +16,8 @@ export const ModalContainer = styled.div`
     .count-down {
         width: 50px;
         height: 50px;
-        background-color: #ccc;
+        background-color: white;
+        border: 2px solid #ccc;
         border-radius: 50%;
         display: grid;
         place-content: center;
