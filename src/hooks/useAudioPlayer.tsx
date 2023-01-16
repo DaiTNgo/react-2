@@ -44,12 +44,17 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
         };
 
         const setLoadingAudio = () => {
-            setIsLoadingAudio(true);
+            if (audio.current?.currentSrc === "") {
+                setIsLoadingAudio(false);
+            } else {
+                setIsLoadingAudio(true);
+            }
         };
 
         const completeAudio = () => {
             setPlaying(false);
         };
+
         audio.current!.addEventListener("loadedmetadata", setAudioData);
         audio.current!.addEventListener("loadstart", setLoadingAudio);
         audio.current!.addEventListener("ended", completeAudio);

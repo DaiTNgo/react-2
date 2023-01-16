@@ -54,9 +54,10 @@ function DoAssessment() {
             stopped.current = true;
         }, TIME_RECORD_STANDARD * 1000);
 
+        const PERCENT_NEED_BLINK = 3 / 4;
         const idBlink = setTimeout(() => {
             setBlink(true);
-        }, TIME_RECORD_STANDARD * 1000 - 30000);
+        }, TIME_RECORD_STANDARD * 1000 * PERCENT_NEED_BLINK);
         return () => {
             clearTimeout(id);
             clearTimeout(idBlink);
