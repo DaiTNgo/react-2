@@ -69,10 +69,11 @@ function DoAssessment() {
         switch (event.data.action) {
             case ACTION_POST_MESSAGE.FPR_SUBMIT_AUDIO_ASSESSMENT:
                 if (isStarting) stopped.current = true;
-
-                sendToParent({
-                    action: ACTION_POST_MESSAGE.FPR_ASSIGNMENT_EXPIRED_TIME,
-                });
+                else {
+                    sendToParent({
+                        action: ACTION_POST_MESSAGE.FPR_ASSIGNMENT_EXPIRED_TIME,
+                    });
+                }
                 break;
             default:
                 break;
