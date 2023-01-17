@@ -1,37 +1,35 @@
-import Footer from '../components/Footer';
-import Header from '../components/Header';
-import Layout from '../components/Layout';
-import { useAudioAssessmentContext } from '../ContextAudioAssessment';
-import { SIndex } from '../styled/view';
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import Layout from "../components/Layout";
+import { useAudioAssessmentContext } from "../ContextAudioAssessment";
+import { SIndex } from "../styled/view";
 import {
     getPhonicsAssessmentType,
     getScore,
     transformIdleToIncorrect,
-} from './utils';
-import Table from '../../components/table';
-import styles from './grade.module.scss';
-import { sendToParent } from '../../helper';
-import { useImmer } from 'use-immer';
-import React, { useCallback, useState } from 'react';
-import { ACTION_POST_MESSAGE } from '../../enums/action';
+} from "./utils";
+import Table from "../../components/table";
+import styles from "./grade.module.scss";
+import { sendToParent } from "../../helper";
+import { useImmer } from "use-immer";
+import React, { useCallback, useState } from "react";
+import { ACTION_POST_MESSAGE } from "../../enums/action";
 import {
     getContentHeaderFooter,
     getDirections,
     getListWord,
-} from '../utils/convertLayout';
-import { StatusMachine } from '../../enums/status-machine';
-import { useColumnsGrade } from '../hooks/useColumnsGrade';
-import { Button } from '../../components/button';
-import IconSync from '../../Icons/Sync';
-import Audio from '../../components/Audio';
-import { OPTIONS_SURVEY } from '../../enums/survey';
-import useListScore from '../hooks/useListScore';
-import { useListenPostMessage } from '../hooks/useListenPostMessage';
+} from "../utils/convertLayout";
+import { StatusMachine } from "../../enums/status-machine";
+import { useColumnsGrade } from "../hooks/useColumnsGrade";
+import { Button } from "../../components/button";
+import IconSync from "../../Icons/Sync";
+import Audio from "../../components/Audio";
+import { OPTIONS_SURVEY } from "../../enums/survey";
+import useListScore from "../hooks/useListScore";
+import { useListenPostMessage } from "../hooks/useListenPostMessage";
 
 function GradeAssessment() {
-    const { data, urlRecordStudent } = useAudioAssessmentContext();
-
-    console.log('[urlRecordStudent]', urlRecordStudent);
+    const { data, urlRecordStudent, layout } = useAudioAssessmentContext();
 
     const listWord = getListWord(data);
     const { direction: componentDirection, pathAudio } = getDirections(data);
@@ -44,7 +42,7 @@ function GradeAssessment() {
         word,
         key,
         correct: StatusMachine.IDLE,
-        comment: '',
+        comment: "",
         fluency: StatusMachine.IDLE,
         accuracy: StatusMachine.IDLE,
     });
@@ -68,6 +66,7 @@ function GradeAssessment() {
     const columns = useColumnsGrade({
         setDataSource,
         phonicsAssessmentType,
+        layout,
     });
 
     const handleSubmit = useCallback(() => {
@@ -140,7 +139,7 @@ function GradeAssessment() {
                 footer={<Footer content={contentHeaderFooter} />}
                 header={<Header content={contentHeaderFooter} />}
             >
-                <div className='flex items-start gap-1 fpr__directions'>
+                <div className="flex items-start gap-1 fpr__directions">
                     <div
                         dangerouslySetInnerHTML={{
                             __html: componentDirection,
@@ -148,16 +147,16 @@ function GradeAssessment() {
                     />
                 </div>
                 {showAudio && (
-                    <div className={'fpr-audio'}>
-                        <p className={'fpr-audio__title'}>Recorded Content</p>
-                        <div className={'flex items-center gap-4 mt-2'}>
+                    <div className={"fpr-audio"}>
+                        <p className={"fpr-audio__title"}>Recorded Content</p>
+                        <div className={"flex items-center gap-4 mt-2"}>
                             <Audio src={urlRecordStudent} />
                             {showSyncAudio && (
                                 <button
                                     className={styles.Sync}
                                     onClick={handleSyncAudio}
                                 >
-                                    <IconSync fill={'white'} width={18} />
+                                    <IconSync fill={"white"} width={18} />
                                     <p>Sync</p>
                                 </button>
                             )}
@@ -167,7 +166,7 @@ function GradeAssessment() {
 
                 <Table dataSource={dataSource} columns={columns} />
 
-                <div className={'flex items-center mt-4'}>
+                <div className={"flex items-center mt-4"}>
                     {listScore.map((item, index) => {
                         return (
                             <React.Fragment key={index}>
@@ -176,7 +175,7 @@ function GradeAssessment() {
                         );
                     })}
                 </div>
-                <div className={'mt-8'}></div>
+                <div className={"mt-8"}></div>
                 <Button className={styles.Save} onClick={handleSubmit}>
                     Save
                 </Button>

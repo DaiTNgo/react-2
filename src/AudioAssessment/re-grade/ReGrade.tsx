@@ -21,7 +21,7 @@ import useListScore from "../hooks/useListScore";
 import { useListenPostMessage } from "../hooks/useListenPostMessage";
 
 function ReGrade() {
-    const { data, urlRecordStudent } = useAudioAssessmentContext();
+    const { data, urlRecordStudent, layout } = useAudioAssessmentContext();
     const { direction: componentDirection, pathAudio } = getDirections(data);
     const contentHeaderFooter = getContentHeaderFooter(data);
     const phonicsAssessmentType = getPhonicsAssessmentType(data);
@@ -36,6 +36,7 @@ function ReGrade() {
     const columns = useColumnsGrade({
         setDataSource,
         phonicsAssessmentType,
+        layout,
     });
 
     const scores = getScore(dataSource);

@@ -3,10 +3,10 @@ import IconVolume from "../../Icons/Volume";
 
 type Props = {
     src: string;
-    stopDirections: boolean;
+    stopDirections?: boolean;
 };
 
-function Volume({ src, stopDirections }: Props) {
+function Volume({ src, stopDirections = false }: Props) {
     const [starting, setStarting] = useState(false);
     const refAudio = useRef<HTMLAudioElement>(null);
 

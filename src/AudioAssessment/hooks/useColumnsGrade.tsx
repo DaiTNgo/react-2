@@ -3,16 +3,32 @@ import { StatusMachine } from "../../enums/status-machine";
 import Check from "../../Icons/Check";
 import XMark from "../../Icons/XMark";
 import styled from "styled-components";
+import { Dispatch, SetStateAction } from "react";
+import { ResourceLayoutEnum } from "../../enums/layout";
 
 const Title = styled.p`
     font-size: 24px;
     padding: 12px 4px;
     font-weight: 700;
 `;
+
+interface IParams {
+    setDataSource: Dispatch<SetStateAction<any>>;
+    phonicsAssessmentType: VIEW_GRADE;
+    layout: ResourceLayoutEnum;
+}
+
+const noop = () => {};
+
+const handleClick = (condition: boolean, callback: (...args: any) => void) => {
+    return condition ? callback : noop;
+};
 export const useColumnsGrade = ({
     setDataSource,
     phonicsAssessmentType,
-}: any) => {
+    layout,
+}: IParams) => {
+    const isExecute: boolean = layout !== ResourceLayoutEnum.REVIEW_ASSIGNMENT;
     return [
         {
             title:
@@ -66,12 +82,18 @@ export const useColumnsGrade = ({
                             height={40}
                             width={40}
                             status={record.correct}
-                            onClick={handleScore(StatusMachine.CORRECT)}
+                            onClick={handleClick(
+                                isExecute,
+                                handleScore(StatusMachine.CORRECT)
+                            )}
                         />
                         <XMark
                             height={40}
                             status={record.correct}
-                            onClick={handleScore(StatusMachine.INCORRECT)}
+                            onClick={handleClick(
+                                isExecute,
+                                handleScore(StatusMachine.INCORRECT)
+                            )}
                         />
                     </>
                 );
@@ -99,13 +121,17 @@ export const useColumnsGrade = ({
                             height={40}
                             width={40}
                             status={record.accuracy}
-                            onClick={handleGradeAccuracy(StatusMachine.CORRECT)}
+                            onClick={handleClick(
+                                isExecute,
+                                handleGradeAccuracy(StatusMachine.CORRECT)
+                            )}
                         />
                         <XMark
                             height={40}
                             status={record.accuracy}
-                            onClick={handleGradeAccuracy(
-                                StatusMachine.INCORRECT
+                            onClick={handleClick(
+                                isExecute,
+                                handleGradeAccuracy(StatusMachine.INCORRECT)
                             )}
                         />
                     </>
@@ -134,13 +160,17 @@ export const useColumnsGrade = ({
                             height={40}
                             width={40}
                             status={record.fluency}
-                            onClick={handleGradeFluency(StatusMachine.CORRECT)}
+                            onClick={handleClick(
+                                isExecute,
+                                handleGradeFluency(StatusMachine.CORRECT)
+                            )}
                         />
                         <XMark
                             height={40}
                             status={record.fluency}
-                            onClick={handleGradeFluency(
-                                StatusMachine.INCORRECT
+                            onClick={handleClick(
+                                isExecute,
+                                handleGradeFluency(StatusMachine.INCORRECT)
                             )}
                         />
                     </>
@@ -173,9 +203,11 @@ export const useColumnsGrade = ({
                             placeholder={"Enter text here. (Optional)"}
                             value={record.comment}
                             onChange={(e) => {
-                                setDataSource((draft: any) => {
-                                    draft[index]["comment"] = e.target.value;
-                                });
+                                if (isExecute)
+                                    setDataSource((draft: any) => {
+                                        draft[index]["comment"] =
+                                            e.target.value;
+                                    });
                             }}
                         />
                     </div>

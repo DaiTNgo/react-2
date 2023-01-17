@@ -1,9 +1,11 @@
 import { createContext, Dispatch, SetStateAction, useContext } from "react";
 import { ResponseDefault } from "./view/type";
+import { ResourceLayoutEnum } from "../enums/layout";
 
 type AudioAssessmentContextType = {
     data: ResponseDefault;
     urlRecordStudent: string;
+    layout: ResourceLayoutEnum;
 };
 
 export const AudioAssessmentContext =

@@ -18,6 +18,7 @@ const GradeAssessment = lazy(() => import("./grade"));
 
 const ReGrade = lazy(() => import("./re-grade"));
 // import ReGrade from "./re-grade";
+const Review = lazy(() => import("./review"));
 
 const FallBack = () => {
     return (
@@ -35,14 +36,12 @@ const FallBack = () => {
 
 function AudioAssessment() {
     const [scale, setScale] = useState(1);
-    const [data, setData] = useState<ResponseDefault | null>(
-        new ResponseDefault()
-    );
+    const [data, setData] = useState<ResponseDefault | null>(null);
 
     const [urlRecordStudent, setUrlRecordStudent] = useState("");
 
     const [layout, setLayout] = useState<ResourceLayoutEnum>(
-        ResourceLayoutEnum.DO_ASSIGNMENT
+        ResourceLayoutEnum.VIEW_RESOURCE
     );
 
     useListenPostMessage((event) => {
@@ -106,6 +105,8 @@ function AudioAssessment() {
                 return <GradeAssessment />;
             case ResourceLayoutEnum.REGRADING:
                 return <ReGrade />;
+            case ResourceLayoutEnum.REVIEW_ASSIGNMENT:
+                return <Review />;
             default:
                 break;
         }
@@ -116,6 +117,7 @@ function AudioAssessment() {
             value={{
                 data,
                 urlRecordStudent,
+                layout,
             }}
         >
             <div
