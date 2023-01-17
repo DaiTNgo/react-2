@@ -123,7 +123,9 @@ function AudioAssessment() {
             <div
                 style={{
                     transform: `scale(${scale})`,
-                    transformOrigin: `${scale < 1 ? "center" : "top left"} `,
+                    transformOrigin: `${
+                        scale < 1 ? "top center" : "top left"
+                    } `,
                 }}
             >
                 <Suspense fallback={<FallBack />}>{Component}</Suspense>
