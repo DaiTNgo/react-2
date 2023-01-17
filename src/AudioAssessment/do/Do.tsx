@@ -21,6 +21,7 @@ import Volume from "../components/Volume";
 import { useListenPostMessage } from "../hooks/useListenPostMessage";
 
 function DoAssessment() {
+    const [storeFileAudio, setStoreFileAudio] = useState<Blob>();
     const [isStarting, setIsStarting] = useState(false);
     const [blink, setBlink] = useState(false);
     const [needStopDirections, setNeedStopDirections] = useState(false);
@@ -41,6 +42,9 @@ function DoAssessment() {
     const contentHeaderFooter = getContentHeaderFooter(data);
 
     const handleSubmitAssignment = (file: Blob) => {
+        setStoreFileAudio(file);
+        setBlink(false);
+        setIsStarting(false);
         sendToParent({
             action: ACTION_POST_MESSAGE.FPR_SUBMIT_AUDIO_ASSESSMENT,
             resp: {
@@ -65,20 +69,32 @@ function DoAssessment() {
         };
     }, [isStarting]);
 
-    useListenPostMessage((event) => {
-        switch (event.data.action) {
-            case ACTION_POST_MESSAGE.FPR_SUBMIT_AUDIO_ASSESSMENT:
-                if (isStarting) stopped.current = true;
-                else {
-                    sendToParent({
-                        action: ACTION_POST_MESSAGE.FPR_ASSIGNMENT_EXPIRED_TIME,
-                    });
-                }
-                break;
-            default:
-                break;
-        }
-    });
+    useListenPostMessage(
+        (event) => {
+            switch (event.data.action) {
+                case ACTION_POST_MESSAGE.FPR_ASSIGNMENT_EXPIRED_TIME:
+                    if (isStarting) stopped.current = true;
+                    else {
+                        if (storeFileAudio) {
+                            sendToParent({
+                                action: ACTION_POST_MESSAGE.FPR_SUBMIT_AUDIO_ASSESSMENT,
+                                resp: {
+                                    file: storeFileAudio,
+                                },
+                            });
+                        } else {
+                            sendToParent({
+                                action: ACTION_POST_MESSAGE.FPR_ASSIGNMENT_EXPIRED_TIME,
+                            });
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        },
+        [isStarting, storeFileAudio]
+    );
 
     return (
         <SIndex>

@@ -14,7 +14,6 @@ export const getDirections = (data: ResponseDefault) => {
             REGEX_FIND_SRC_AUDIO.exec(
                 data.questionBean.listQuestion[0].questionSetPassageXML
             )?.[1] || "";
-        console.log("pathAudio", pathAudio);
         return {
             direction: data.questionBean.listQuestion[0].questionSetPassageXML,
             pathAudio: pathAudio,
