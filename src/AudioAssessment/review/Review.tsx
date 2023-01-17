@@ -12,6 +12,7 @@ import { getResultData } from "./utils";
 import { useColumnsGrade } from "../hooks/useColumnsGrade";
 import { OPTIONS_SURVEY } from "../../enums/survey";
 import Audio from "../../components/Audio";
+import Volume from "../components/Volume";
 
 function Review() {
     const { data, urlRecordStudent, layout } = useAudioAssessmentContext();
@@ -40,7 +41,13 @@ function Review() {
                 footer={<Footer content={contentHeaderFooter} />}
                 header={<Header content={contentHeaderFooter} />}
             >
-                <div className="flex items-start gap-1 fpr__directions">
+                <div className="flex items-start gap-1 relative mb-8">
+                    <Volume
+                        // src={"https://cqa2.sadlierconnect.com" + pathAudio}
+                        src={
+                            "https://cqa.sadlierconnect.com/content/803001/007743417/direction-line.mp3"
+                        }
+                    />
                     <div
                         dangerouslySetInnerHTML={{
                             __html: componentDirection,

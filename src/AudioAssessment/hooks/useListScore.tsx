@@ -44,7 +44,7 @@ function useListScore({
                         marginRight: 40,
                     }}
                 >
-                    <p className={className(styles.Label)}>Accuracy Score</p>
+                    <p className={className(styles.Label)}>Accuracy</p>
                     <div className={styles.ScoreNum}>{accuracy}</div>
                 </div>
             ),
@@ -60,11 +60,18 @@ function useListScore({
                         marginRight: 40,
                     }}
                 >
-                    <p className={className(styles.Label)}>Fluency Score</p>
+                    <p className={className(styles.Label)}>
+                        {phonicsAssessmentType ===
+                            VIEW_GRADE.HIGH_FREQUENCY_WORD && "Automatic"}
+                        {phonicsAssessmentType === VIEW_GRADE.FLUENCY_CHECK &&
+                            "Fluency"}
+                    </p>
                     <div className={styles.ScoreNum}>{fluency}</div>
                 </div>
             ),
-            hidden: phonicsAssessmentType !== VIEW_GRADE.FLUENCY_CHECK,
+            hidden:
+                phonicsAssessmentType ===
+                VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
         },
         {
             label: "Speed",
@@ -93,7 +100,9 @@ function useListScore({
                     />
                 </div>
             ),
-            hidden: phonicsAssessmentType !== VIEW_GRADE.HIGH_FREQUENCY_WORD,
+            hidden:
+                phonicsAssessmentType !==
+                VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
         },
     ].filter((rc) => !rc?.hidden);
 }

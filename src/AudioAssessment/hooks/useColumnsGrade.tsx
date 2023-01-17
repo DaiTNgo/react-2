@@ -143,7 +143,15 @@ export const useColumnsGrade = ({
                 VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
         },
         {
-            title: () => <Title>Fluency</Title>,
+            title: () => {
+                if (phonicsAssessmentType === VIEW_GRADE.HIGH_FREQUENCY_WORD) {
+                    return <Title>Automatic</Title>;
+                }
+
+                if (phonicsAssessmentType === VIEW_GRADE.FLUENCY_CHECK) {
+                    return <Title>Fluency</Title>;
+                }
+            },
             dataIndex: "fluency",
             key: "fluency",
             width: "30%",
@@ -177,8 +185,11 @@ export const useColumnsGrade = ({
                 );
             },
 
-            hidden: phonicsAssessmentType !== VIEW_GRADE.FLUENCY_CHECK,
+            hidden:
+                phonicsAssessmentType ===
+                VIEW_GRADE.COMPREHENSIVE_PHONICS_SURVEY,
         },
+
         {
             title: () => <Title>Comments</Title>,
             dataIndex: "comments",
