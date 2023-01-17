@@ -28,6 +28,7 @@ function Volume({ src, stopDirections = false }: Props) {
     useEffect(() => {
         if (stopDirections) {
             setStarting(false);
+            refAudio.current!.pause();
         }
     }, [stopDirections]);
 
