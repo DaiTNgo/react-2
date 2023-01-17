@@ -93,6 +93,7 @@ function useListScore({
                     />
                 </div>
             ),
+            hidden: phonicsAssessmentType !== VIEW_GRADE.HIGH_FREQUENCY_WORD,
         },
     ].filter((rc) => !rc?.hidden);
 }
