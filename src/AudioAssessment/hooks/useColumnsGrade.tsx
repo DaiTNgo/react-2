@@ -199,29 +199,41 @@ export const useColumnsGrade = ({
             align: "left",
             render: (record: any, index: any) => {
                 return (
-                    <div
-                        className={"w-full"}
-                        style={{
-                            border: "1px solid #ccc",
-                            borderRadius: 4,
-                            overflow: "hidden",
-                            padding: "4px 10px",
-                        }}
-                    >
-                        <input
-                            className={"w-full outline-none"}
-                            type={"text"}
-                            placeholder={"Enter text here. (Optional)"}
-                            value={record.comment}
-                            onChange={(e) => {
-                                if (isExecute)
-                                    setDataSource((draft: any) => {
-                                        draft[index]["comment"] =
-                                            e.target.value;
-                                    });
-                            }}
-                        />
-                    </div>
+                    <>
+                        {layout === ResourceLayoutEnum.REVIEW_ASSIGNMENT ? (
+                            <span
+                                style={{
+                                    fontSize: 18,
+                                }}
+                            >
+                                {record.comment}
+                            </span>
+                        ) : (
+                            <div
+                                className={"w-full"}
+                                style={{
+                                    border: "1px solid #ccc",
+                                    borderRadius: 4,
+                                    overflow: "hidden",
+                                    padding: "4px 10px",
+                                }}
+                            >
+                                <input
+                                    className={"w-full outline-none"}
+                                    type={"text"}
+                                    placeholder={"Enter text here. (Optional)"}
+                                    value={record.comment}
+                                    onChange={(e) => {
+                                        if (isExecute)
+                                            setDataSource((draft: any) => {
+                                                draft[index]["comment"] =
+                                                    e.target.value;
+                                            });
+                                    }}
+                                />
+                            </div>
+                        )}
+                    </>
                 );
             },
 
