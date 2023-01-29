@@ -26,27 +26,26 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
     }, [clickedTime]);
 
     useEffect(() => {
-        if (audio.current?.currentSrc === "") {
-            setIsLoadingAudio(false);
-        }
+        const noSrcAudio = audio.current?.currentSrc === "";
+        if (noSrcAudio) setIsLoadingAudio(false);
+
         const setAudioData = () => {
-            if (audio.current!.duration == Infinity) {
+            if (Number.isFinite(audio.current!.duration)) {
                 audio.current!.currentTime = 10000000;
 
                 setTimeout(() => {
                     audio.current!.currentTime = 0;
-                }, 300);
+                }, 0);
             }
             audio.current!.addEventListener("durationchange", () => {
                 setDuration(audio.current!.duration);
             });
 
             setDuration(audio.current!.duration);
-            setCurTime(audio.current!.currentTime);
             setIsLoadingAudio(false);
         };
 
-        const setLoadingAudio = () => {
+        const completeLoadingAudio = () => {
             setIsLoadingAudio(true);
         };
 
@@ -54,16 +53,19 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
             setPlaying(false);
         };
 
-        audio.current!.addEventListener("loadedmetadata", setAudioData);
-        audio.current!.addEventListener("loadstart", setLoadingAudio);
+        audio.current!.addEventListener("loadeddata", setAudioData);
+        audio.current!.addEventListener("loadstart", completeLoadingAudio);
         audio.current!.addEventListener("ended", completeAudio);
+        audio.current!.addEventListener("progress", (e) => {
+            console.log(e);
+        });
 
         return () => {
             if (audio.current) {
                 audio.current!.removeEventListener("loadeddata", setAudioData);
                 audio.current!.removeEventListener(
                     "loadstart",
-                    setLoadingAudio
+                    completeLoadingAudio
                 );
                 audio.current!.removeEventListener("ended", completeAudio);
             }
