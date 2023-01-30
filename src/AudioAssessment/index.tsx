@@ -21,11 +21,53 @@ function AudioAssessment() {
     const [scale, setScale] = useState(1);
     const [data, setData] = useState<ResponseDefault | null>(null);
 
+    const query = new URLSearchParams(window.self.location.search);
+
     const [urlRecordStudent, setUrlRecordStudent] = useState("");
 
     const [layout, setLayout] = useState<ResourceLayoutEnum>(
         ResourceLayoutEnum.VIEW_RESOURCE
     );
+
+    const handlePrint = () => {
+        const resourceId = query.get("resourceId");
+        const accessToken = query.get("access_token");
+        const layout = query.get("layout");
+
+        if (!resourceId) return;
+
+        fetch(
+            `https://cqa2api.sadlierconnect.com/assessments?resourceId=${resourceId}&access_token=${accessToken}`
+        )
+            .then((res) => res.json())
+            .then((res) => {
+                console.log("[res]", res.data);
+                sendToParent({ action: ACTION_POST_MESSAGE.FPR_PRINT });
+
+                setData(res.data);
+                setLayout(layout as ResourceLayoutEnum);
+            });
+    };
+
+    // useEffect(() => {
+    //     const resourceId = query.get("resourceId");
+    //     const accessToken = query.get("access_token");
+    //     const layout = query.get("layout");
+    //
+    //     if (!resourceId) return;
+    //
+    //     fetch(
+    //         `https://cqa2api.sadlierconnect.com/assessments?resourceId=${resourceId}&access_token=${accessToken}`
+    //     )
+    //         .then((res) => res.json())
+    //         .then((res) => {
+    //             console.log("[res]", res.data);
+    //             sendToParent({ action: ACTION_POST_MESSAGE.FPR_PRINT });
+    //
+    //             setData(res.data);
+    //             setLayout(layout as ResourceLayoutEnum);
+    //         });
+    // }, []);
 
     useListenPostMessage((event) => {
         console.log("FPR:::Send message from parent", event.data);
@@ -59,12 +101,9 @@ function AudioAssessment() {
                 if (event.data.body.response) {
                     setData(event.data.body.response);
                 }
-                break;
-            case ACTION_POST_MESSAGE.FPR_PRINT:
-                sendToParent({
-                    action: ACTION_POST_MESSAGE.FPR_PRINT,
-                });
-                break;
+            // case ACTION_POST_MESSAGE.FPR_PRINT:
+            //     handlePrint();
+            //     break;
             default:
                 break;
         }
