@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, ReactNode, Suspense, useState } from "react";
 import { ResourceLayoutEnum } from "../enums/layout";
 import { AudioAssessmentContext } from "./ContextAudioAssessment";
 import { ResponseDefault } from "./view/type";
@@ -8,30 +8,13 @@ import { sendToParent } from "../helper";
 import { useListenPostMessage } from "./hooks/useListenPostMessage";
 
 const DoAssessment = lazy(() => import("./do"));
-// import DoAssessment from "./do";
-
 const ViewResource = lazy(() => import("./view"));
-// import ViewResource from "./view";
-
 const GradeAssessment = lazy(() => import("./grade"));
-// import GradeAssessment from "./grade";
-
 const ReGrade = lazy(() => import("./re-grade"));
-// import ReGrade from "./re-grade";
 const Review = lazy(() => import("./review"));
 
 const FallBack = () => {
-    return (
-        <div
-            style={{
-                width: "100%",
-                height: "500px",
-                backgroundColor: "#fff",
-            }}
-        >
-            Loading...
-        </div>
-    );
+    return <div className={"w-full h-[500px] bg-white"}>Loading...</div>;
 };
 
 function AudioAssessment() {
@@ -95,22 +78,13 @@ function AudioAssessment() {
         return <FallBack />;
     }
 
-    const Component = (() => {
-        switch (layout) {
-            case ResourceLayoutEnum.VIEW_RESOURCE:
-                return <ViewResource />;
-            case ResourceLayoutEnum.DO_ASSIGNMENT:
-                return <DoAssessment />;
-            case ResourceLayoutEnum.GRADING:
-                return <GradeAssessment />;
-            case ResourceLayoutEnum.REGRADING:
-                return <ReGrade />;
-            case ResourceLayoutEnum.REVIEW_ASSIGNMENT:
-                return <Review />;
-            default:
-                break;
-        }
-    })();
+    const component = new Map<ResourceLayoutEnum, ReactNode>([
+        [ResourceLayoutEnum.VIEW_RESOURCE, <ViewResource />],
+        [ResourceLayoutEnum.DO_ASSIGNMENT, <DoAssessment />],
+        [ResourceLayoutEnum.GRADING, <GradeAssessment />],
+        [ResourceLayoutEnum.REGRADING, <ReGrade />],
+        [ResourceLayoutEnum.REVIEW_ASSIGNMENT, <Review />],
+    ]);
 
     return (
         <AudioAssessmentContext.Provider
@@ -128,7 +102,9 @@ function AudioAssessment() {
                     } `,
                 }}
             >
-                <Suspense fallback={<FallBack />}>{Component}</Suspense>
+                <Suspense fallback={<FallBack />}>
+                    {component.get(layout)}
+                </Suspense>
             </div>
         </AudioAssessmentContext.Provider>
     );

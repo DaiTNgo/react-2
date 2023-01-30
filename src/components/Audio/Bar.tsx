@@ -25,13 +25,17 @@ export default function Bar({
     };
 
     const calcClickedTime = (e: any) => {
-        const clickPositionInPage = e.pageX;
-        const barStart =
-            barRef.current!.getBoundingClientRect().left + window.scrollX;
-        const barWidth = barRef.current!.offsetWidth;
-        const clickPositionInBar = clickPositionInPage - barStart;
-        const timePerPixel = duration / barWidth;
-        return timePerPixel * clickPositionInBar;
+        try {
+            const clickPositionInPage = e.pageX;
+            const barStart =
+                barRef.current!.getBoundingClientRect().left + window.scrollX;
+            const barWidth = barRef.current!.offsetWidth;
+            const clickPositionInBar = clickPositionInPage - barStart;
+            const timePerPixel = duration / barWidth;
+            return timePerPixel * clickPositionInBar;
+        } catch (error) {
+            return 0;
+        }
     };
 
     const handleTimeDrag = (e: any) => {

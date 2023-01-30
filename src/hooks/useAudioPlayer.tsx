@@ -30,18 +30,18 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
         if (noSrcAudio) setIsLoadingAudio(false);
 
         const setAudioData = () => {
-            // if (Number.isFinite(audio.current!.duration)) {
-            //     audio.current!.currentTime = 10000000;
-            //
-            //     setTimeout(() => {
-            //         audio.current!.currentTime = 0;
-            //     }, 0);
-            // }
-            // audio.current!.addEventListener("durationchange", () => {
-            //     setDuration(audio.current!.duration);
-            // });
+            if (audio.current!.duration === Infinity) {
+                audio.current!.currentTime = Number.MAX_SAFE_INTEGER;
 
-            // setDuration(audio.current!.duration);
+                setTimeout(() => {
+                    audio.current!.currentTime = 0;
+                }, 1000);
+            }
+            audio.current!.addEventListener("durationchange", () => {
+                setDuration(audio.current!.duration);
+            });
+
+            setDuration(audio.current!.duration);
             setIsLoadingAudio(false);
         };
 
@@ -53,17 +53,9 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
             setPlaying(false);
         };
 
-        const updateDuration = () => {
-            setDuration(audio.current!.duration);
-        };
-
         audio.current!.addEventListener("loadeddata", setAudioData);
-        audio.current!.addEventListener("timeupdate", updateDuration);
         audio.current!.addEventListener("loadstart", completeLoadingAudio);
         audio.current!.addEventListener("ended", completeAudio);
-        audio.current!.addEventListener("progress", (e) => {
-            console.log(e);
-        });
 
         return () => {
             if (audio.current) {
@@ -73,10 +65,6 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
                     completeLoadingAudio
                 );
                 audio.current!.removeEventListener("ended", completeAudio);
-                audio.current!.removeEventListener(
-                    "timeupdate",
-                    updateDuration
-                );
             }
         };
     }, []);
