@@ -50,6 +50,7 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
             });
 
             setDuration(audio.current!.duration);
+            setCurTime(audio.current!.currentTime);
             setIsLoadingAudio(false);
         };
 
@@ -61,13 +62,16 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
             setPlaying(false);
         };
 
-        audio.current!.addEventListener("loadeddata", setAudioData);
+        audio.current!.addEventListener("loadedmetadata", setAudioData);
         audio.current!.addEventListener("loadstart", completeLoadingAudio);
         audio.current!.addEventListener("ended", completeAudio);
 
         return () => {
             if (audio.current) {
-                audio.current!.removeEventListener("loadeddata", setAudioData);
+                audio.current!.removeEventListener(
+                    "loadedmetadata",
+                    setAudioData
+                );
                 audio.current!.removeEventListener(
                     "loadstart",
                     completeLoadingAudio
