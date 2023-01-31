@@ -30,53 +30,27 @@ function AudioAssessment() {
     );
 
     const handlePrint = () => {
-        const resourceId = query.get("resourceId");
-        const accessToken = query.get("access_token");
-        const layout = query.get("layout");
-
-        if (!resourceId) return;
-
-        fetch(
-            `https://cqa2api.sadlierconnect.com/assessments?resourceId=${resourceId}&access_token=${accessToken}`
-        )
-            .then((res) => res.json())
-            .then((res) => {
-                console.log("[res]", res.data);
-                sendToParent({ action: ACTION_POST_MESSAGE.FPR_PRINT });
-
-                setData(res.data);
-                setLayout(layout as ResourceLayoutEnum);
-            });
+        window.print();
     };
-
-    // useEffect(() => {
-    //     const resourceId = query.get("resourceId");
-    //     const accessToken = query.get("access_token");
-    //     const layout = query.get("layout");
-    //
-    //     if (!resourceId) return;
-    //
-    //     fetch(
-    //         `https://cqa2api.sadlierconnect.com/assessments?resourceId=${resourceId}&access_token=${accessToken}`
-    //     )
-    //         .then((res) => res.json())
-    //         .then((res) => {
-    //             console.log("[res]", res.data);
-    //             sendToParent({ action: ACTION_POST_MESSAGE.FPR_PRINT });
-    //
-    //             setData(res.data);
-    //             setLayout(layout as ResourceLayoutEnum);
-    //         });
-    // }, []);
 
     useListenPostMessage((event) => {
         console.log("FPR:::Send message from parent", event.data);
         if (!event.data) return;
 
-        if (/changeScale/i.test(event.data as unknown as string as any)) {
+        if (/changeScale/i.test(event.data as unknown as string)) {
             // @ts-ignore
             const textScale = event.data.match(/changeScale=(.*)/i)[1];
             setScale(textScale);
+        }
+
+        //@ts-ignore
+        switch (event.data) {
+            //@ts-ignore
+            case ACTION_POST_MESSAGE.FPR_PRINT:
+                handlePrint();
+                break;
+            default:
+                break;
         }
 
         switch (event.data.action) {
@@ -101,9 +75,10 @@ function AudioAssessment() {
                 if (event.data.body.response) {
                     setData(event.data.body.response);
                 }
-            // case ACTION_POST_MESSAGE.FPR_PRINT:
-            //     handlePrint();
-            //     break;
+                break;
+            case ACTION_POST_MESSAGE.FPR_PRINT:
+                handlePrint();
+                break;
             default:
                 break;
         }
@@ -113,10 +88,6 @@ function AudioAssessment() {
         sendToParent({ action: ACTION_POST_MESSAGE.FPR_HEIGHT, resp: height });
     });
 
-    if (!data) {
-        return <FallBack />;
-    }
-
     const component = new Map<ResourceLayoutEnum, ReactNode>([
         [ResourceLayoutEnum.VIEW_RESOURCE, <ViewResource />],
         [ResourceLayoutEnum.DO_ASSIGNMENT, <DoAssessment />],
@@ -124,6 +95,14 @@ function AudioAssessment() {
         [ResourceLayoutEnum.REGRADING, <ReGrade />],
         [ResourceLayoutEnum.REVIEW_ASSIGNMENT, <Review />],
     ]);
+
+    const render = () => {
+        return component.get(layout);
+    };
+
+    if (!data) {
+        return <FallBack />;
+    }
 
     return (
         <AudioAssessmentContext.Provider
@@ -141,9 +120,7 @@ function AudioAssessment() {
                     } `,
                 }}
             >
-                <Suspense fallback={<FallBack />}>
-                    {component.get(layout)}
-                </Suspense>
+                <Suspense fallback={<FallBack />}>{render()}</Suspense>
             </div>
         </AudioAssessmentContext.Provider>
     );

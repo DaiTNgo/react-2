@@ -4,7 +4,6 @@ import Layout from "../components/Layout";
 import Slider from "../components/Slider";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 import { SIndex } from "../styled/view";
-import { ResponseDefault } from "./type";
 import {
     getContentHeaderFooter,
     getDirections,
@@ -15,11 +14,9 @@ import Volume from "../components/Volume";
 function ViewResource() {
     const { data } = useAudioAssessmentContext();
 
-    const listWord = getListWord(data as ResponseDefault);
-    const { direction: componentDirection, pathAudio } = getDirections(
-        data as ResponseDefault
-    );
-    const contentHeaderFooter = getContentHeaderFooter(data as ResponseDefault);
+    const listWord = getListWord(data);
+    const { direction: componentDirection, pathAudio } = getDirections(data);
+    const contentHeaderFooter = getContentHeaderFooter(data);
 
     return (
         <SIndex>

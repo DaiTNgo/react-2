@@ -7,7 +7,13 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
     const [playing, setPlaying] = useState(false);
     const [isLoadingAudio, setIsLoadingAudio] = useState(true);
 
+    const hasAudioRef = () => {
+        return !!audio.current;
+    };
+
     useEffect(() => {
+        if (!hasAudioRef()) return;
+
         const setAudioTime = () => setCurTime(audio.current!.currentTime);
 
         audio.current!.addEventListener("timeupdate", setAudioTime);
@@ -26,10 +32,16 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
     }, [clickedTime]);
 
     useEffect(() => {
+        if (!hasAudioRef()) return;
+
         const noSrcAudio = audio.current?.currentSrc === "";
         if (noSrcAudio) setIsLoadingAudio(false);
 
         const setAudioData = () => {
+            if (!(audio.current?.duration && audio.current?.currentTime)) {
+                return;
+            }
+
             if (audio.current!.duration === Infinity) {
                 audio.current!.currentTime = Number.MAX_SAFE_INTEGER;
 
