@@ -1,4 +1,4 @@
-import { useState, useEffect, MutableRefObject, RefObject } from "react";
+import { RefObject, useEffect, useState } from "react";
 
 function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
     const [duration, setDuration] = useState(0);
@@ -38,10 +38,6 @@ function useAudioPlayer(audio: RefObject<HTMLAudioElement>) {
         if (noSrcAudio) setIsLoadingAudio(false);
 
         const setAudioData = () => {
-            if (!(audio.current?.duration && audio.current?.currentTime)) {
-                return;
-            }
-
             if (audio.current!.duration === Infinity) {
                 audio.current!.currentTime = Number.MAX_SAFE_INTEGER;
 
