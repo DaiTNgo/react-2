@@ -18,55 +18,47 @@ import { sendToParent } from "../../helper";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
 import Volume from "../components/Volume";
 import { useListenPostMessage } from "../hooks/useListenPostMessage";
-import ModalCountDown from "./components/ModalCountDown";
-import { useModalContext } from "../../context/ModalContext";
-import ModalWaringPermissionAudio from "./components/ModalWaringPermissionAudio";
 
 function DoAssessment() {
-    const [storeFileAudio, setStoreFileAudio] = useState<Blob>();
     const [isStarting, setIsStarting] = useState(false);
     const [blink, setBlink] = useState(false);
     const [needStopDirections, setNeedStopDirections] = useState(false);
-    const [stream, setStream] = useState<MediaStream | null>(null);
 
     const stopped = useRef(false);
 
     const { data } = useAudioAssessmentContext();
-    const { openModal } = useModalContext();
 
     const { changeSlide } = useStoreSlider();
 
     const startRecording = useCallback(() => {
         setIsStarting(true);
         changeSlide(0);
+        setNeedStopDirections(true);
     }, []);
 
     const listWord = getListWord(data);
     const { direction: componentDirection, pathAudio } = getDirections(data);
     const contentHeaderFooter = getContentHeaderFooter(data);
 
-    const handleSubmitAssignment = (file: Blob) => {
-        setStoreFileAudio(file);
+    const handleSubmitAssignment = () => {
         setBlink(false);
         setIsStarting(false);
         sendToParent({
             action: ACTION_POST_MESSAGE.FPR_SUBMIT_AUDIO_ASSESSMENT,
-            resp: {
-                file,
-            },
         });
     };
 
     useEffect(() => {
         if (!isStarting) return;
         const id = setTimeout(() => {
-            stopped.current = true;
+            handleSubmitAssignment();
         }, TIME_RECORD_STANDARD * 1000);
 
         const PERCENT_NEED_BLINK = 3 / 4;
         const idBlink = setTimeout(() => {
             setBlink(true);
         }, TIME_RECORD_STANDARD * 1000 * PERCENT_NEED_BLINK);
+
         return () => {
             clearTimeout(id);
             clearTimeout(idBlink);
@@ -76,47 +68,15 @@ function DoAssessment() {
     useListenPostMessage(
         (event) => {
             switch (event.data.action) {
-                case ACTION_POST_MESSAGE.FPR_ASSIGNMENT_EXPIRED_TIME:
-                    if (isStarting) stopped.current = true;
-                    else {
-                        if (storeFileAudio) {
-                            sendToParent({
-                                action: ACTION_POST_MESSAGE.FPR_SUBMIT_AUDIO_ASSESSMENT,
-                                resp: {
-                                    file: storeFileAudio,
-                                },
-                            });
-                        } else {
-                            sendToParent({
-                                action: ACTION_POST_MESSAGE.FPR_ASSIGNMENT_EXPIRED_TIME,
-                            });
-                        }
-                    }
+                case ACTION_POST_MESSAGE.FPR_START_RECORDING:
+                    startRecording();
                     break;
                 default:
                     break;
             }
         },
-        [isStarting, storeFileAudio]
+        [startRecording]
     );
-
-    const getStreamAudio = async (): Promise<MediaStream | null> => {
-        const audioRecordConstraints = {
-            echoCancellation: true,
-        };
-        try {
-            return await window.navigator.mediaDevices.getUserMedia({
-                audio: audioRecordConstraints,
-            });
-        } catch (err) {
-            openModal(<ModalWaringPermissionAudio />);
-            return null;
-        }
-    };
-
-    useEffect(() => {
-        getStreamAudio();
-    }, []);
 
     return (
         <SIndex>
@@ -141,33 +101,23 @@ function DoAssessment() {
                 <Wrapper>
                     {isStarting ? (
                         <Recording
-                            onSubmitAssignment={handleSubmitAssignment}
                             numOfWord={listWord.length}
                             stopped={stopped}
                             blink={blink}
-                            stream={stream}
                         />
                     ) : (
                         <Record
-                            onClick={async () => {
-                                const stream = await getStreamAudio();
-
-                                if (stream) {
-                                    setStream(stream);
-                                    setNeedStopDirections(true);
-
-                                    openModal(
-                                        <ModalCountDown
-                                            startRecording={startRecording}
-                                        />
-                                    );
-                                }
+                            onClick={() => {
+                                sendToParent({
+                                    action: ACTION_POST_MESSAGE.FPR_START_RECORDING,
+                                });
                             }}
                         />
                     )}
                 </Wrapper>
 
                 <Slider
+                    onSubmitAssignment={handleSubmitAssignment}
                     title={data.resource.title}
                     needShowWord={isStarting}
                     data={listWord}

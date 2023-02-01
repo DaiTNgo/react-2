@@ -2,17 +2,14 @@ import { SSlider } from "../styled/view";
 import { useStoreSlider } from "../store/slider";
 import { MutableRefObject, useEffect } from "react";
 import { TIME_RECORD_STANDARD } from "../do/components/Recording";
-import { data } from "autoprefixer";
-import { useModalContext } from "../../context/ModalContext";
-import ModalSubmit from "../do/components/ModalSubmit";
 
 interface Props {
     title: string;
     data: any[];
     isStarting?: boolean;
-    // onSubmitAssignment: (file: any) => void;
     stopped?: MutableRefObject<boolean>;
     needShowWord?: boolean;
+    onSubmitAssignment?: () => void;
 }
 
 function ArrowRight() {
@@ -49,6 +46,7 @@ function Slider({
     isStarting = false,
     needShowWord = true,
     stopped,
+    onSubmitAssignment,
     ...props
 }: Props) {
     const { currentSlide, changeSlide, increaseSlide, decreaseSlide } =
@@ -84,10 +82,6 @@ function Slider({
             clearTimeout(id);
         };
     }, [currentSlide, isStarting]);
-
-    const handleSubmit = () => {
-        if (stopped) stopped.current = true;
-    };
 
     const renderSlideData = () => {
         if (needShowWord) {
@@ -134,7 +128,7 @@ function Slider({
                 {isStarting && currentSlide === props.data.length - 1 && (
                     <button
                         className="finish-recording-button"
-                        onClick={handleSubmit}
+                        onClick={onSubmitAssignment}
                         style={{
                             transform: "translateX(40px)",
                         }}
