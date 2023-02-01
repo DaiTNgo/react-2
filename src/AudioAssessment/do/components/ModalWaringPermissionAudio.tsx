@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useModalContext } from "../../../context/ModalContext";
 import * as S from "./styled";
 
@@ -10,8 +10,9 @@ function ModalWaringPermissionAudio() {
             <div className="permision-top">
                 <h3 className={"title"}>Warning:</h3>
                 <p className={"content"}>
-                    Sadlierconnect would like to access the microphone. Please
-                    allow microphone to record your assignment.
+                    Sadlierconnect would like to access the microphone.
+                    <br />
+                    Please allow microphone to record your assignment.
                 </p>
             </div>
             <button onClick={destroyModal} className={"btn-ok"}>
