@@ -4,7 +4,6 @@ import Layout from "../components/Layout";
 import Slider from "../components/Slider";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 import { SIndex } from "../styled/view";
-import { ResponseDefault } from "../types";
 import {
     getContentHeaderFooter,
     getDirections,
@@ -21,6 +20,7 @@ import Volume from "../components/Volume";
 import { useListenPostMessage } from "../hooks/useListenPostMessage";
 import ModalCountDown from "./components/ModalCountDown";
 import { useModalContext } from "../../context/ModalContext";
+import ModalWaringPermissionAudio from "./components/ModalWaringPermissionAudio";
 
 function DoAssessment() {
     const [storeFileAudio, setStoreFileAudio] = useState<Blob>();
@@ -100,6 +100,24 @@ function DoAssessment() {
         [isStarting, storeFileAudio]
     );
 
+    const getStreamAudio = async (): Promise<MediaStream | null> => {
+        const audioRecordConstraints = {
+            echoCancellation: true,
+        };
+        try {
+            return await window.navigator.mediaDevices.getUserMedia({
+                audio: audioRecordConstraints,
+            });
+        } catch (err) {
+            openModal(<ModalWaringPermissionAudio />);
+            return null;
+        }
+    };
+
+    useEffect(() => {
+        getStreamAudio();
+    }, []);
+
     return (
         <SIndex>
             <Layout
@@ -132,17 +150,9 @@ function DoAssessment() {
                     ) : (
                         <Record
                             onClick={async () => {
-                                try {
-                                    const audioRecordConstraints = {
-                                        echoCancellation: true,
-                                    };
+                                const stream = await getStreamAudio();
 
-                                    const stream =
-                                        await window.navigator.mediaDevices.getUserMedia(
-                                            {
-                                                audio: audioRecordConstraints,
-                                            }
-                                        );
+                                if (stream) {
                                     setStream(stream);
                                     setNeedStopDirections(true);
 
@@ -150,11 +160,6 @@ function DoAssessment() {
                                         <ModalCountDown
                                             startRecording={startRecording}
                                         />
-                                    );
-                                } catch (error) {
-                                    console.log("[ERR]", error);
-                                    alert(
-                                        "Please allow access to your microphone"
                                     );
                                 }
                             }}

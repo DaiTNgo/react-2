@@ -103,6 +103,32 @@ export const ModalContainer = styled.div`
     }
 `;
 
+export const ModalPermissionAudio = styled.div`
+    width: 500px;
+    height: 200px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: 8px solid #3579c1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.8rem;
+    .title {
+        font-size: 2.4rem;
+        margin-bottom: 1rem;
+    }
+    .btn-ok {
+        border-radius: 4px;
+        border: 1px solid gray;
+        width: 100px;
+        margin-inline: auto;
+        margin-bottom: 10px;
+    }
+    .content {
+        font-size: 2rem;
+    }
+`;
+
 export const RecordContainer = styled.div`
     background-color: rgb(111, 111, 111);
     display: flex;
