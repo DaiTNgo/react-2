@@ -1,25 +1,10 @@
 import React from "react";
-import { useModalContext } from "../../../context/ModalContext";
 import Micro from "../../../Icons/Micro";
-import ModalCountDown from "./ModalCountDown";
 import { RecordContainer } from "./styled";
 
-function Record({
-    startRecording,
-    onClick,
-}: {
-    startRecording: any;
-    onClick: () => void;
-}) {
-    const { openModal } = useModalContext();
+function Record({ onClick }: { onClick: () => void }) {
     return (
-        <RecordContainer
-            className="do-assignment-record"
-            onClick={() => {
-                onClick();
-                openModal(<ModalCountDown startRecording={startRecording} />);
-            }}
-        >
+        <RecordContainer className="do-assignment-record" onClick={onClick}>
             <div className="micro-container">
                 <Micro />
             </div>

@@ -24,14 +24,11 @@ interface Props {
     onSubmitAssignment: (file: Blob) => void;
     stopped: MutableRefObject<boolean>;
     blink: boolean;
+    stream: MediaStream | null;
 }
 
-function Recording({ onSubmitAssignment, stopped, blink }: Props) {
+function Recording({ onSubmitAssignment, stopped, blink, stream }: Props) {
     const [level, setLevel] = useState(0);
-
-    const audioRecordConstraints = {
-        echoCancellation: true,
-    };
 
     const handleRecord = useCallback(({ stream, mimeType }: any) => {
         let recordedChunks: any = [];
@@ -82,17 +79,12 @@ function Recording({ onSubmitAssignment, stopped, blink }: Props) {
         mediaRecorder.start(200);
     }, []);
 
-    const recordAudio = useCallback(async () => {
-        const mimeType = MimeTypeAudio.WAV;
-        try {
-            const stream = await window.navigator.mediaDevices.getUserMedia({
-                audio: audioRecordConstraints,
-            });
+    const recordAudio = useCallback(() => {
+        if (stream) {
+            const mimeType = MimeTypeAudio.WAV;
             handleRecord({ stream, mimeType });
-        } catch (e: any) {
-            console.log("[ERR]", e);
         }
-    }, [handleRecord]);
+    }, [handleRecord, stream]);
 
     useEffect(() => {
         recordAudio();

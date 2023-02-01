@@ -10,7 +10,7 @@ import {
     getDirections,
     getListWord,
 } from "../utils/convertLayout";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Recording, { TIME_RECORD_STANDARD } from "./components/Recording";
 import Record from "./components/Record";
 import { useStoreSlider } from "../store/slider";
@@ -19,16 +19,20 @@ import { sendToParent } from "../../helper";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
 import Volume from "../components/Volume";
 import { useListenPostMessage } from "../hooks/useListenPostMessage";
+import ModalCountDown from "./components/ModalCountDown";
+import { useModalContext } from "../../context/ModalContext";
 
 function DoAssessment() {
     const [storeFileAudio, setStoreFileAudio] = useState<Blob>();
     const [isStarting, setIsStarting] = useState(false);
     const [blink, setBlink] = useState(false);
     const [needStopDirections, setNeedStopDirections] = useState(false);
+    const [stream, setStream] = useState<MediaStream | null>(null);
 
     const stopped = useRef(false);
 
     const { data } = useAudioAssessmentContext();
+    const { openModal } = useModalContext();
 
     const { changeSlide } = useStoreSlider();
 
@@ -123,13 +127,37 @@ function DoAssessment() {
                             numOfWord={listWord.length}
                             stopped={stopped}
                             blink={blink}
+                            stream={stream}
                         />
                     ) : (
                         <Record
-                            onClick={() => {
-                                setNeedStopDirections(true);
+                            onClick={async () => {
+                                try {
+                                    const audioRecordConstraints = {
+                                        echoCancellation: true,
+                                    };
+
+                                    const stream =
+                                        await window.navigator.mediaDevices.getUserMedia(
+                                            {
+                                                audio: audioRecordConstraints,
+                                            }
+                                        );
+                                    setStream(stream);
+                                    setNeedStopDirections(true);
+
+                                    openModal(
+                                        <ModalCountDown
+                                            startRecording={startRecording}
+                                        />
+                                    );
+                                } catch (error) {
+                                    console.log("[ERR]", error);
+                                    alert(
+                                        "Please allow access to your microphone"
+                                    );
+                                }
                             }}
-                            startRecording={startRecording}
                         />
                     )}
                 </Wrapper>
