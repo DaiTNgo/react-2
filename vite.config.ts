@@ -5,6 +5,9 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
     plugins: [react()],
     mode: "production",
+    esbuild: {
+        drop: ["console", "debugger"],
+    },
 
     /**TODO: Production*/
     // base: "/static.assets.sadlierconnect.com/sc-content/javascript/fpr_1.2",
