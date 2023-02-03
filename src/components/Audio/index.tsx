@@ -33,17 +33,18 @@ function Audio({ src }: Props) {
 
     return (
         <React.Fragment>
-            <div className={"flex items-center gap-4"}>
+            <div
+                className={`flex items-center gap-4 ${
+                    !!src ? "" : "opacity-50"
+                }`}
+            >
                 {playing ? (
                     <button className={styles.Pause} onClick={handlePauseAudio}>
                         <IconPause fill={"white"} />
                     </button>
                 ) : (
                     <button
-                        className={className(
-                            styles.Play,
-                            `${!!src ? "" : "opacity-50"}`
-                        )}
+                        className={styles.Play}
                         onClick={!!src ? handlePlayAudio : () => {}}
                     >
                         <IconPlay fill={"white"} />
