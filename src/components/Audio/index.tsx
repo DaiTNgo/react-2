@@ -4,6 +4,7 @@ import IconPlay from "../../Icons/Play";
 import IconPause from "../../Icons/Pause";
 import useAudioPlayer from "../../hooks/useAudioPlayer";
 import Bar from "./Bar";
+import { className } from "../../helper";
 type Props = {
     src: string;
 };
@@ -38,7 +39,13 @@ function Audio({ src }: Props) {
                         <IconPause fill={"white"} />
                     </button>
                 ) : (
-                    <button className={styles.Play} onClick={handlePlayAudio}>
+                    <button
+                        className={className(
+                            styles.Play,
+                            `${!!src ? "" : "opacity-50"}`
+                        )}
+                        onClick={!!src ? handlePlayAudio : () => {}}
+                    >
                         <IconPlay fill={"white"} />
                     </button>
                 )}
