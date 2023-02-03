@@ -18,6 +18,8 @@ import { sendToParent } from "../../helper";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
 import Volume from "../components/Volume";
 import { useListenPostMessage } from "../hooks/useListenPostMessage";
+import { useModalContext } from "../../context/ModalContext";
+import ModalCountDown from "./components/ModalCountDown";
 
 function DoAssessment() {
     const [isStarting, setIsStarting] = useState(false);
@@ -27,6 +29,7 @@ function DoAssessment() {
     const stopped = useRef(false);
 
     const { data } = useAudioAssessmentContext();
+    const { openModal } = useModalContext();
 
     const { changeSlide } = useStoreSlider();
 
@@ -69,7 +72,9 @@ function DoAssessment() {
         (event) => {
             switch (event.data.action) {
                 case ACTION_POST_MESSAGE.FPR_START_RECORDING:
-                    startRecording();
+                    openModal(
+                        <ModalCountDown startRecording={startRecording} />
+                    );
                     break;
                 default:
                     break;
