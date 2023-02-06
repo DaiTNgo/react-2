@@ -19,14 +19,12 @@ const FallBack = () => {
 
 function AudioAssessment() {
     const [scale, setScale] = useState(1);
-    const [data, setData] = useState<ResponseDefault | null>(
-        new ResponseDefault()
-    );
+    const [data, setData] = useState<ResponseDefault | null>(null);
 
     const [urlRecordStudent, setUrlRecordStudent] = useState("");
 
     const [layout, setLayout] = useState<ResourceLayoutEnum>(
-        ResourceLayoutEnum.GRADING
+        ResourceLayoutEnum.VIEW_RESOURCE
     );
 
     const handlePrint = () => {
