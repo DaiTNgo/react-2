@@ -127,7 +127,7 @@ export const SIndex = styled.div`
         margin-bottom: 1rem;
     }
     .fpr-audio {
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
         &__title {
             font-size: 3rem;
         }
