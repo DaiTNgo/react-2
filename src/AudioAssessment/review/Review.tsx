@@ -68,7 +68,7 @@ function Review() {
                     </div>
                 )}
 
-                <Table dataSource={dataSource} columns={columns} />
+                <Table data={dataSource} columns={columns} />
             </Layout>
         </SIndex>
     );

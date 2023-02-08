@@ -13,6 +13,6 @@ interface RcTableProps<T> {}
 interface RecordType {}
 
 export interface TableProps<RecordType> {
-    dataSource: RecordType[];
+    data: RecordType[];
     columns: ColumnsType<RecordType>[];
 }

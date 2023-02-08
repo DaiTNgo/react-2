@@ -3,11 +3,7 @@ import Header from "../components/Header";
 import Layout from "../components/Layout";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 import { SIndex } from "../styled/view";
-import {
-    getPhonicsAssessmentType,
-    getScore,
-    transformIdleToIncorrect,
-} from "./utils";
+import { getPhonicsAssessmentType, getScore } from "./utils";
 import Table from "../../components/table";
 import styles from "./grade.module.scss";
 import { sendToParent } from "../../helper";
@@ -39,7 +35,6 @@ function GradeAssessment() {
 
     const [selectedId, setSelectedId] = useState<number>(-1);
     const [isPlayDirection, setIsPlayDirection] = useState(true);
-
 
     const defaultOption = <T, K>(word: T, key: K) => ({
         word,
@@ -160,9 +155,14 @@ function GradeAssessment() {
                     <div className={"fpr-audio"}>
                         <p className={"fpr-audio__title"}>Recorded Content</p>
                         <div className={"flex items-center gap-4 mt-2"}>
-                            <Audio src={urlRecordStudent} onPermissionAllowPlayingDirection={(is:boolean)=>{
-                                setIsPlayDirection(is)
-                            }} />
+                            <Audio
+                                src={urlRecordStudent}
+                                onPermissionAllowPlayingDirection={(
+                                    is: boolean
+                                ) => {
+                                    setIsPlayDirection(is);
+                                }}
+                            />
                             {showSyncAudio && (
                                 <button
                                     className={styles.Sync}
@@ -176,7 +176,7 @@ function GradeAssessment() {
                     </div>
                 )}
 
-                <Table dataSource={dataSource} columns={columns} />
+                <Table data={dataSource} columns={columns} />
 
                 <div className={"flex items-center mt-4"}>
                     {listScore.map((item, index) => {

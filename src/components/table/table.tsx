@@ -1,12 +1,11 @@
-//@ts-nocheck
 import React from "react";
 import { TableProps } from "../types";
 
-function Table<T>({ dataSource, columns }: TableProps<T>) {
+function Table<T>({ data, columns }: TableProps<T>) {
     const { th, td } = ((_data, _columns) => {
-        const th = [];
-        const td = [];
-        _columns.forEach((cl, index) => {
+        const th: any = [];
+        const td: any = [];
+        _columns.forEach((cl: any, index) => {
             th.push(
                 <div
                     style={{
@@ -24,8 +23,8 @@ function Table<T>({ dataSource, columns }: TableProps<T>) {
                 </div>
             );
         });
-        _data.forEach((rc, _index) => {
-            const _td = _columns.map((cl, index) => {
+        _data.forEach((rc: any, _index) => {
+            const _td = _columns.map((cl: any, index) => {
                 return (
                     <div
                         key={index}
@@ -63,6 +62,7 @@ function Table<T>({ dataSource, columns }: TableProps<T>) {
                         height: 60,
                         borderBottom: "1px solid rgb(172, 172, 172)",
                         paddingRight: 30,
+                        paddingBottom: 4,
                     }}
                 >
                     {_td}
@@ -70,7 +70,7 @@ function Table<T>({ dataSource, columns }: TableProps<T>) {
             );
         });
         return { th, td };
-    })(dataSource, columns);
+    })(data, columns);
 
     return (
         <div className="w-full">

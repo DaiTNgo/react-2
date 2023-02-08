@@ -192,8 +192,8 @@ export const useColumnsGrade = ({
 
         {
             title: () => <Title>Comments</Title>,
-            dataIndex: "comments",
-            key: "comments",
+            dataIndex: "comment",
+            key: "comment",
             // width: "200px",
             width: "30%",
             align: "left",

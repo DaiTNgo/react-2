@@ -152,7 +152,7 @@ function ReGrade() {
                     </div>
                 )}
 
-                <Table dataSource={dataSource} columns={columns} />
+                <Table data={dataSource} columns={columns} />
 
                 <div className={"flex items-center mt-4"}>
                     {listScore.map((item, index) => {
