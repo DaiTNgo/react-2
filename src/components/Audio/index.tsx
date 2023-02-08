@@ -7,9 +7,10 @@ import Bar from "./Bar";
 import { className } from "../../helper";
 type Props = {
     src: string;
+    onPermissionAllowPlayingDirection:(is:boolean)=>void
 };
 
-function Audio({ src }: Props) {
+function Audio({ src,onPermissionAllowPlayingDirection }: Props) {
     const refAudio = useRef<HTMLAudioElement>(null);
 
     const {
@@ -24,11 +25,15 @@ function Audio({ src }: Props) {
     const handlePlayAudio = () => {
         refAudio.current!.play();
         setPlaying(true);
+
+        onPermissionAllowPlayingDirection(false)
     };
 
     const handlePauseAudio = () => {
         refAudio.current!.pause();
         setPlaying(false);
+
+        onPermissionAllowPlayingDirection(true)
     };
 
     return (

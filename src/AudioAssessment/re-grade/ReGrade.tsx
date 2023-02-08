@@ -30,6 +30,8 @@ function ReGrade() {
     const [selectedId, setSelectedId] = useState<number>(() => {
         return data?.speedScore || -1;
     });
+    const [isPlayDirection, setIsPlayDirection] = useState(true);
+
     const [dataSource, setDataSource] = useImmer(() => {
         return getResultData(data);
     });
@@ -122,6 +124,7 @@ function ReGrade() {
                         src={
                             "https://cqa.sadlierconnect.com/content/803001/007743417/direction-line.mp3"
                         }
+                        isPlayDirection={isPlayDirection}
                     />
                     <div
                         dangerouslySetInnerHTML={{
@@ -133,7 +136,9 @@ function ReGrade() {
                     <div className={"fpr-audio"}>
                         <p className={"fpr-audio__title"}>Recorded Content</p>
                         <div className={"flex items-center gap-4 mt-2"}>
-                            <Audio src={urlRecordStudent} />
+                            <Audio src={urlRecordStudent} onPermissionAllowPlayingDirection={(is:boolean)=>{
+                                setIsPlayDirection(is)
+                            }} />
                             {showSyncAudio && (
                                 <button
                                     className={styles.Sync}

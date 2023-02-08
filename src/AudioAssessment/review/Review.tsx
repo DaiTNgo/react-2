@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 import { getContentHeaderFooter, getDirections } from "../utils/convertLayout";
 import { getPhonicsAssessmentType } from "../grade/utils";
@@ -22,6 +22,8 @@ function Review() {
     const [dataSource, setDataSource] = useImmer(() => {
         return getResultData(data);
     });
+    const [isPlayDirection, setIsPlayDirection] = useState(true);
+
 
     const columns = useColumnsGrade({
         setDataSource,
@@ -47,6 +49,7 @@ function Review() {
                         src={
                             "https://cqa.sadlierconnect.com/content/803001/007743417/direction-line.mp3"
                         }
+                        isPlayDirection={isPlayDirection}
                     />
                     <div
                         dangerouslySetInnerHTML={{
@@ -58,7 +61,9 @@ function Review() {
                     <div className={"fpr-audio"}>
                         <p className={"fpr-audio__title"}>Recorded Content</p>
                         <div className={"flex items-center gap-4 mt-2"}>
-                            <Audio src={urlRecordStudent} />
+                            <Audio src={urlRecordStudent} onPermissionAllowPlayingDirection={(is:boolean)=>{
+                                setIsPlayDirection(is)
+                            }} />
                         </div>
                     </div>
                 )}

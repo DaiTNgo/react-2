@@ -24,7 +24,7 @@ import ModalCountDown from "./components/ModalCountDown";
 function DoAssessment() {
     const [isStarting, setIsStarting] = useState(false);
     const [blink, setBlink] = useState(false);
-    const [needStopDirections, setNeedStopDirections] = useState(false);
+    const [isPlayDirection, setIsPlayDirection] = useState(true);
 
     const stopped = useRef(false);
 
@@ -36,7 +36,8 @@ function DoAssessment() {
     const startRecording = useCallback(() => {
         setIsStarting(true);
         changeSlide(0);
-        setNeedStopDirections(true);
+
+        setIsPlayDirection(false);
     }, []);
 
     const listWord = getListWord(data);
@@ -95,7 +96,7 @@ function DoAssessment() {
                         src={
                             "https://cqa.sadlierconnect.com/content/803001/007743417/direction-line.mp3"
                         }
-                        stopDirections={needStopDirections}
+                        isPlayDirection={isPlayDirection}
                     />
                     <div
                         dangerouslySetInnerHTML={{

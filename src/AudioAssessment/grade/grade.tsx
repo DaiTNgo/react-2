@@ -38,6 +38,8 @@ function GradeAssessment() {
     const phonicsAssessmentType = getPhonicsAssessmentType(data);
 
     const [selectedId, setSelectedId] = useState<number>(-1);
+    const [isPlayDirection, setIsPlayDirection] = useState(true);
+
 
     const defaultOption = <T, K>(word: T, key: K) => ({
         word,
@@ -146,6 +148,7 @@ function GradeAssessment() {
                         src={
                             "https://cqa.sadlierconnect.com/content/803001/007743417/direction-line.mp3"
                         }
+                        isPlayDirection={isPlayDirection}
                     />
                     <div
                         dangerouslySetInnerHTML={{
@@ -157,7 +160,9 @@ function GradeAssessment() {
                     <div className={"fpr-audio"}>
                         <p className={"fpr-audio__title"}>Recorded Content</p>
                         <div className={"flex items-center gap-4 mt-2"}>
-                            <Audio src={urlRecordStudent} />
+                            <Audio src={urlRecordStudent} onPermissionAllowPlayingDirection={(is:boolean)=>{
+                                setIsPlayDirection(is)
+                            }} />
                             {showSyncAudio && (
                                 <button
                                     className={styles.Sync}
