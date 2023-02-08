@@ -2,7 +2,13 @@ import { IPassageDate, ResponseDefault } from "../types";
 
 export const getListWord = (data: ResponseDefault) => {
     try {
-        return data.questionBean.listQuestion[0].questionJsonObject.contents;
+        return data.questionBean.listQuestion.reduce(
+            (acc: any[], question) => [
+                ...acc,
+                ...question.questionJsonObject.contents,
+            ],
+            []
+        );
     } catch (_: any) {
         return [];
     }
