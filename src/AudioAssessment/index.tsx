@@ -19,7 +19,7 @@ const FallBack = () => {
 
 function AudioAssessment() {
     const [scale, setScale] = useState(1);
-    const [data, setData] = useState<ResponseDefault | null>(null);
+    const [data, setData] = useState<ResponseDefault | null>(new ResponseDefault());
 
     const [urlRecordStudent, setUrlRecordStudent] = useState("");
 
@@ -94,8 +94,8 @@ function AudioAssessment() {
         [ResourceLayoutEnum.REVIEW_ASSIGNMENT, <Review />],
     ]);
 
-    const render = () => {
-        return component.get(layout);
+    const render = (_layout:ResourceLayoutEnum) => {
+        return component.get(_layout);
     };
 
     if (!data) {
@@ -118,7 +118,7 @@ function AudioAssessment() {
                     } `,
                 }}
             >
-                <Suspense fallback={<FallBack />}>{render()}</Suspense>
+                <Suspense fallback={<FallBack />}>{render(layout)}</Suspense>
             </div>
         </AudioAssessmentContext.Provider>
     );
