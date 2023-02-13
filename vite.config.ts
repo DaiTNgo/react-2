@@ -10,5 +10,5 @@ export default defineConfig({
     },
 
     /**TODO: Production*/
-     base: "/static.assets.sadlierconnect.com/sc-content/javascript/fpr_1.3",
+     base: "/sc-content/javascript/fpr_1.4",
 });
