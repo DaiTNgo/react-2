@@ -133,7 +133,7 @@ function Slider({
                             transform: "translateX(40px)",
                         }}
                     >
-                        Finish Recording
+                        Stop Recording
                     </button>
                 )}
             </div>

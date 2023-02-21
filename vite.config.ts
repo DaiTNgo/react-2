@@ -10,5 +10,5 @@ export default defineConfig({
     },
 
     /**TODO: Production*/
-    //  base: "/sc-content/javascript/fpr_1.5",
+     base: "/sc-content/javascript/fpr_1.6",
 });
