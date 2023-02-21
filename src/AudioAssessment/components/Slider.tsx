@@ -49,12 +49,12 @@ function Slider({
     onSubmitAssignment,
     ...props
 }: Props) {
-    const { currentSlide, changeSlide, increaseSlide, decreaseSlide } =
+    const { currentSlide, increaseSlide, decreaseSlide } =
         useStoreSlider();
 
-    const onChange = (currentSlide: number) => () => {
-        changeSlide(currentSlide);
-    };
+    // const onChange = (currentSlide: number) => () => {
+    //     changeSlide(currentSlide);
+    // };
 
     const handlePrevious = () => {
         decreaseSlide();
@@ -67,21 +67,21 @@ function Slider({
     const showArrowPrevious = currentSlide !== 0;
     const showArrowNext = currentSlide !== props.data.length - 1;
 
-    useEffect(() => {
-        if (!props?.data?.length) return;
-        if (!isStarting) return;
-
-        if (currentSlide === props.data.length - 1) return;
-
-        if (stopped?.current) return;
-        const id = setTimeout(() => {
-            increaseSlide();
-        }, (TIME_RECORD_STANDARD / props.data.length) * 1000);
-
-        return () => {
-            clearTimeout(id);
-        };
-    }, [currentSlide, isStarting]);
+    // useEffect(() => {
+    //     if (!props?.data?.length) return;
+    //     if (!isStarting) return;
+    //
+    //     if (currentSlide === props.data.length - 1) return;
+    //
+    //     if (stopped?.current) return;
+    //     const id = setTimeout(() => {
+    //         increaseSlide();
+    //     }, (TIME_RECORD_STANDARD / props.data.length) * 1000);
+    //
+    //     return () => {
+    //         clearTimeout(id);
+    //     };
+    // }, [currentSlide, isStarting]);
 
     const renderSlideData = () => {
         if (needShowWord) {
