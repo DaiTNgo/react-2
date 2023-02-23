@@ -8,7 +8,7 @@ const Div = styled.div`
     transform-origin: center;
     animation: loader1 1s linear infinite;
 
-    font-size: 50px;
+    font-size: 40px;
 
     @keyframes loader1 {
         from {
