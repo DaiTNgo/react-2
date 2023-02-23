@@ -6,6 +6,7 @@ import { useObserverHeight } from "./hooks/useObserverHeight";
 import { ACTION_POST_MESSAGE } from "../enums/action";
 import { sendToParent } from "../helper";
 import { useListenPostMessage } from "./hooks/useListenPostMessage";
+import { Loading } from "./components/Loading";
 
 const DoAssessment = lazy(() => import("./do"));
 const ViewResource = lazy(() => import("./view"));
@@ -14,7 +15,11 @@ const ReGrade = lazy(() => import("./re-grade"));
 const Review = lazy(() => import("./review"));
 
 const FallBack = () => {
-    return <div className={"w-full h-[500px] bg-white"}>Loading...</div>;
+    return (
+        <div className={"w-full h-screen bg-white grid place-items-center"}>
+            <Loading />
+        </div>
+    );
 };
 
 function AudioAssessment() {
@@ -24,7 +29,7 @@ function AudioAssessment() {
     const [urlRecordStudent, setUrlRecordStudent] = useState("");
 
     const [layout, setLayout] = useState<ResourceLayoutEnum>(
-        ResourceLayoutEnum.VIEW_RESOURCE
+        ResourceLayoutEnum.GRADING
     );
 
     const handlePrint = () => {
@@ -94,7 +99,7 @@ function AudioAssessment() {
         [ResourceLayoutEnum.REVIEW_ASSIGNMENT, <Review />],
     ]);
 
-    const render = (_layout:ResourceLayoutEnum) => {
+    const render = (_layout: ResourceLayoutEnum) => {
         return component.get(_layout);
     };
 
