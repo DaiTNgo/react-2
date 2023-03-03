@@ -29,7 +29,7 @@ function AudioAssessment() {
     const [urlRecordStudent, setUrlRecordStudent] = useState("");
 
     const [layout, setLayout] = useState<ResourceLayoutEnum>(
-        ResourceLayoutEnum.GRADING
+        ResourceLayoutEnum.VIEW_RESOURCE
     );
 
     const handlePrint = () => {
