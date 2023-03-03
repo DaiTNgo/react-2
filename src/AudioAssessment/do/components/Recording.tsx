@@ -9,12 +9,16 @@ export const TIME_RECORD_STANDARD = 120;
 
 interface Props {
     numOfWord: number;
-    stopped: MutableRefObject<boolean>;
     blink: boolean;
+    stoppedRef: MutableRefObject<boolean>;
+    pauseRef: MutableRefObject<boolean>;
 }
+export const resumeEvent = new CustomEvent("resumeEvent");
+export const pauseEvent = new CustomEvent("pauseEvent");
 
-function Recording({ stopped, blink }: Props) {
+function Recording({ stoppedRef, blink, pauseRef }: Props) {
     const [level, setLevel] = useState(0);
+    const [isPause, setIsPause] = useState(false);
 
     useListenPostMessage((event) => {
         switch (event.data.action) {
@@ -30,7 +34,22 @@ function Recording({ stopped, blink }: Props) {
     return (
         <div className={"inline-block"}>
             <div className={"flex items-center gap-2 relative"}>
-                <div className={"absolute top-[45px] left-[-60px]"}>
+                <div
+                    className={
+                        "absolute top-[45px] left-[-60px] cursor-pointer"
+                    }
+                    onClick={() => {
+                        if (isPause) {
+                            console.log("resume");
+                            setIsPause(false);
+                            window.dispatchEvent(resumeEvent);
+                        } else {
+                            console.log("pause");
+                            window.dispatchEvent(pauseEvent);
+                            setIsPause(true);
+                        }
+                    }}
+                >
                     <Micro width={50} height={50} />
                 </div>
                 <div className={"flex flex-col items-center gap-2"}>
@@ -76,7 +95,7 @@ function Recording({ stopped, blink }: Props) {
                                 fontSize: 18,
                             }}
                         >
-                            <Time stopped={stopped} />
+                            <Time stopped={stoppedRef} />
                         </div>
                     </div>
                 </div>

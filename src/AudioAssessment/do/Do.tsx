@@ -26,7 +26,8 @@ function DoAssessment() {
     const [blink, setBlink] = useState(false);
     const [isPlayDirection, setIsPlayDirection] = useState(true);
 
-    const stopped = useRef(false);
+    const stoppedRef = useRef(false);
+    const pauseRef = useRef(false);
 
     const { data } = useAudioAssessmentContext();
     const { openModal } = useModalContext();
@@ -47,9 +48,10 @@ function DoAssessment() {
     const handleSubmitAssignment = () => {
         setBlink(false);
         setIsStarting(false);
-        sendToParent({
-            action: ACTION_POST_MESSAGE.FPR_SUBMIT_AUDIO_ASSESSMENT,
-        });
+        // sendToParent({
+        //     action: ACTION_POST_MESSAGE.FPR_SUBMIT_AUDIO_ASSESSMENT,
+        // });
+        stoppedRef.current = true;
     };
 
     useEffect(() => {
@@ -104,12 +106,13 @@ function DoAssessment() {
                         }}
                     />
                 </div>
-                <Wrapper>
+                <div className={"grid text-center place-content-center"}>
                     {isStarting ? (
                         <Recording
                             numOfWord={listWord.length}
-                            stopped={stopped}
+                            stoppedRef={stoppedRef}
                             blink={blink}
+                            pauseRef={pauseRef}
                         />
                     ) : (
                         <Record
@@ -118,9 +121,11 @@ function DoAssessment() {
                                     action: ACTION_POST_MESSAGE.FPR_START_RECORDING,
                                 });
                             }}
+                            stoppedRef={stoppedRef}
+                            pauseRef={pauseRef}
                         />
                     )}
-                </Wrapper>
+                </div>
 
                 <Slider
                     onSubmitAssignment={handleSubmitAssignment}
@@ -128,7 +133,7 @@ function DoAssessment() {
                     needShowWord={isStarting}
                     data={listWord}
                     isStarting={isStarting}
-                    stopped={stopped}
+                    stopped={stoppedRef}
                 />
             </Layout>
         </SIndex>
@@ -136,9 +141,3 @@ function DoAssessment() {
 }
 
 export default DoAssessment;
-
-const Wrapper = styled.div`
-    display: grid;
-    place-content: center;
-    text-align: center;
-`;
