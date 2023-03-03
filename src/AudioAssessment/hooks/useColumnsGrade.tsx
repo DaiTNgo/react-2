@@ -79,8 +79,8 @@ export const useColumnsGrade = ({
                 return (
                     <>
                         <Check
-                            height={40}
-                            width={40}
+                            height={30}
+                            width={30}
                             status={record.correct}
                             onClick={handleClick(
                                 isExecute,
@@ -118,8 +118,8 @@ export const useColumnsGrade = ({
                 return (
                     <>
                         <Check
-                            height={40}
-                            width={40}
+                            height={30}
+                            width={30}
                             status={record.accuracy}
                             onClick={handleClick(
                                 isExecute,
@@ -165,8 +165,8 @@ export const useColumnsGrade = ({
                 return (
                     <>
                         <Check
-                            height={40}
-                            width={40}
+                            height={30}
+                            width={30}
                             status={record.fluency}
                             onClick={handleClick(
                                 isExecute,

@@ -31,58 +31,33 @@ function DoAssessment() {
     const { data } = useAudioAssessmentContext();
     const { openModal } = useModalContext();
 
-    const { changeSlide } = useStoreSlider();
-
-    const startRecording = useCallback(() => {
-        setIsStarting(true);
-        changeSlide(0);
-
-        setIsPlayDirection(false);
-    }, []);
-
     const listWord = getListWord(data);
     const { direction: componentDirection, pathAudio } = getDirections(data);
     const contentHeaderFooter = getContentHeaderFooter(data);
 
+    const startRecording = () => {
+        const PERCENT_NEED_BLINK = 3 / 4;
+
+        setIsPlayDirection(false);
+        setIsStarting(true);
+
+        sendToParent({ action: ACTION_POST_MESSAGE.FPR_START_RECORDING });
+
+        setTimeout(() => {
+            setBlink(true);
+        }, TIME_RECORD_STANDARD * 1000 * PERCENT_NEED_BLINK);
+
+        setTimeout(handleSubmitAssignment, TIME_RECORD_STANDARD * 1000);
+    };
+
     const handleSubmitAssignment = () => {
         setBlink(false);
         setIsStarting(false);
+
         sendToParent({
             action: ACTION_POST_MESSAGE.FPR_SUBMIT_AUDIO_ASSESSMENT,
         });
     };
-
-    useEffect(() => {
-        if (!isStarting) return;
-        const id = setTimeout(() => {
-            handleSubmitAssignment();
-        }, TIME_RECORD_STANDARD * 1000);
-
-        const PERCENT_NEED_BLINK = 3 / 4;
-        const idBlink = setTimeout(() => {
-            setBlink(true);
-        }, TIME_RECORD_STANDARD * 1000 * PERCENT_NEED_BLINK);
-
-        return () => {
-            clearTimeout(id);
-            clearTimeout(idBlink);
-        };
-    }, [isStarting]);
-
-    useListenPostMessage(
-        (event) => {
-            switch (event.data.action) {
-                case ACTION_POST_MESSAGE.FPR_START_RECORDING:
-                    openModal(
-                        <ModalCountDown startRecording={startRecording} />
-                    );
-                    break;
-                default:
-                    break;
-            }
-        },
-        [startRecording]
-    );
 
     return (
         <SIndex>
@@ -114,9 +89,11 @@ function DoAssessment() {
                     ) : (
                         <Record
                             onClick={() => {
-                                sendToParent({
-                                    action: ACTION_POST_MESSAGE.FPR_START_RECORDING,
-                                });
+                                openModal(
+                                    <ModalCountDown
+                                        startRecording={startRecording}
+                                    />
+                                );
                             }}
                         />
                     )}
