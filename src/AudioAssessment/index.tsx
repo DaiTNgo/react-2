@@ -24,12 +24,12 @@ const FallBack = () => {
 
 function AudioAssessment() {
     const [scale, setScale] = useState(1);
-    const [data, setData] = useState<ResponseDefault | null>(null);
-
+    const [data, setData] = useState<ResponseDefault | null>(
+        new ResponseDefault()
+    );
     const [urlRecordStudent, setUrlRecordStudent] = useState("");
-
     const [layout, setLayout] = useState<ResourceLayoutEnum>(
-        ResourceLayoutEnum.VIEW_RESOURCE
+        ResourceLayoutEnum.DO_ASSIGNMENT
     );
 
     const handlePrint = () => {
@@ -37,7 +37,7 @@ function AudioAssessment() {
     };
 
     useListenPostMessage((event) => {
-        console.log("FPR:::Send message from parent", event.data);
+        // console.log("FPR:::Send message from parent", event.data);
         if (!event.data) return;
 
         if (/changeScale/i.test(event.data as unknown as string)) {
@@ -99,8 +99,8 @@ function AudioAssessment() {
         [ResourceLayoutEnum.REVIEW_ASSIGNMENT, <Review />],
     ]);
 
-    const render = (_layout: ResourceLayoutEnum) => {
-        return component.get(_layout);
+    const render = (layout: ResourceLayoutEnum) => {
+        return component.get(layout);
     };
 
     if (!data) {

@@ -8,7 +8,7 @@ type Props = {
     [k: string]: any;
 };
 
-function Button({ onClick, needLoading, children, ...props }: Props) {
+export function Button({ onClick, needLoading, children, ...props }: Props) {
     const [loading, setLoading] = useState(false);
     return (
         <MyButton
@@ -26,8 +26,6 @@ function Button({ onClick, needLoading, children, ...props }: Props) {
         </MyButton>
     );
 }
-
-export { Button };
 
 export const MyButton = styled.button<{ loading?: boolean }>`
     cursor: pointer;

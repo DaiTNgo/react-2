@@ -3,7 +3,7 @@ import { StatusMachine } from "../../enums/status-machine";
 import Check from "../../Icons/Check";
 import XMark from "../../Icons/XMark";
 import styled from "styled-components";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { ResourceLayoutEnum } from "../../enums/layout";
 
 const Title = styled.p`
@@ -224,11 +224,12 @@ export const useColumnsGrade = ({
                                     placeholder={"Enter text here. (Optional)"}
                                     value={record.comment}
                                     onChange={(e) => {
-                                        if (isExecute)
+                                        if (isExecute) {
                                             setDataSource((draft: any) => {
                                                 draft[index]["comment"] =
                                                     e.target.value;
                                             });
+                                        }
                                     }}
                                 />
                             </div>

@@ -1,15 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
-import { getContentHeaderFooter, getDirections } from "../utils/convertLayout";
+import { getDirections } from "../utils/convertLayout";
 import { getPhonicsAssessmentType, getScore } from "../grade/utils";
 import { useImmer } from "use-immer";
 import { sendToParent } from "../../helper";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
 import styles from "../grade/grade.module.scss";
-import { SIndex } from "../styled/view";
-import Layout from "../components/Layout";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+import AudioAssessmentTemplate from "../components/template/AudioAssessmentTemplate";
 import Table from "../../components/table";
 import { getResultData } from "./utils";
 import { useColumnsGrade } from "../hooks/useColumnsGrade";
@@ -24,7 +21,6 @@ import Volume from "../components/Volume";
 function ReGrade() {
     const { data, urlRecordStudent, layout } = useAudioAssessmentContext();
     const { direction: componentDirection, pathAudio } = getDirections(data);
-    const contentHeaderFooter = getContentHeaderFooter(data);
     const phonicsAssessmentType = getPhonicsAssessmentType(data);
 
     const [selectedId, setSelectedId] = useState<number>(() => {
@@ -78,28 +74,35 @@ function ReGrade() {
         setSelectedId(data.studentAssignment.speedScore || -1);
     }, [data]);
 
-    useListenPostMessage(
-        (event: any) => {
-            switch (event.data.action) {
-                case ACTION_POST_MESSAGE.FPR_GRADE_VALIDATE:
-                    sendToParent({
-                        action: ACTION_POST_MESSAGE.FPR_GRADE_VALIDATE,
-                        resp: {
-                            gradingResults: dataSource,
-                            speedScore: selectedId,
-                            score,
-                            fluencyScore: fluency,
-                            accuracyScore: accuracy,
-                            isReGrading: true,
-                        },
-                    });
-                    break;
+    const handleGradeValidate = () => {
+        sendToParent({
+            action: ACTION_POST_MESSAGE.FPR_GRADE_VALIDATE,
+            resp: {
+                gradingResults: dataSource,
+                speedScore: selectedId,
+                score,
+                fluencyScore: fluency,
+                accuracyScore: accuracy,
+                isReGrading: true,
+            },
+        });
+    };
 
-                default:
-                    break;
+    const regradeStrategy = new Map([
+        [ACTION_POST_MESSAGE.FPR_GRADE_VALIDATE, handleGradeValidate],
+        ["default", () => {}],
+    ]);
+    useListenPostMessage(
+        (event) => {
+            const callBack =
+                regradeStrategy.get(event.data.action) ||
+                regradeStrategy.get("default");
+
+            if (callBack) {
+                callBack();
             }
         },
-        [dataSource, selectedId]
+        [regradeStrategy]
     );
 
     const showAudio =
@@ -113,62 +116,62 @@ function ReGrade() {
         OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD;
 
     return (
-        <SIndex>
-            <Layout
-                footer={<Footer content={contentHeaderFooter} />}
-                header={<Header content={contentHeaderFooter} />}
-            >
-                <div className="flex items-start gap-1 relative mb-8">
-                    <Volume
-                        // src={"https://cqa2.sadlierconnect.com" + pathAudio}
-                        src={
-                            "https://cqa.sadlierconnect.com/content/803001/007743417/direction-line.mp3"
-                        }
-                        isPlayDirection={isPlayDirection}
-                    />
-                    <div
-                        dangerouslySetInnerHTML={{
-                            __html: componentDirection,
-                        }}
-                    />
-                </div>
-                {showAudio && (
-                    <div className={"fpr-audio"}>
-                        <p className={"fpr-audio__title"}>Recorded Content</p>
-                        <div className={"flex items-center gap-4 mt-2"}>
-                            <Audio src={urlRecordStudent} onPermissionAllowPlayingDirection={(is:boolean)=>{
-                                setIsPlayDirection(is)
-                            }} />
-                            {showSyncAudio && (
-                                <button
-                                    className={styles.Sync}
-                                    onClick={handleSyncAudio}
-                                >
-                                    <IconSync fill={"white"} width={18} />
-                                    <p>Sync</p>
-                                </button>
-                            )}
-                        </div>
+        <AudioAssessmentTemplate>
+            <div className="flex items-start gap-1 relative mb-8">
+                <Volume
+                    // src={"https://cqa2.sadlierconnect.com" + pathAudio}
+                    src={
+                        "https://cqa.sadlierconnect.com/content/803001/007743417/direction-line.mp3"
+                    }
+                    isPlayDirection={isPlayDirection}
+                />
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: componentDirection,
+                    }}
+                />
+            </div>
+            {showAudio && (
+                <div className={"fpr-audio"}>
+                    <p className={"fpr-audio__title"}>Recorded Content</p>
+                    <div className={"flex items-center gap-4 mt-2"}>
+                        <Audio
+                            src={urlRecordStudent}
+                            onPermissionAllowPlayingDirection={(
+                                is: boolean
+                            ) => {
+                                setIsPlayDirection(is);
+                            }}
+                        />
+                        {showSyncAudio && (
+                            <button
+                                className={styles.Sync}
+                                onClick={handleSyncAudio}
+                            >
+                                <IconSync fill={"white"} width={18} />
+                                <p>Sync</p>
+                            </button>
+                        )}
                     </div>
-                )}
-
-                <Table data={dataSource} columns={columns} />
-
-                <div className={"flex items-center mt-4"}>
-                    {listScore.map((item, index) => {
-                        return (
-                            <React.Fragment key={index}>
-                                {item.component}
-                            </React.Fragment>
-                        );
-                    })}
                 </div>
-                <div className={"mt-8"}></div>
-                <Button className={styles.Save} onClick={handleSubmit}>
-                    Save
-                </Button>
-            </Layout>
-        </SIndex>
+            )}
+
+            <Table data={dataSource} columns={columns} />
+
+            <div className={"flex items-center mt-4"}>
+                {listScore.map((item, index) => {
+                    return (
+                        <React.Fragment key={index}>
+                            {item.component}
+                        </React.Fragment>
+                    );
+                })}
+            </div>
+            <div className={"mt-8"}></div>
+            <Button className={styles.Save} onClick={handleSubmit}>
+                Save
+            </Button>
+        </AudioAssessmentTemplate>
     );
 }
 

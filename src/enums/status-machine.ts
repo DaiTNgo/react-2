@@ -6,3 +6,11 @@ export enum StatusMachine {
     INCORRECT = "incorrect",
     CORRECT = "correct",
 }
+
+export enum StatusAudio {
+    PLAY = "PLAY",
+    PAUSE = "PAUSE",
+    IDLE = "IDLE",
+    STOP = "STOP",
+    RESUME = "RESUME",
+}

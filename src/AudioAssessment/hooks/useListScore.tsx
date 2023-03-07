@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { className } from "../../helper";
 import styles from "../grade/grade.module.scss";
 import { VIEW_GRADE } from "../../enums/view-grade";
