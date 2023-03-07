@@ -29,6 +29,7 @@ function Recording({ stopped, blink }: Props) {
     useListenPostMessage((event) => {
         switch (event.data.action) {
             case ACTION_POST_MESSAGE.FPR_LEVEL_RECORDING:
+                console.log("event.data.body", event.data.body);
                 // @ts-ignore
                 setLevel(event.data.body);
                 break;
