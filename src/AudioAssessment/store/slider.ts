@@ -2,15 +2,18 @@ import create from "zustand";
 
 type State = {
     currentSlide: number;
+    isLastSlide: boolean;
 };
 
 type Actions = {
     increaseSlide: () => void;
     decreaseSlide: () => void;
     changeSlide: (slide: number) => void;
+    setIsLastSlide: (isLastSlide: boolean) => void;
 };
 export const useStoreSlider = create<State & Actions>((set) => ({
     currentSlide: 0,
+    isLastSlide: false,
     increaseSlide: () =>
         set((state) => ({ currentSlide: state.currentSlide + 1 })),
     decreaseSlide: () =>
@@ -23,6 +26,7 @@ export const useStoreSlider = create<State & Actions>((set) => ({
                 currentSlide: slide,
             };
         }),
+    setIsLastSlide: (isLastSlide: boolean) => set(() => ({ isLastSlide })),
 }));
 //-------------------------------
 // interface _State {

@@ -1,8 +1,9 @@
 import { SSlider } from "../styled/view";
 import { useStoreSlider } from "../store/slider";
-import { MutableRefObject } from "react";
+import { MutableRefObject, useEffect } from "react";
 import { IconArrowLeft } from "../../Icons/ArrowLeft";
 import { IconArrowRight } from "../../Icons/ArrowRight";
+import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 
 interface Props {
     title: string;
@@ -11,6 +12,7 @@ interface Props {
     stopped?: MutableRefObject<boolean>;
     needShowWord?: boolean;
     onSubmitAssignment?: () => void;
+    onLastSlide: () => void;
 }
 
 function Slider({
@@ -18,9 +20,19 @@ function Slider({
     needShowWord = true,
     stopped,
     onSubmitAssignment,
+    onLastSlide,
     ...props
 }: Props) {
-    const { currentSlide, increaseSlide, decreaseSlide } = useStoreSlider();
+    const { currentSlide, increaseSlide, decreaseSlide, changeSlide } =
+        useStoreSlider();
+
+    const { data } = useAudioAssessmentContext();
+
+    useEffect(() => {
+        if (isStarting) {
+            changeSlide(data.submissionMetadata?.index);
+        }
+    }, [data, isStarting]);
 
     const handlePrevious = () => {
         decreaseSlide();
@@ -32,6 +44,12 @@ function Slider({
 
     const showArrowPrevious = currentSlide !== 0;
     const showArrowNext = currentSlide !== props.data.length - 1;
+
+    useEffect(() => {
+        if (currentSlide === props.data.length - 1) {
+            onLastSlide();
+        }
+    }, [currentSlide, props.data]);
 
     const renderSlideData = () => {
         if (needShowWord) {

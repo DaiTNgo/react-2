@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import IconVolume from "../../../Icons/Volume";
 import * as S from "./styled";
-import {Loading} from "../../components/Loading";
+import { Loading } from "../../components/Loading";
+import { If, Then } from "react-if";
+import { noop } from "lodash";
+
 interface Props {
     onSubmit: () => void;
 }
@@ -21,15 +23,15 @@ function ModalSubmit({ onSubmit }: Props) {
                 placeItems: "center",
             }}
         >
-            <div
-                style={{
-                    position: "absolute",
-                    top: 10,
-                    left: 10,
-                }}
-            >
-                <IconVolume fill={"rgb(153,153,153)"} />
-            </div>
+            {/*<div*/}
+            {/*    style={{*/}
+            {/*        position: "absolute",*/}
+            {/*        top: 10,*/}
+            {/*        left: 10,*/}
+            {/*    }}*/}
+            {/*>*/}
+            {/*    <IconVolume fill={"rgb(153,153,153)"} />*/}
+            {/*</div>*/}
             <h3
                 style={{
                     fontSize: 30,
@@ -47,21 +49,27 @@ function ModalSubmit({ onSubmit }: Props) {
                 Click the Submit button to send your recording to your teacher.
             </p>
             <S.Button
-                onClick={() => {
-                    setLoading(true);
-                    onSubmit();
-                }}
-                className="flex items-center"
-                loading={loading}
+                onClick={
+                    loading
+                        ? noop
+                        : () => {
+                              setLoading(true);
+                              onSubmit();
+                          }
+                }
+                className={`flex items-center gap-4 ${
+                    loading ? "opacity-50" : ""
+                }`}
             >
                 Submit
-                <div className="loader loader1">
-                    <Loading />
-                </div>
+                <If condition={loading}>
+                    <Then>
+                        <Loading width={15} height={15} />
+                    </Then>
+                </If>
             </S.Button>
         </div>
     );
 }
 
 export default ModalSubmit;
-

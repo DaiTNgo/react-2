@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { IPropsIcon } from "../types";
 
 const Div = styled.div`
     display: inline-block;
@@ -28,15 +29,18 @@ const Div = styled.div`
     }
 `;
 
-export function Loading() {
+export function Loading({
+    width = "1em",
+    height = "1em",
+}: Partial<IPropsIcon>) {
     return (
         <Div>
             <svg
                 viewBox="0 0 1024 1024"
                 focusable="false"
                 data-icon="loading"
-                width="1em"
-                height="1em"
+                width={width}
+                height={height}
                 fill="currentColor"
                 aria-hidden="true"
             >

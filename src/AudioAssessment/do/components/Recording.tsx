@@ -1,17 +1,13 @@
-import React, {
-    MutableRefObject,
-    useCallback,
-    useEffect,
-    useState,
-} from "react";
+import React, { MutableRefObject, useCallback, useState } from "react";
 import { className, formatTimeToMMSS } from "../../../helper";
 import S from "./styles.module.scss";
 import { useListenPostMessage } from "../../hooks/useListenPostMessage";
 import { ACTION_POST_MESSAGE } from "../../../enums/action";
 import { IconPauseActive, IconPauseInActive } from "../../../Icons/IconPause";
-import { Else, If, Then } from "react-if";
+import { If, Then } from "react-if";
 import { useStoreAudio } from "../../store/audio";
 import { StatusAudio } from "../../../enums/status-machine";
+import { atom, useRecoilValue } from "recoil";
 
 export const TIME_RECORD_STANDARD = 120;
 
@@ -29,7 +25,6 @@ function Recording({ stopped, blink }: Props) {
     useListenPostMessage((event) => {
         switch (event.data.action) {
             case ACTION_POST_MESSAGE.FPR_LEVEL_RECORDING:
-                console.log("event.data.body", event.data.body);
                 // @ts-ignore
                 setLevel(event.data.body);
                 break;
@@ -87,7 +82,7 @@ function Recording({ stopped, blink }: Props) {
                                 fontSize: 18,
                             }}
                         >
-                            <Time stopped={stopped} />
+                            <Time />
                         </div>
                     </div>
                 </div>
@@ -95,57 +90,54 @@ function Recording({ stopped, blink }: Props) {
         </div>
     );
 }
+
 function IconRecordingGroup() {
-    const [isPaused, setIsPaused] = useState(false);
-    const { changeStatusAudio } = useStoreAudio();
+    const { statusAudio, changeStatusAudio } = useStoreAudio();
 
     const handleResume = useCallback(() => {
-        setIsPaused(false);
         changeStatusAudio(StatusAudio.RESUME);
     }, []);
 
     const handlePause = useCallback(() => {
-        setIsPaused(true);
         changeStatusAudio(StatusAudio.PAUSE);
     }, []);
     return (
         <>
-            <If condition={isPaused}>
+            <If condition={statusAudio === StatusAudio.PAUSE}>
                 <Then>
-                    <div onClick={handleResume}>
+                    <div onClick={handleResume} className={"cursor-pointer"}>
                         <IconPauseActive />
                     </div>
                 </Then>
-                <Else>
-                    <div onClick={handlePause}>
+            </If>
+            <If
+                condition={
+                    statusAudio === StatusAudio.RESUME ||
+                    statusAudio === StatusAudio.PLAY
+                }
+            >
+                <Then>
+                    <div onClick={handlePause} className={"cursor-pointer"}>
                         <IconPauseInActive />
                     </div>
-                </Else>
+                </Then>
             </If>
         </>
     );
 }
-function Time({ stopped }: { stopped: MutableRefObject<boolean> }) {
-    const [count, setCount] = useState(0);
-    const { statusAudio } = useStoreAudio();
 
-    useEffect(() => {
-        if (stopped.current) return;
-        if (statusAudio === StatusAudio.PAUSE) return;
+export const counterState = atom({
+    key: "counterState",
+    default: 0,
+});
 
-        const id = setInterval(() => {
-            setCount((c) => c + 1);
-        }, 1000);
+function Time() {
+    const counter = useRecoilValue(counterState);
 
-        return () => {
-            clearInterval(id);
-        };
-    }, [stopped.current, statusAudio]);
-
-    if (count > TIME_RECORD_STANDARD) {
+    if (counter > TIME_RECORD_STANDARD) {
         return <>{formatTimeToMMSS(TIME_RECORD_STANDARD)}</>;
     }
-    return <>{formatTimeToMMSS(count)}</>;
+    return <>{formatTimeToMMSS(counter)}</>;
 }
 
 export default Recording;

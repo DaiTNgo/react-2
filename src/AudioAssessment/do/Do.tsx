@@ -9,7 +9,10 @@ import React, {
     useRef,
     useState,
 } from "react";
-import Recording, { TIME_RECORD_STANDARD } from "./components/Recording";
+import Recording, {
+    counterState,
+    TIME_RECORD_STANDARD,
+} from "./components/Recording";
 import Record from "./components/Record";
 import { sendToParent } from "../../helper";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
@@ -20,11 +23,19 @@ import { Else, If, Then } from "react-if";
 import { useStoreAudio } from "../store/audio";
 import { StatusAudio } from "../../enums/status-machine";
 import { noop } from "lodash";
-import { useStoreCounter } from "../store/counter";
+import ModalSubmit from "./components/ModalSubmit";
+import { useListenPostMessage } from "../hooks/useListenPostMessage";
+import ModalPause from "./components/ModalPause";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useStoreSlider } from "../store/slider";
 
 function useSubmitAssessment(setBlink: Dispatch<SetStateAction<boolean>>) {
     const { changeStatusAudio, statusAudio } = useStoreAudio();
-    const { increaseCounter, counter } = useStoreCounter();
+    const [counter, setCounter] = useRecoilState(counterState);
+
+    const increaseCounter = () => {
+        setCounter((previous) => previous + 1);
+    };
 
     useEffect(() => {
         if (
@@ -57,30 +68,58 @@ function useSubmitAssessment(setBlink: Dispatch<SetStateAction<boolean>>) {
 function DoAssessment() {
     const [blink, setBlink] = useState(false);
     const [isPlayDirection, setIsPlayDirection] = useState(true);
+    const [isLastSlide, setIsLastSlide] = useState(false);
+
+    // const setCounter = useSetRecoilState(counterState);
+    const [counter, setCounter] = useRecoilState(counterState);
+    // console.log("re-render");
 
     const stopped = useRef(false);
 
     const { changeStatusAudio, statusAudio } = useStoreAudio();
+    const { currentSlide } = useStoreSlider();
+
+    const { data } = useAudioAssessmentContext();
+    const { openModal, destroyModal } = useModalContext();
+
+    useSubmitAssessment(setBlink);
 
     const isStarting =
         statusAudio === StatusAudio.PLAY ||
         statusAudio === StatusAudio.PAUSE ||
         statusAudio === StatusAudio.RESUME;
 
-    useSubmitAssessment(setBlink);
-
-    const { data } = useAudioAssessmentContext();
-    const { openModal } = useModalContext();
-
     const listWord = getListWord(data);
     const { direction: componentDirection, pathAudio } = getDirections(data);
+
+    useEffect(() => {
+        setCounter(data.submissionMetadata?.t);
+    }, [data]);
 
     const startRecording = () => {
         changeStatusAudio(StatusAudio.PLAY);
     };
 
-    const handleSubmitAssignment = () => {
+    const stopRecording = () => {
         changeStatusAudio(StatusAudio.STOP);
+    };
+
+    const handleSaveAssessment = () => {
+        sendToParent({
+            action: ACTION_POST_MESSAGE.FPR_SAVE_AUDIO_ASSESSMENT,
+            resp: {
+                index: currentSlide,
+                time: counter,
+                pause: true,
+                resume: !!data.submissionMetadata.pause,
+            },
+        });
+    };
+
+    const handleSubmitAssignment = () => {
+        sendToParent({
+            action: ACTION_POST_MESSAGE.FPR_SUBMIT_AUDIO_ASSESSMENT,
+        });
     };
 
     const handleClickRecord = () => {
@@ -95,15 +134,24 @@ function DoAssessment() {
 
     const handleStopAudio = () => {
         setBlink(false);
-        sendToParent({
-            action: ACTION_POST_MESSAGE.FPR_SUBMIT_AUDIO_ASSESSMENT,
-        });
+
+        openModal(<ModalSubmit onSubmit={handleSubmitAssignment} />);
     };
 
     const handlePauseAudio = () => {
         sendToParent({
             action: ACTION_POST_MESSAGE.FPR_PAUSE_RECORDING,
         });
+
+        openModal(
+            <ModalPause
+                onResume={() => {
+                    changeStatusAudio(StatusAudio.RESUME);
+                    destroyModal();
+                }}
+                onSave={handleSaveAssessment}
+            />
+        );
     };
     const handleResumeAudio = () => {
         sendToParent({
@@ -129,6 +177,20 @@ function DoAssessment() {
             cb();
         }
     }, [statusAudio]);
+
+    useListenPostMessage((e) => {
+        switch (e.data.action) {
+            case ACTION_POST_MESSAGE.FPR_CLICK_SAVE:
+                changeStatusAudio(StatusAudio.PAUSE);
+                break;
+
+            case ACTION_POST_MESSAGE.FPR_CLICK_SUBMIT:
+                stopRecording();
+                break;
+            default:
+                break;
+        }
+    });
 
     return (
         <AudioAssessmentTemplate>
@@ -168,12 +230,15 @@ function DoAssessment() {
             </div>
 
             <Slider
-                onSubmitAssignment={handleSubmitAssignment}
+                onSubmitAssignment={stopRecording}
                 title={data.resource.title}
                 needShowWord={isStarting}
                 data={listWord}
                 isStarting={isStarting}
                 stopped={stopped}
+                onLastSlide={() => {
+                    setIsLastSlide(true);
+                }}
             />
         </AudioAssessmentTemplate>
     );

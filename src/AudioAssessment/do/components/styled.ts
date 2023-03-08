@@ -194,48 +194,17 @@ export const RecordingContainer = styled.div`
     }
 `;
 
-export const Button = styled.button<{ loading?: boolean }>`
+export const Button = styled.button<{
+    variant?: "primary" | "secondary";
+}>`
     color: white;
-    background-color: rgb(75, 135, 71);
+    background-color: ${({ variant }) => {
+        if (variant === "secondary") {
+            return "gray";
+        }
+        return "#3579c1";
+    }};
     padding: 2px 12px;
     border-radius: 10px;
-    cursor: pointer;
-    ${({ loading }) => {
-        if (!loading)
-            return css`
-                .loader {
-                    display: none;
-                }
-            `;
-        return css`
-            opacity: 0.5;
-            .loader {
-                display: inline-block;
-                vertical-align: middle;
-                position: relative;
-                margin-left: 10px;
-            }
-
-            @keyframes loader1 {
-                from {
-                    transform: rotate(0);
-                }
-                to {
-                    transform: rotate(360deg);
-                }
-            }
-            @keyframes loader1-center {
-                from {
-                    box-shadow: 0 0 0 10px #6532d2; /* background color */
-                }
-                to {
-                    box-shadow: 0 0 0 5px #6532d2; /* background color */
-                }
-            }
-            .loader1 {
-                transform-origin: center;
-                animation: loader1 1s linear infinite;
-            }
-        `;
-    }}
+    //cursor: pointer;
 `;
