@@ -12,7 +12,7 @@ interface Props {
     stopped?: MutableRefObject<boolean>;
     needShowWord?: boolean;
     onSubmitAssignment?: () => void;
-    onLastSlide: () => void;
+    onLastSlide?: () => void;
 }
 
 function Slider({
@@ -46,7 +46,7 @@ function Slider({
     const showArrowNext = currentSlide !== props.data.length - 1;
 
     useEffect(() => {
-        if (currentSlide === props.data.length - 1) {
+        if (currentSlide === props.data.length - 1 && onLastSlide) {
             onLastSlide();
         }
     }, [currentSlide, props.data]);
