@@ -8,10 +8,8 @@ import { If, Then } from "react-if";
 import { useStoreAudio } from "../../store/audio";
 import { StatusAudio } from "../../../enums/status-machine";
 import { atom, useRecoilValue } from "recoil";
-import { useModalContext } from "../../../context/ModalContext";
-import ModalCountDown from "./modal/ModalCountDown";
 
-export const TIME_RECORD_STANDARD = 120;
+export const TIME_RECORD_STANDARD = 180;
 
 interface Props {
     stopped: MutableRefObject<boolean>;
