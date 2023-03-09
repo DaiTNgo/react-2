@@ -5,6 +5,7 @@ export function IconArrowLeft() {
             width="66.258"
             height="68.5"
             viewBox="0 0 66.258 68.5"
+            className={"ml-auto"}
         >
             <g id="arrow_back" transform="translate(66.258 68.5) rotate(180)">
                 <path

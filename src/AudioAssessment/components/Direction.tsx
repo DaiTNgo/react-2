@@ -5,8 +5,11 @@ import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 import styled from "styled-components";
 const SDirection = styled.div`
     .direction-title {
-        font-size: 2rem;
-        color: red;
+        font-size: 2.4rem;
+        color: #e11740;
+    }
+    .direction-content {
+        font-size: 2.4rem;
     }
 `;
 function Direction() {

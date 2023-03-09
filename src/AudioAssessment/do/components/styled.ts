@@ -162,8 +162,9 @@ export const RecordContainer = styled.div`
     }
     .record-container {
         color: #fff;
-        font-size: 2.4rem;
+        font-size: 3.2rem;
         font-weight: 500;
+        margin-left: 2.6rem;
     }
 `;
 
@@ -215,7 +216,8 @@ export const Button = styled.button<{
         }
         return "#3579c1";
     }};
-    padding: 2px 12px;
+    padding: 2px 24px;
     border-radius: 10px;
+    font-size: 2rem;
     //cursor: pointer;
 `;

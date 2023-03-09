@@ -29,13 +29,15 @@ function ModalSubmit({ onSubmit }: Props) {
                 <div className={"cursor-pointer"}>
                     <Volume src={srcAudioFinished} />
                 </div>
-                <h3 className={"text-[3rem] text-[#2a6494]"}>Finished?</h3>
+                <h3 className={"text-[4.1rem] text-[#df7229] font-semibold"}>
+                    Finished?
+                </h3>
             </div>
 
             <p
                 style={{
                     fontSize: 20,
-                    color: "#4b4848",
+                    color: "#000000",
                 }}
             >
                 Click the Submit button to send your recording to your teacher.

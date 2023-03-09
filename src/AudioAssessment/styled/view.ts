@@ -6,6 +6,7 @@ export const SSlider = styled.div`
 
     .audio-btn {
         padding: 10px;
+        min-width: 160px;
     }
 
     .finish-recording-button {

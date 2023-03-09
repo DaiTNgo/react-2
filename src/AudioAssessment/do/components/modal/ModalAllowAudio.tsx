@@ -26,7 +26,9 @@ function ModalAllowAudio({ onAllow }: Props) {
                 <div className={"cursor-pointer"}>
                     <Volume src={srcAudioAllow} />
                 </div>
-                <h3 className={"text-[3rem] text-[#2a6494]"}>Allow Audio</h3>
+                <h3 className={"text-[3rem] text-[#df7229] font-semibold"}>
+                    Allow Audio
+                </h3>
             </div>
             <p className={"text-center text-[2rem] text-[#4b4848]"}>
                 We will record your assignment.
