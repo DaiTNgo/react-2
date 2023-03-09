@@ -81,8 +81,8 @@ export const Header = styled.div`
     .header-title {
         font-size: 32px;
         margin-bottom: 40px;
-        padding: 20px 20px 0;
         font-weight: 600;
+        padding-left: 1rem;
     }
 `;
 

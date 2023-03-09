@@ -10,7 +10,7 @@ export const Div = styled.div`
 `;
 
 export const Container = styled.div`
-    padding: 20px;
+    padding: 20px 60px;
     p {
         margin: 0;
     }
