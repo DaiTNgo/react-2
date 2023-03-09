@@ -10,6 +10,7 @@ import { useColumnsGrade } from "../hooks/useColumnsGrade";
 import { OPTIONS_SURVEY } from "../../enums/survey";
 import Audio from "../../components/Audio";
 import Volume from "../components/Volume";
+import Direction from "../components/Direction";
 
 function Review() {
     const { data, urlRecordStudent, layout } = useAudioAssessmentContext();
@@ -34,20 +35,7 @@ function Review() {
 
     return (
         <AudioAssessmentTemplate>
-            <div className="flex items-start gap-1 relative mb-8">
-                <Volume
-                    // src={"https://cqa2.sadlierconnect.com" + pathAudio}
-                    src={
-                        "https://cqa.sadlierconnect.com/content/803001/007743417/direction-line.mp3"
-                    }
-                    isPlayDirection={isPlayDirection}
-                />
-                <div
-                    dangerouslySetInnerHTML={{
-                        __html: componentDirection,
-                    }}
-                />
-            </div>
+            <Direction />
             {showAudio && (
                 <div className={"fpr-audio"}>
                     <p className={"fpr-audio__title"}>Recorded Content</p>

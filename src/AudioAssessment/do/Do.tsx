@@ -16,18 +16,25 @@ import Recording, {
 import Record from "./components/Record";
 import { sendToParent } from "../../helper";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
-import Volume from "../components/Volume";
 import { useModalContext } from "../../context/ModalContext";
-import ModalCountDown from "./components/ModalCountDown";
+import ModalCountDown from "./components/modal/ModalCountDown";
 import { Else, If, Then } from "react-if";
 import { useStoreAudio } from "../store/audio";
 import { StatusAudio } from "../../enums/status-machine";
 import { noop } from "lodash";
-import ModalSubmit from "./components/ModalSubmit";
+import ModalSubmit from "./components/modal/ModalSubmit";
 import { useListenPostMessage } from "../hooks/useListenPostMessage";
-import ModalPause from "./components/ModalPause";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import ModalPause from "./components/modal/ModalPause";
+import { atom, useRecoilState } from "recoil";
 import { useStoreSlider } from "../store/slider";
+import ModalAllowAudio from "./components/modal/ModalAllowAudio";
+import RecordingDontAllowMic from "./components/RecordingDontAllowMic";
+import Direction from "../components/Direction";
+
+const isAllowMicState = atom({
+    key: "isAllowMicState",
+    default: false,
+});
 
 function useSubmitAssessment(setBlink: Dispatch<SetStateAction<boolean>>) {
     const { changeStatusAudio, statusAudio } = useStoreAudio();
@@ -72,6 +79,8 @@ function DoAssessment() {
 
     // const setCounter = useSetRecoilState(counterState);
     const [counter, setCounter] = useRecoilState(counterState);
+    const [isAllowMic, setIsAllowMic] = useRecoilState(isAllowMicState);
+
     // console.log("re-render");
 
     const stopped = useRef(false);
@@ -90,10 +99,10 @@ function DoAssessment() {
         statusAudio === StatusAudio.RESUME;
 
     const listWord = getListWord(data);
-    const { direction: componentDirection, pathAudio } = getDirections(data);
 
     useEffect(() => {
-        setCounter(data.submissionMetadata?.t);
+        if (data.submissionMetadata?.t && data.submissionMetadata?.t !== -1)
+            setCounter(data.submissionMetadata?.t);
     }, [data]);
 
     const startRecording = () => {
@@ -187,28 +196,46 @@ function DoAssessment() {
             case ACTION_POST_MESSAGE.FPR_CLICK_SUBMIT:
                 stopRecording();
                 break;
+            case ACTION_POST_MESSAGE.FPR_ALLOW_MIC:
+                setIsAllowMic(true);
+                break;
+            case ACTION_POST_MESSAGE.FPR_DONT_ALLOW_MIC:
+                setIsAllowMic(false);
+                break;
             default:
                 break;
         }
     });
 
+    useEffect(() => {
+        handleOpenModalAllowMicro();
+    }, []);
+
+    const handleOpenModalAllowMicro = () => {
+        const handleAllowAudio = (isAllow: boolean) => {
+            sendToParent({
+                action: isAllow
+                    ? ACTION_POST_MESSAGE.FPR_ALLOW_MIC
+                    : ACTION_POST_MESSAGE.FPR_DONT_ALLOW_MIC,
+            });
+
+            destroyModal();
+        };
+
+        openModal(<ModalAllowAudio onAllow={handleAllowAudio} />);
+    };
     return (
         <AudioAssessmentTemplate>
-            <div className="flex items-start gap-1 wrapper relative">
-                <Volume
-                    // src={"https://cqa2.sadlierconnect.com" + pathAudio}
-                    src={
-                        "https://cqa.sadlierconnect.com/content/803001/007743417/direction-line.mp3"
-                    }
-                    isPlayDirection={isPlayDirection}
-                />
-                <div
-                    dangerouslySetInnerHTML={{
-                        __html: componentDirection,
-                    }}
-                />
+            <div
+            // style={{
+            //     marginInline: "auto",
+            //     maxWidth: "670px",
+            // }}
+            >
+                <Direction />
             </div>
-            <div className={"grid place-content-center text-center"}>
+
+            <div className={"grid place-content-center text-center my-4"}>
                 <If
                     condition={
                         statusAudio === StatusAudio.PLAY ||
@@ -217,21 +244,27 @@ function DoAssessment() {
                     }
                 >
                     <Then>
-                        <Recording
-                            numOfWord={listWord.length}
-                            stopped={stopped}
-                            blink={blink}
-                        />
+                        <Recording stopped={stopped} blink={blink} />
                     </Then>
                     <Else>
-                        <Record onClick={handleClickRecord} />
+                        <If condition={isAllowMic}>
+                            <Then>
+                                <Record onClick={handleClickRecord} />
+                            </Then>
+                            <Else>
+                                <div className={"mt-4"}>
+                                    <RecordingDontAllowMic
+                                        onAllowMicro={handleOpenModalAllowMicro}
+                                    />
+                                </div>
+                            </Else>
+                        </If>
                     </Else>
                 </If>
             </div>
 
             <Slider
                 onSubmitAssignment={stopRecording}
-                title={data.resource.title}
                 needShowWord={isStarting}
                 data={listWord}
                 isStarting={isStarting}

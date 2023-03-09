@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useModalContext } from "../../../context/ModalContext";
-import { ModalContainer } from "./styled";
+import { useModalContext } from "../../../../context/ModalContext";
+import { ModalContainer } from "../styled";
 
 function ModalCountDown({ startRecording }: { startRecording: any }) {
     const { destroyModal } = useModalContext();

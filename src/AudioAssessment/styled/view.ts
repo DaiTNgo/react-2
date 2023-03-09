@@ -6,16 +6,6 @@ export const SSlider = styled.div`
 
     .audio-btn {
         padding: 10px;
-        //border: 1px solid #ccc;
-        //border-radius: 10px;
-        min-width: 160px;
-        justify-content: center;
-
-        &-previous {
-        }
-
-        &-next {
-        }
     }
 
     .finish-recording-button {
@@ -87,38 +77,11 @@ export const SSlider = styled.div`
 `;
 
 export const Header = styled.div`
-    .header-container {
-        margin-left: auto;
-        position: relative;
-        min-width: 1px;
-        .header-img {
-            width: 350px;
-            height: 80px;
-            background-color: green;
-            border-bottom-left-radius: 30px;
-        }
-
-        .header-title-container {
-            top: 0;
-            position: absolute;
-            color: white;
-            text-align: center;
-            width: 100%;
-            z-index: 10;
-        }
-
-        .header-title {
-            font-size: 20px;
-            padding-top: 15px;
-            font-weight: 700;
-            color: #fff;
-            font-family: "HelveticaNeue-Bold", "Roboto", sans-serif;
-        }
-
-        .header-subtitle {
-            color: #a7d6f8;
-            font-size: 16px;
-        }
+    .header-title {
+        font-size: 32px;
+        margin-bottom: 40px;
+        padding: 20px 20px 0;
+        font-weight: 600;
     }
 `;
 

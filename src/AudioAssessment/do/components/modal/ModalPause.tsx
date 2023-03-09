@@ -1,15 +1,24 @@
-import React, { useState } from "react";
-import * as S from "./styled";
-import { Loading } from "../../components/Loading";
+import React, { useRef, useState } from "react";
+import * as S from "../styled";
+import { Loading } from "../../../components/Loading";
 import { If, Then } from "react-if";
 import { noop } from "lodash";
-
+import IconVolume from "../../../../Icons/IconVolume";
+import srcAudioPause from "../../../../assets/audio/press_resume.mp3";
+import Volume from "../../../components/Volume";
 interface Props {
     onResume: () => void;
     onSave: () => void;
 }
 function ModalPause({ onResume, onSave }: Props) {
     const [loading, setLoading] = useState(false);
+    const audioResumeRef = useRef();
+
+    const handleSave = () => {
+        setLoading(true);
+        onSave();
+    };
+    // @ts-ignore
     return (
         <div
             style={{
@@ -23,20 +32,13 @@ function ModalPause({ onResume, onSave }: Props) {
                 placeItems: "center",
             }}
         >
-            <h3
-                style={{
-                    fontSize: 30,
-                    color: "rgb(42,100,148)",
-                }}
-            >
-                Paused?
-            </h3>
-            <p
-                style={{
-                    fontSize: 20,
-                    color: "#4b4848",
-                }}
-            >
+            <div className={"flex items-center gap-1"}>
+                <div className={"cursor-pointer"}>
+                    <Volume src={srcAudioPause} />
+                </div>
+                <h3 className={"text-[3rem] text-[#2a6494]"}>Paused</h3>
+            </div>
+            <p className={"text-center text-[2rem] text-[#4b4848]"}>
                 You've paused your recording.
                 <br />
                 Press the "Resume" button bellow to Resume recording.
@@ -44,22 +46,15 @@ function ModalPause({ onResume, onSave }: Props) {
             <div className={"flex gap-6 mt-6"}>
                 <S.Button
                     onClick={loading ? noop : onResume}
-                    className={`flex items-center gap-4 cursor-pointer
-                    ${loading ? "cursor-default" : ""}
-                    `}
+                    className={`flex items-center gap-4 cursor-pointer ${
+                        loading ? "cursor-default" : ""
+                    }`}
                     variant={"secondary"}
                 >
                     Resume Recording
                 </S.Button>
                 <S.Button
-                    onClick={
-                        loading
-                            ? noop
-                            : () => {
-                                  setLoading(true);
-                                  onSave();
-                              }
-                    }
+                    onClick={loading ? noop : handleSave}
                     className={`flex items-center gap-4 cursor-pointer ${
                         loading ? "opacity-50 cursor-default" : ""
                     }`}

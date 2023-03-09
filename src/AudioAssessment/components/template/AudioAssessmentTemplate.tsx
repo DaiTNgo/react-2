@@ -11,14 +11,14 @@ interface Props {
 }
 function AudioAssessmentTemplate({ children }: Props) {
     const { data } = useAudioAssessmentContext();
-
     const contentHeaderFooter = getContentHeaderFooter(data);
 
     return (
         <S.Container>
             <S.Div>
-                <Header content={contentHeaderFooter} />
-                <div className="layout-container flex flex-col justify-between">
+                <Header />
+
+                <div className="flex flex-col justify-between">
                     <div>{children}</div>
                     <Footer content={contentHeaderFooter} />
                 </div>

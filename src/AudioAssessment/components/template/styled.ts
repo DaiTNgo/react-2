@@ -10,6 +10,7 @@ export const Div = styled.div`
 `;
 
 export const Container = styled.div`
+    padding: 20px;
     p {
         margin: 0;
     }
@@ -34,9 +35,6 @@ export const Container = styled.div`
     .wrapper {
         width: 670px;
         margin-inline: auto;
-    }
-    .direction-title {
-        font-size: 3rem;
     }
     .fpr__directions {
         margin-bottom: 1rem;

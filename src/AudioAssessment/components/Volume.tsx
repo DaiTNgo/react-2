@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import IconVolume from "../../Icons/Volume";
+import IconVolume from "../../Icons/IconVolume";
 
 type Props = {
     src: string;
@@ -43,17 +43,10 @@ function Volume({ src, isPlayDirection = true }: Props) {
             refAudio.current.play();
             setStarting((v) => !v);
         }
-    }, [starting,isPlayDirection]);
+    }, [starting, isPlayDirection]);
 
     return (
-        <div
-            onClick={handleStartAudio}
-            style={{
-                position: "absolute",
-                top: 14,
-                left: 140,
-            }}
-        >
+        <div onClick={handleStartAudio} className={"cursor-pointer"}>
             <IconVolume
                 active={starting}
                 fill={starting ? "#0ac32d" : "#999999"}

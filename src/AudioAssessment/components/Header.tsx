@@ -1,32 +1,13 @@
-import { useState } from "react";
 import * as S from "../styled/view";
-import { IPassageDate } from "../types";
+import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 
-interface Props {
-    content: IPassageDate;
-}
+function Header() {
+    const { data } = useAudioAssessmentContext();
+    const title = data.resource?.title;
 
-function Header({ content }: Props) {
-    const [loadImg, setLoadImg] = useState(true);
     return (
-        <S.Header className="flex">
-            <div className="header-container">
-                {loadImg && <div className="header-img" />}
-                <img
-                    alt="background header"
-                    // src={content.tocBackgroundImage}
-                    src={
-                        "https://static.assets.sadlierconnect.com/sc-content/javascript/phonics/assets/fpr/vwie_tab_g3.jpg"
-                    }
-                    onLoad={() => {
-                        setLoadImg(false);
-                    }}
-                />
-                <div className="header-title-container">
-                    <p className="header-title">{content.programTocName}</p>
-                    {/* <p className="header-subtitle">{content.resourceTitle}</p> */}
-                </div>
-            </div>
+        <S.Header>
+            <h1 className="header-title">{title}</h1>
         </S.Header>
     );
 }

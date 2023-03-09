@@ -1,6 +1,6 @@
 import React from "react";
-import { useModalContext } from "../../../context/ModalContext";
-import * as S from "./styled";
+import { useModalContext } from "../../../../context/ModalContext";
+import * as S from "../styled";
 
 function ModalWaringPermissionAudio() {
     const { destroyModal } = useModalContext();

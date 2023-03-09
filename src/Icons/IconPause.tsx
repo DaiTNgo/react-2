@@ -59,59 +59,67 @@ export const IconPauseActive = memo(function () {
 export const IconPauseInActive = memo(function () {
     return (
         <svg
-            fill="#000000"
-            width="50px"
-            height="50px"
-            viewBox="-2.4 -2.4 28.80 28.80"
-            id="pause-circle"
-            data-name="Flat Color"
             xmlns="http://www.w3.org/2000/svg"
-            className="icon flat-color"
-            stroke="#000000"
-            strokeWidth="0.00024000000000000003"
+            // xmlns:xlink="http://www.w3.org/1999/xlink"
+            width="66px"
+            height="66px"
+            viewBox="0 0 66 66"
         >
-            <g
-                id="SVGRepo_bgCarrier"
-                strokeWidth="0"
-                transform="translate(3.120000000000001,3.120000000000001), scale(0.74)"
-            >
-                <rect
-                    x="-2.4"
-                    y="-2.4"
-                    width="28.80"
-                    height="28.80"
-                    rx="14.4"
-                    fill="#a3a3a3"
-                    strokeWidth="0"
-                />
-            </g>
-
-            <g
-                id="SVGRepo_tracerCarrier"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                stroke="#CCCCCC"
-                strokeWidth="0.048"
-            />
-
-            <g id="SVGRepo_iconCarrier">
-                <circle
-                    id="primary"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    style={{
-                        fill: "#ffffff",
-                    }}
-                />
-
-                <path
-                    id="secondary"
-                    d="M14,17a1,1,0,0,1-1-1V8a1,1,0,0,1,2,0v8A1,1,0,0,1,14,17Zm-4,0a1,1,0,0,1-1-1V8a1,1,0,0,1,2,0v8A1,1,0,0,1,10,17Z"
-                    style={{
-                        fill: "#df7229",
-                    }}
-                />
+            <defs>
+                <filter
+                    id="Ellipse_69"
+                    x="0"
+                    y="0"
+                    width="66"
+                    height="66"
+                    filterUnits="userSpaceOnUse"
+                >
+                    {/*<feOffset dy="1" input="SourceAlpha" />*/}
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feFlood floodOpacity="0.251" />
+                    <feComposite operator="in" in2="blur" />
+                    <feComposite in="SourceGraphic" />
+                </filter>
+            </defs>
+            <g id="pause_off" transform="translate(9 8)">
+                <g
+                    transform="matrix(1, 0, 0, 1, -9, -8)"
+                    filter="url(#Ellipse_69)"
+                >
+                    <circle
+                        id="Ellipse_69-2"
+                        data-name="Ellipse 69"
+                        cx="24"
+                        cy="24"
+                        r="24"
+                        transform="translate(9 8)"
+                        fill="#fff"
+                    />
+                </g>
+                <g
+                    id="Group_1418"
+                    data-name="Group 1418"
+                    transform="translate(-405 -558)"
+                >
+                    <rect
+                        id="Rectangle_584"
+                        data-name="Rectangle 584"
+                        width="8"
+                        height="20"
+                        rx="4"
+                        transform="translate(419 572)"
+                        fill="#df7229"
+                    />
+                    <rect
+                        id="Rectangle_585"
+                        data-name="Rectangle 585"
+                        width="8"
+                        height="20"
+                        rx="4"
+                        transform="translate(431 572)"
+                        fill="#df7229"
+                    />
+                </g>
             </g>
         </svg>
     );

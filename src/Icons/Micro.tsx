@@ -12,7 +12,7 @@ function Micro({
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 384 512"
-                fill="rgb(111,111,111)"
+                fill="#2a6494"
                 width={width}
                 height={height}
             >

@@ -4,9 +4,9 @@ import { MutableRefObject, useEffect } from "react";
 import { IconArrowLeft } from "../../Icons/ArrowLeft";
 import { IconArrowRight } from "../../Icons/ArrowRight";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
+import IconHelp from "../../Icons/Help";
 
 interface Props {
-    title: string;
     data: any[];
     isStarting?: boolean;
     stopped?: MutableRefObject<boolean>;
@@ -29,7 +29,11 @@ function Slider({
     const { data } = useAudioAssessmentContext();
 
     useEffect(() => {
-        if (isStarting) {
+        if (
+            isStarting &&
+            data.submissionMetadata?.index &&
+            data.submissionMetadata?.index !== -1
+        ) {
             changeSlide(data.submissionMetadata?.index);
         }
     }, [data, isStarting]);
@@ -69,23 +73,23 @@ function Slider({
 
     return (
         <SSlider className="">
-            <h4 className="text-center slider-title py-4">{props.title}</h4>
-            <div className="slider-wrapper flex items-center justify-center">
+            <div className="flex items-center justify-center">
                 <button
                     onClick={handlePrevious}
-                    className={`${showArrowPrevious ? "visible" : "invisible"}
-                      audio-btn
-                        `}
+                    className={`${
+                        showArrowPrevious ? "visible" : "invisible"
+                    } audio-btn`}
                 >
                     <IconArrowLeft />
                 </button>
+
                 {renderSlideData()}
 
                 <button
                     onClick={needShowWord ? handleNext : () => {}}
-                    className={`${showArrowNext ? "visible" : "invisible"}
-                    audio-btn
-                    ${
+                    className={`${
+                        showArrowNext ? "visible" : "invisible"
+                    } audio-btn ${
                         currentSlide === props.data.length - 1 && isStarting
                             ? "hidden"
                             : ""

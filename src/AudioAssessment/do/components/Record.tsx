@@ -1,13 +1,12 @@
 import React from "react";
 import Micro from "../../../Icons/Micro";
 import { RecordContainer } from "./styled";
-import IconPause from "../../../Icons/IconPause";
 
 function Record({ onClick }: { onClick: () => void }) {
     return (
-        <RecordContainer className="do-assignment-record" onClick={onClick}>
+        <RecordContainer onClick={onClick}>
             <div className="micro-container">
-                <Micro />
+                <Micro width={35} height={35} />
             </div>
             <p className="record-container">Record</p>
         </RecordContainer>

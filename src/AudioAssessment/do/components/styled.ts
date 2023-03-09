@@ -1,5 +1,4 @@
 import styled, { css } from "styled-components";
-
 export const ModalContainer = styled.div`
     --num-count-down: 3s;
     --width: 50px;
@@ -8,8 +7,9 @@ export const ModalContainer = styled.div`
     width: 500px;
     height: 200px;
     background-color: #fff;
-    border: 1px solid #ccc;
-    border-top: 8px solid #3579c1;
+    border: 3px solid #2a6494;
+    border-radius: 3rem;
+    //border-top: 8px solid #3579c1;
     display: grid;
     place-content: center;
     place-items: center;
@@ -60,7 +60,7 @@ export const ModalContainer = styled.div`
             stroke-dashoffset: 0px;
             stroke-linecap: round;
             stroke-width: 3px;
-            stroke: gray;
+            stroke: #2a6494;
             fill: none;
             animation: countdown-bar var(--num-count-down) linear 1;
         }
@@ -130,17 +130,25 @@ export const ModalPermissionAudio = styled.div`
 `;
 
 export const RecordContainer = styled.div`
-    background-color: rgb(111, 111, 111);
+    position: relative;
+
     display: flex;
-    gap: 10px;
-    border-radius: 99999px;
-    padding: 4px;
+    justify-content: center;
     align-items: center;
+
+    border-radius: 99999px;
+
     width: max-content;
     min-width: 200px;
     margin: 40px auto;
+    height: 50px;
+    padding: 0.5rem;
+
     cursor: pointer;
     user-select: none;
+    background-color: #2a6494;
+
+    box-sizing: content-box;
     .micro-container {
         background-color: #fff;
         width: 50px;
@@ -148,10 +156,13 @@ export const RecordContainer = styled.div`
         display: grid;
         place-content: center;
         border-radius: 50%;
+
+        position: absolute;
+        left: 0.5rem;
     }
     .record-container {
         color: #fff;
-        font-size: 24px;
+        font-size: 2.4rem;
         font-weight: 500;
     }
 `;

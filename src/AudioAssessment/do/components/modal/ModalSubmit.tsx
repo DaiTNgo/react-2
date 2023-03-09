@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import * as S from "./styled";
-import { Loading } from "../../components/Loading";
+import * as S from "../styled";
+import { Loading } from "../../../components/Loading";
 import { If, Then } from "react-if";
 import { noop } from "lodash";
+import Volume from "../../../components/Volume";
+import srcAudioFinished from "../../../../assets/audio/click_button.mp3";
 
 interface Props {
     onSubmit: () => void;
@@ -23,23 +25,13 @@ function ModalSubmit({ onSubmit }: Props) {
                 placeItems: "center",
             }}
         >
-            {/*<div*/}
-            {/*    style={{*/}
-            {/*        position: "absolute",*/}
-            {/*        top: 10,*/}
-            {/*        left: 10,*/}
-            {/*    }}*/}
-            {/*>*/}
-            {/*    <IconVolume fill={"rgb(153,153,153)"} />*/}
-            {/*</div>*/}
-            <h3
-                style={{
-                    fontSize: 30,
-                    color: "rgb(42,100,148)",
-                }}
-            >
-                Finished?
-            </h3>
+            <div className={"flex items-center gap-1"}>
+                <div className={"cursor-pointer"}>
+                    <Volume src={srcAudioFinished} />
+                </div>
+                <h3 className={"text-[3rem] text-[#2a6494]"}>Finished?</h3>
+            </div>
+
             <p
                 style={{
                     fontSize: 20,
