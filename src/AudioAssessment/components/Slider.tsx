@@ -93,7 +93,7 @@ function Slider({
                         currentSlide === props.data.length - 1 && isStarting
                             ? "hidden"
                             : ""
-                    }`}
+                    } ${needShowWord ? "" : "opacity-50"}`}
                     disabled={!needShowWord}
                 >
                     <IconArrowRight />

@@ -152,14 +152,18 @@ function DoAssessment() {
             action: ACTION_POST_MESSAGE.FPR_PAUSE_RECORDING,
         });
 
+        const handleResume = () => {
+            openModal(
+                <ModalCountDown
+                    startRecording={() => {
+                        changeStatusAudio(StatusAudio.RESUME);
+                    }}
+                />
+            );
+        };
+
         openModal(
-            <ModalPause
-                onResume={() => {
-                    changeStatusAudio(StatusAudio.RESUME);
-                    destroyModal();
-                }}
-                onSave={handleSaveAssessment}
-            />
+            <ModalPause onResume={handleResume} onSave={handleSaveAssessment} />
         );
     };
     const handleResumeAudio = () => {

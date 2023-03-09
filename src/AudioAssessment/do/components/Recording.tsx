@@ -8,6 +8,8 @@ import { If, Then } from "react-if";
 import { useStoreAudio } from "../../store/audio";
 import { StatusAudio } from "../../../enums/status-machine";
 import { atom, useRecoilValue } from "recoil";
+import { useModalContext } from "../../../context/ModalContext";
+import ModalCountDown from "./modal/ModalCountDown";
 
 export const TIME_RECORD_STANDARD = 120;
 
@@ -80,9 +82,7 @@ function Recording({ blink }: Props) {
 function IconRecordingGroup() {
     const { statusAudio, changeStatusAudio } = useStoreAudio();
 
-    const handleResume = useCallback(() => {
-        changeStatusAudio(StatusAudio.RESUME);
-    }, []);
+    const handleResume = useCallback(() => {}, []);
 
     const handlePause = useCallback(() => {
         changeStatusAudio(StatusAudio.PAUSE);

@@ -22,13 +22,13 @@ function ModalPause({ onResume, onSave }: Props) {
     return (
         <div
             style={{
-                width: 450,
+                minWidth: 450,
                 backgroundColor: "#fff",
                 border: "3px solid rgb(42,100,148)",
                 borderRadius: 30,
                 display: "grid",
                 position: "relative",
-                padding: "10px 60px",
+                padding: "12px 26px",
                 placeItems: "center",
             }}
         >
