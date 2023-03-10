@@ -3,7 +3,7 @@ import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 
 function Header() {
     const { data } = useAudioAssessmentContext();
-    const title = data.resource?.title;
+    const title = `${data.passageData?.programTocName}: ${data.resource?.title}`;
 
     return (
         <S.Header>
