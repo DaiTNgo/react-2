@@ -7,10 +7,10 @@ import Bar from "./Bar";
 import { className } from "../../helper";
 type Props = {
     src: string;
-    onPermissionAllowPlayingDirection:(is:boolean)=>void
+    onPermissionAllowPlayingDirection: (is: boolean) => void;
 };
 
-function Audio({ src,onPermissionAllowPlayingDirection }: Props) {
+function Audio({ src, onPermissionAllowPlayingDirection }: Props) {
     const refAudio = useRef<HTMLAudioElement>(null);
 
     const {
@@ -26,14 +26,14 @@ function Audio({ src,onPermissionAllowPlayingDirection }: Props) {
         refAudio.current!.play();
         setPlaying(true);
 
-        onPermissionAllowPlayingDirection(false)
+        onPermissionAllowPlayingDirection(false);
     };
 
     const handlePauseAudio = () => {
         refAudio.current!.pause();
         setPlaying(false);
 
-        onPermissionAllowPlayingDirection(true)
+        onPermissionAllowPlayingDirection(true);
     };
 
     return (
@@ -60,7 +60,7 @@ function Audio({ src,onPermissionAllowPlayingDirection }: Props) {
                     curTime={curTime}
                     duration={duration}
                     onTimeUpdate={(time) => setClickedTime(time)}
-                    loading={isLoadingAudio}
+                    loading={src.trim() != "" && isLoadingAudio}
                 />
             </div>
             <audio controls={false} ref={refAudio} src={src} />
