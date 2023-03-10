@@ -74,14 +74,9 @@ function useSubmitAssessment(setBlink: Dispatch<SetStateAction<boolean>>) {
 
 function DoAssessment() {
     const [blink, setBlink] = useState(false);
-    const [isPlayDirection, setIsPlayDirection] = useState(true);
-    const [isLastSlide, setIsLastSlide] = useState(false);
 
-    // const setCounter = useSetRecoilState(counterState);
     const [counter, setCounter] = useRecoilState(counterState);
     const [isAllowMic, setIsAllowMic] = useRecoilState(isAllowMicState);
-
-    // console.log("re-render");
 
     const stopped = useRef(false);
 
@@ -136,8 +131,6 @@ function DoAssessment() {
     };
 
     const handlePlayAudio = () => {
-        setIsPlayDirection(false);
-
         sendToParent({ action: ACTION_POST_MESSAGE.FPR_START_RECORDING });
     };
 
@@ -191,28 +184,39 @@ function DoAssessment() {
         }
     }, [statusAudio]);
 
-    useListenPostMessage((e) => {
-        switch (e.data.action) {
-            case ACTION_POST_MESSAGE.FPR_CLICK_SAVE:
-                changeStatusAudio(StatusAudio.PAUSE);
-                break;
+    useListenPostMessage(
+        (e) => {
+            switch (e.data.action) {
+                case ACTION_POST_MESSAGE.FPR_CLICK_SAVE:
+                    changeStatusAudio(StatusAudio.PAUSE);
+                    break;
 
-            case ACTION_POST_MESSAGE.FPR_CLICK_SUBMIT:
-                stopRecording();
-                break;
-            case ACTION_POST_MESSAGE.FPR_ALLOW_MIC:
-                setIsAllowMic(true);
-                break;
-            case ACTION_POST_MESSAGE.FPR_DONT_ALLOW_MIC:
-                setIsAllowMic(false);
-                break;
-            case ACTION_POST_MESSAGE.FPR_CLICK_LOGO:
-                changeStatusAudio(StatusAudio.PAUSE);
-                break;
-            default:
-                break;
-        }
-    });
+                case ACTION_POST_MESSAGE.FPR_CLICK_SUBMIT:
+                    stopRecording();
+                    break;
+                case ACTION_POST_MESSAGE.FPR_ALLOW_MIC:
+                    setIsAllowMic(true);
+                    break;
+                case ACTION_POST_MESSAGE.FPR_DONT_ALLOW_MIC:
+                    setIsAllowMic(false);
+                    break;
+                case ACTION_POST_MESSAGE.FPR_CLICK_LOGO:
+                    changeStatusAudio(StatusAudio.PAUSE);
+                    break;
+                case ACTION_POST_MESSAGE.FPR_CLICK_BACK:
+                    if (
+                        statusAudio === StatusAudio.PLAY ||
+                        statusAudio === StatusAudio.RESUME
+                    ) {
+                        changeStatusAudio(StatusAudio.PAUSE);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        },
+        [statusAudio]
+    );
 
     useEffect(() => {
         handleOpenModalAllowMicro();
@@ -276,9 +280,6 @@ function DoAssessment() {
                 data={listWord}
                 isStarting={isStarting}
                 stopped={stopped}
-                onLastSlide={() => {
-                    setIsLastSlide(true);
-                }}
             />
         </AudioAssessmentTemplate>
     );

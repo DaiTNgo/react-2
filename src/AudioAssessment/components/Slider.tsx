@@ -12,7 +12,6 @@ interface Props {
     stopped?: MutableRefObject<boolean>;
     needShowWord?: boolean;
     onSubmitAssignment?: () => void;
-    onLastSlide?: () => void;
 }
 
 function Slider({
@@ -20,7 +19,6 @@ function Slider({
     needShowWord = true,
     stopped,
     onSubmitAssignment,
-    onLastSlide,
     ...props
 }: Props) {
     const { currentSlide, increaseSlide, decreaseSlide, changeSlide } =
@@ -48,12 +46,6 @@ function Slider({
 
     const showArrowPrevious = currentSlide !== 0;
     const showArrowNext = currentSlide !== props.data.length - 1;
-
-    useEffect(() => {
-        if (currentSlide === props.data.length - 1 && onLastSlide) {
-            onLastSlide();
-        }
-    }, [currentSlide, props.data]);
 
     const renderSlideData = () => {
         if (needShowWord) {
