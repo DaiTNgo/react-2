@@ -1,7 +1,7 @@
 import AudioAssessmentTemplate from "../components/template/AudioAssessmentTemplate";
 import Slider from "../components/Slider";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
-import { getDirections, getListWord } from "../utils/convertLayout";
+import { getListWord } from "../utils/convertLayout";
 import React, {
     Dispatch,
     SetStateAction,
@@ -205,6 +205,9 @@ function DoAssessment() {
                 break;
             case ACTION_POST_MESSAGE.FPR_DONT_ALLOW_MIC:
                 setIsAllowMic(false);
+                break;
+            case ACTION_POST_MESSAGE.FPR_CLICK_LOGO:
+                changeStatusAudio(StatusAudio.PAUSE);
                 break;
             default:
                 break;
