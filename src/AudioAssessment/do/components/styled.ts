@@ -212,9 +212,15 @@ export const Button = styled.button<{
     color: white;
     background-color: ${({ variant }) => {
         if (variant === "secondary") {
-            return "gray";
+            return "#dddbda";
         }
         return "#3579c1";
+    }};
+    color: ${({ variant }) => {
+        if (variant === "secondary") {
+            return "#000";
+        }
+        return "#fff";
     }};
     padding: 2px 24px;
     border-radius: 10px;
