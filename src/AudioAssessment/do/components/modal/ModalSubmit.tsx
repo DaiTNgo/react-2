@@ -15,7 +15,6 @@ function ModalSubmit({ onSubmit }: Props) {
         <div
             style={{
                 width: 450,
-                height: 200,
                 backgroundColor: "#fff",
                 border: "3px solid rgb(42,100,148)",
                 borderRadius: 30,
@@ -34,15 +33,10 @@ function ModalSubmit({ onSubmit }: Props) {
                 </h3>
             </div>
 
-            <p
-                style={{
-                    fontSize: 20,
-                    color: "#000000",
-                }}
-            >
+            <p className={"text-[2.9rem] text-[#000000]"}>
                 Click the Submit button to send your recording to your teacher.
             </p>
-            <S.Button
+            <S.ButtonSubmit
                 onClick={
                     loading
                         ? noop
@@ -51,7 +45,7 @@ function ModalSubmit({ onSubmit }: Props) {
                               onSubmit();
                           }
                 }
-                className={`flex items-center gap-4 ${
+                className={`mt-8 flex items-center gap-4 ${
                     loading ? "opacity-50" : ""
                 }`}
             >
@@ -61,7 +55,7 @@ function ModalSubmit({ onSubmit }: Props) {
                         <Loading width={15} height={15} />
                     </Then>
                 </If>
-            </S.Button>
+            </S.ButtonSubmit>
         </div>
     );
 }

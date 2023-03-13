@@ -163,7 +163,7 @@ export const RecordContainer = styled.div`
     .record-container {
         color: #fff;
         font-size: 3.2rem;
-        font-weight: 500;
+        font-weight: bold;
         margin-left: 2.6rem;
     }
 `;
@@ -226,4 +226,12 @@ export const Button = styled.button<{
     border-radius: 10px;
     font-size: 2rem;
     //cursor: pointer;
+`;
+
+export const ButtonSubmit = styled.button`
+    background-color: #3579c1;
+    color: #000000;
+    padding: 0 2.4rem;
+    border-radius: 1rem;
+    font-size: 2.8rem;
 `;

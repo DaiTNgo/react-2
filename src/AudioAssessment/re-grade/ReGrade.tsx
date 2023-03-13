@@ -118,7 +118,7 @@ function ReGrade() {
 
     return (
         <AudioAssessmentTemplate>
-            <Direction />
+            <Direction isPlayDirection={isPlayDirection} />
             {showAudio && (
                 <div className={"fpr-audio"}>
                     <p className={"fpr-audio__title"}>Recorded Content</p>

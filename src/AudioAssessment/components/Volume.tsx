@@ -1,13 +1,25 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+    forwardRef,
+    useCallback,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+} from "react";
 import IconVolume from "../../Icons/IconVolume";
+import { atom, useRecoilState } from "recoil";
 
 type Props = {
     src: string;
     isPlayDirection?: boolean;
 };
 
-function Volume({ src, isPlayDirection = true }: Props) {
-    const [starting, setStarting] = useState(false);
+export const isStartAudioDirectionState = atom({
+    key: "isStartAudioDirectionState",
+    default: false,
+});
+
+function Volume({ src, isPlayDirection = true }: Props, ref: any) {
+    const [starting, setStarting] = useRecoilState(isStartAudioDirectionState);
     const refAudio = useRef<HTMLAudioElement>(null);
 
     useEffect(() => {
@@ -45,6 +57,10 @@ function Volume({ src, isPlayDirection = true }: Props) {
         }
     }, [starting, isPlayDirection]);
 
+    useImperativeHandle(ref, () => {
+        return refAudio.current;
+    });
+
     return (
         <div onClick={handleStartAudio} className={"cursor-pointer"}>
             <IconVolume
@@ -56,4 +72,4 @@ function Volume({ src, isPlayDirection = true }: Props) {
     );
 }
 
-export default Volume;
+export default forwardRef(Volume);

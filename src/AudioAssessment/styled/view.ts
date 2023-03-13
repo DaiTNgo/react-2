@@ -88,10 +88,12 @@ export const Header = styled.div`
 
 export const Footer = styled.div`
     margin-top: 60px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
 
     .footer-copyright {
-        font-size: 13px;
-        color: #666666;
+        font-size: 14px;
+        color: #000000;
         float: right;
         margin-right: 36px;
         height: 26px;
@@ -100,8 +102,8 @@ export const Footer = styled.div`
 
     .program-footer-name {
         --space: 6px;
-        color: #666666;
-        font-size: 15px;
+        color: #000000;
+        font-size: 2.4rem;
         border-left: 1px solid #666666;
         padding-left: var(--space);
         margin-left: var(--space);

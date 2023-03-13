@@ -243,7 +243,7 @@ function DoAssessment() {
             //     maxWidth: "670px",
             // }}
             >
-                <Direction />
+                <Direction isPlayDirection={statusAudio === StatusAudio.IDLE} />
             </div>
 
             <div className={"grid place-content-center text-center my-4"}>

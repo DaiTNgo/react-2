@@ -40,7 +40,6 @@ function GradeAssessment() {
         });
     });
 
-    const { direction: componentDirection, pathAudio } = getDirections(data);
     const phonicsAssessmentType = getPhonicsAssessmentType(data);
 
     const scores = getScore(dataSource);
@@ -129,7 +128,7 @@ function GradeAssessment() {
         OPTIONS_SURVEY.LEVEL_TWO.WITH_RECORD;
     return (
         <AudioAssessmentTemplate>
-            <Direction />
+            <Direction isPlayDirection={isPlayDirection} />
             {showAudio && (
                 <div className={"fpr-audio"}>
                     <p className={"fpr-audio__title"}>Recorded Content</p>

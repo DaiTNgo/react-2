@@ -8,7 +8,6 @@ interface Props {
 }
 
 function ModalAllowAudio({ onAllow }: Props) {
-    // @ts-ignore
     return (
         <div
             style={{
@@ -35,7 +34,9 @@ function ModalAllowAudio({ onAllow }: Props) {
                 <br />
                 Please select{" "}
                 <span
-                    className={"text-[#2a6494] cursor-pointer underline"}
+                    className={
+                        "text-[#2a6494] cursor-pointer underline font-bold"
+                    }
                     onClick={() => onAllow(true)}
                 >
                     Allow
