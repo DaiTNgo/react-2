@@ -65,23 +65,15 @@ function useSubmitAssessment() {
     }, [statusAudio]);
 
     useEffect(() => {
-        // const PERCENT_NEED_BLINK = 3 / 4;
-
-        if (counter === TIME_RECORD_STANDARD && isStarting) {
+        if (counter >= TIME_RECORD_STANDARD && isStarting) {
             changeStatusAudio(StatusAudio.STOP);
         }
-
-        // if (counter === Math.floor(TIME_RECORD_STANDARD * PERCENT_NEED_BLINK)) {
-        //     setBlink(true);
-        // }
     }, [counter, isStarting]);
 }
 
 function DoAssessment() {
-    // const [blink, setBlink] = useState(false);
-
     const [counter, setCounter] = useRecoilState(counterState);
-    const [isAllowMic, setIsAllowMic] = useRecoilState(isAllowMicState);
+    const [isAllowMic, setIsAllowMic] = useState(true);
 
     const stopped = useRef(false);
 
@@ -104,12 +96,6 @@ function DoAssessment() {
         if (data.submissionMetadata?.t && data.submissionMetadata?.t !== -1)
             setCounter(data.submissionMetadata?.t);
     }, [data]);
-
-    // useEffect(() => {
-    //     if (counter === TIME_RECORD_STANDARD && isStarting) {
-    //         handleStopAudio();
-    //     }
-    // }, [counter]);
 
     const startRecording = () => {
         changeStatusAudio(StatusAudio.PLAY);
@@ -146,7 +132,9 @@ function DoAssessment() {
     };
 
     const handleStopAudio = () => {
-        // setBlink(false);
+        sendToParent({
+            action: ACTION_POST_MESSAGE.FPR_PAUSE_RECORDING,
+        });
 
         openModal(<ModalSubmit onSubmit={handleSubmitAssignment} />);
     };

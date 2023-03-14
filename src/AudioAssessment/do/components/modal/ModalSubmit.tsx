@@ -14,13 +14,13 @@ function ModalSubmit({ onSubmit }: Props) {
     return (
         <div
             style={{
-                width: 450,
+                width: 500,
                 backgroundColor: "#fff",
                 border: "3px solid rgb(42,100,148)",
                 borderRadius: 30,
                 display: "grid",
                 position: "relative",
-                padding: "10px 60px",
+                padding: "10px 58px",
                 placeItems: "center",
             }}
         >
