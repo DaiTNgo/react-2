@@ -36,7 +36,7 @@ const isAllowMicState = atom({
     default: false,
 });
 
-function useSubmitAssessment(setBlink: Dispatch<SetStateAction<boolean>>) {
+function useSubmitAssessment() {
     const { changeStatusAudio, statusAudio } = useStoreAudio();
     const [counter, setCounter] = useRecoilState(counterState);
 
@@ -65,20 +65,20 @@ function useSubmitAssessment(setBlink: Dispatch<SetStateAction<boolean>>) {
     }, [statusAudio]);
 
     useEffect(() => {
-        const PERCENT_NEED_BLINK = 3 / 4;
+        // const PERCENT_NEED_BLINK = 3 / 4;
 
         if (counter === TIME_RECORD_STANDARD && isStarting) {
             changeStatusAudio(StatusAudio.STOP);
         }
 
-        if (counter === Math.floor(TIME_RECORD_STANDARD * PERCENT_NEED_BLINK)) {
-            setBlink(true);
-        }
+        // if (counter === Math.floor(TIME_RECORD_STANDARD * PERCENT_NEED_BLINK)) {
+        //     setBlink(true);
+        // }
     }, [counter, isStarting]);
 }
 
 function DoAssessment() {
-    const [blink, setBlink] = useState(false);
+    // const [blink, setBlink] = useState(false);
 
     const [counter, setCounter] = useRecoilState(counterState);
     const [isAllowMic, setIsAllowMic] = useRecoilState(isAllowMicState);
@@ -91,7 +91,7 @@ function DoAssessment() {
     const { data } = useAudioAssessmentContext();
     const { openModal, destroyModal } = useModalContext();
 
-    useSubmitAssessment(setBlink);
+    useSubmitAssessment();
 
     const isStarting =
         statusAudio === StatusAudio.PLAY ||
@@ -146,7 +146,7 @@ function DoAssessment() {
     };
 
     const handleStopAudio = () => {
-        setBlink(false);
+        // setBlink(false);
 
         openModal(<ModalSubmit onSubmit={handleSubmitAssignment} />);
     };
@@ -176,19 +176,16 @@ function DoAssessment() {
         });
     };
 
-    const statusAudioStrategy = new Map([
+    const statusAudioStrategy = new Map<StatusAudio, Function>([
         [StatusAudio.PLAY, handlePlayAudio],
         [StatusAudio.STOP, handleStopAudio],
         [StatusAudio.PAUSE, handlePauseAudio],
         [StatusAudio.RESUME, handleResumeAudio],
         [StatusAudio.IDLE, noop],
-        ["default", noop],
     ]);
 
     useEffect(() => {
-        const cb =
-            statusAudioStrategy.get(statusAudio) ||
-            statusAudioStrategy.get("default");
+        const cb = statusAudioStrategy.get(statusAudio);
 
         if (cb) {
             cb();
@@ -266,7 +263,7 @@ function DoAssessment() {
                     }
                 >
                     <Then>
-                        <Recording stopped={stopped} blink={blink} />
+                        <Recording stopped={stopped} blink={false} />
                     </Then>
                     <Else>
                         <If condition={isAllowMic}>
