@@ -25,6 +25,7 @@ function Check({
             xmlnsXlink="http://www.w3.org/1999/xlink"
             xmlSpace="preserve"
             onClick={onClick}
+            className="cursor-pointer"
         >
             <g>
                 <g>

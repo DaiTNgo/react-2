@@ -5,9 +5,9 @@ import Table from "../../components/table";
 import styles from "./grade.module.scss";
 import { sendToParent } from "../../helper";
 import { useImmer } from "use-immer";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ACTION_POST_MESSAGE } from "../../enums/action";
-import { getDirections, getListWord } from "../utils/convertLayout";
+import { getListWord } from "../utils/convertLayout";
 import { StatusMachine } from "../../enums/status-machine";
 import { useColumnsGrade } from "../hooks/useColumnsGrade";
 import { Button } from "../../components/button";
@@ -16,7 +16,6 @@ import Audio from "../../components/Audio";
 import { OPTIONS_SURVEY } from "../../enums/survey";
 import useListScore from "../hooks/useListScore";
 import { useListenPostMessage } from "../hooks/useListenPostMessage";
-import Volume from "../components/Volume";
 import Direction from "../components/Direction";
 
 function GradeAssessment() {
@@ -57,6 +56,11 @@ function GradeAssessment() {
         phonicsAssessmentType,
         layout,
     });
+
+    useEffect(() => {
+        if (!data) return;
+        handleChangeStudent();
+    }, [data]);
 
     const handleSubmit = useCallback(() => {
         sendToParent({
@@ -132,7 +136,7 @@ function GradeAssessment() {
             {showAudio && (
                 <div className={"fpr-audio"}>
                     <p className={"fpr-audio__title"}>Recorded Content</p>
-                    <div className={"flex items-center gap-4 mt-2"}>
+                    <div className={"flex items-center gap-8 mt-2"}>
                         <Audio
                             src={urlRecordStudent}
                             onPermissionAllowPlayingDirection={(

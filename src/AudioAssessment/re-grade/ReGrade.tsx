@@ -16,12 +16,10 @@ import IconSync from "../../Icons/Sync";
 import { Button } from "../../components/button";
 import useListScore from "../hooks/useListScore";
 import { useListenPostMessage } from "../hooks/useListenPostMessage";
-import Volume from "../components/Volume";
 import Direction from "../components/Direction";
 
 function ReGrade() {
     const { data, urlRecordStudent, layout } = useAudioAssessmentContext();
-    const { direction: componentDirection, pathAudio } = getDirections(data);
     const phonicsAssessmentType = getPhonicsAssessmentType(data);
 
     const [selectedId, setSelectedId] = useState<number>(() => {
@@ -122,7 +120,7 @@ function ReGrade() {
             {showAudio && (
                 <div className={"fpr-audio"}>
                     <p className={"fpr-audio__title"}>Recorded Content</p>
-                    <div className={"flex items-center gap-4 mt-2"}>
+                    <div className={"flex items-center gap-8 mt-2"}>
                         <Audio
                             src={urlRecordStudent}
                             onPermissionAllowPlayingDirection={(
