@@ -103,7 +103,7 @@ function Slider({
                 )}
             </div>
             <div className="dots flex justify-center gap-2 mt-4">
-                {props.data.length && isStarting && (
+                {props.data.length && needShowWord && (
                     <p>
                         {currentSlide + 1} out of {props.data.length}
                     </p>
