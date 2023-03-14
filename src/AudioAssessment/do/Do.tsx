@@ -214,7 +214,7 @@ function DoAssessment() {
                     ? ACTION_POST_MESSAGE.FPR_ALLOW_MIC
                     : ACTION_POST_MESSAGE.FPR_DONT_ALLOW_MIC,
             });
-
+            setIsAllowMic(isAllow);
             destroyModal();
         };
 
