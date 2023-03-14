@@ -2,13 +2,7 @@ import AudioAssessmentTemplate from "../components/template/AudioAssessmentTempl
 import Slider from "../components/Slider";
 import { useAudioAssessmentContext } from "../ContextAudioAssessment";
 import { getListWord } from "../utils/convertLayout";
-import React, {
-    Dispatch,
-    SetStateAction,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Recording, {
     counterState,
     TIME_RECORD_STANDARD,
@@ -30,11 +24,6 @@ import { useStoreSlider } from "../store/slider";
 import ModalAllowAudio from "./components/modal/ModalAllowAudio";
 import RecordingDontAllowMic from "./components/RecordingDontAllowMic";
 import Direction from "../components/Direction";
-
-const isAllowMicState = atom({
-    key: "isAllowMicState",
-    default: false,
-});
 
 function useSubmitAssessment() {
     const { changeStatusAudio, statusAudio } = useStoreAudio();
