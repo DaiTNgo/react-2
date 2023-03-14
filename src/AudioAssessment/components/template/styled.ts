@@ -26,10 +26,6 @@ export const Container = styled.div`
         b {
             font-weight: 700;
         }
-
-        p {
-            font-size: 18px;
-        }
     }
 
     .wrapper {

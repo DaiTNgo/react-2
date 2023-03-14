@@ -103,7 +103,7 @@ export const Footer = styled.div`
     .program-footer-name {
         --space: 6px;
         color: #000000;
-        font-size: 2.4rem;
+        font-size: 2rem;
         border-left: 1px solid #666666;
         padding-left: var(--space);
         margin-left: var(--space);

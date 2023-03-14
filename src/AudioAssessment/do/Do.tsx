@@ -44,6 +44,11 @@ function useSubmitAssessment(setBlink: Dispatch<SetStateAction<boolean>>) {
         setCounter((previous) => previous + 1);
     };
 
+    const isStarting =
+        statusAudio === StatusAudio.PLAY ||
+        statusAudio === StatusAudio.PAUSE ||
+        statusAudio === StatusAudio.RESUME;
+
     useEffect(() => {
         if (
             statusAudio === StatusAudio.PLAY ||
@@ -62,14 +67,14 @@ function useSubmitAssessment(setBlink: Dispatch<SetStateAction<boolean>>) {
     useEffect(() => {
         const PERCENT_NEED_BLINK = 3 / 4;
 
-        if (counter === TIME_RECORD_STANDARD) {
+        if (counter === TIME_RECORD_STANDARD && isStarting) {
             changeStatusAudio(StatusAudio.STOP);
         }
 
         if (counter === Math.floor(TIME_RECORD_STANDARD * PERCENT_NEED_BLINK)) {
             setBlink(true);
         }
-    }, [counter]);
+    }, [counter, isStarting]);
 }
 
 function DoAssessment() {
@@ -99,6 +104,12 @@ function DoAssessment() {
         if (data.submissionMetadata?.t && data.submissionMetadata?.t !== -1)
             setCounter(data.submissionMetadata?.t);
     }, [data]);
+
+    // useEffect(() => {
+    //     if (counter === TIME_RECORD_STANDARD && isStarting) {
+    //         handleStopAudio();
+    //     }
+    // }, [counter]);
 
     const startRecording = () => {
         changeStatusAudio(StatusAudio.PLAY);
